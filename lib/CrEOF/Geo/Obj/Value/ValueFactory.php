@@ -23,9 +23,9 @@
 
 namespace CrEOF\Geo\Obj\Value;
 
+use CrEOF\Geo\Obj\Value\Adapter;
+use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
-use CrEOF\Geo\Obj\Value\Adapter\ValueAdapterInterface;
-use CrEOF\Geo\Obj\Value\Generator\ValueGeneratorInterface;
 
 /**
  * Class ValueFactory
@@ -39,12 +39,12 @@ use CrEOF\Geo\Obj\Value\Generator\ValueGeneratorInterface;
 final class ValueFactory
 {
     /**
-     * @var ValueAdapterInterface[]
+     * @var Adapter\ValueAdapterInterface[]
      */
     private static $adapters;
 
     /**
-     * @var ValueGeneratorInterface[]
+     * @var Generator\ValueGeneratorInterface[]
      */
     private static $generators;
 
@@ -65,6 +65,10 @@ final class ValueFactory
      */
     public static function process($value, $formatHint = null)
     {
+        if (null !== self::$adapters) {
+            self::addDefaultAdapters();
+        }
+
         if (null !== $formatHint) {
             return self::$adapters[$formatHint]->process($value);
         }
@@ -89,6 +93,10 @@ final class ValueFactory
      */
     public static function generate($value, $type)
     {
+        if (null !== self::$generators) {
+            self::addDefaultGenerators();
+        }
+
         if (! array_key_exists($type, self::$generators)) {
             throw new UnsupportedTypeException();
         }
@@ -97,7 +105,7 @@ final class ValueFactory
     }
 
     /**
-     * @return ValueAdapterInterface[]
+     * @return Adapter\ValueAdapterInterface[]
      */
     public static function getAdapters()
     {
@@ -105,16 +113,16 @@ final class ValueFactory
     }
 
     /**
-     * @param ValueAdapterInterface $adapter ValueAdapterInterface instance
+     * @param Adapter\ValueAdapterInterface $adapter ValueAdapterInterface instance
      * @param string                $format  Format supported by adapter
      */
-    public static function addAdapter(ValueAdapterInterface $adapter, $format)
+    public static function addAdapter(Adapter\ValueAdapterInterface $adapter, $format)
     {
         self::$adapters[$format] = $adapter;
     }
 
     /**
-     * @return ValueGeneratorInterface[]
+     * @return Generator\ValueGeneratorInterface[]
      */
     public static function getGenerators()
     {
@@ -122,11 +130,31 @@ final class ValueFactory
     }
 
     /**
-     * @param ValueGeneratorInterface $generator ValueGeneratorInterface
+     * @param Generator\ValueGeneratorInterface $generator ValueGeneratorInterface
      * @param string                  $format    Format supported by generator
      */
-    public static function addGenerator(ValueGeneratorInterface $generator, $format)
+    public static function addGenerator(Generator\ValueGeneratorInterface $generator, $format)
     {
         self::$generators[$format] = $generator;
+    }
+
+    private static function addDefaultAdapters()
+    {
+        self::$adapters = array(
+            'wkt'     => new Adapter\Wkt(),
+            'wkb'     => new Adapter\Wkb(),
+            'geojson' => new Adapter\GeoJson(),
+            'kml'     => new Adapter\Kml()
+        );
+    }
+
+    private static function addDefaultGenerators()
+    {
+        self::$generators = array(
+            'wkt'     => new Generator\Wkt(),
+            'wkb'     => new Generator\Wkb(),
+            'geojson' => new Generator\GeoJson(),
+            'kml'     => new Generator\Kml()
+        );
     }
 }
