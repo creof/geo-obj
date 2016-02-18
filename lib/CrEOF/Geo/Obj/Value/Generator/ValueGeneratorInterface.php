@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2012 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,20 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geometry;
-
-use CrEOF\Spatial\PHP\Types\AbstractPoint;
+namespace CrEOF\Geo\Obj\Value\Generator;
 
 /**
- * Point object for POINT geometry type
+ * Interface ValueGeneratorInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Point extends AbstractPoint
+interface ValueGeneratorInterface
 {
-
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function generate($value);
 }

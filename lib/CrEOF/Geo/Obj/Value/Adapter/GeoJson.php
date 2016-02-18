@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2013 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,27 +21,33 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geometry;
+namespace CrEOF\Geo\Obj\Value\Adapter;
+
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
 
 /**
- * Geometry interface for Geometry objects
+ * Class GeoJson
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface GeometryInterface
+class GeoJson implements ValueAdapterInterface
 {
-    const GEOMETRY           = 'Geometry';
-    const POINT              = 'Point';
-    const LINESTRING         = 'LineString';
-    const POLYGON            = 'Polygon';
-    const MULTIPOINT         = 'MultiPoint';
-    const MULTILINESTRING    = 'MultiLineString';
-    const MULTIPOLYGON       = 'MultiPolygon';
-    const GEOMETRYCOLLECTION = 'GeometryCollection';
-
     /**
-     * @return string
+     * @param $value
+     *
+     * @return mixed
+     * @throws UnsupportedTypeException
      */
-    public function getType();
+    public function process($value)
+    {
+        // Check if supported type
+        if (false) {
+            throw new UnsupportedTypeException();
+        }
+
+        // Process value
+        return $value;
+    }
+
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2015 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geography;
+namespace CrEOF\Geo\Obj\Value\Adapter;
 
-use CrEOF\Spatial\PHP\Types\AbstractLineString;
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
 
 /**
- * LineString object for LINESTRING geography type
+ * Interface ValueAdapterInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineString extends AbstractLineString implements GeographyInterface
+interface ValueAdapterInterface
 {
 
+    /**
+     * @param $value
+     *
+     * @return mixed
+     * @throws UnsupportedTypeException
+     */
+    public function process($value);
 }

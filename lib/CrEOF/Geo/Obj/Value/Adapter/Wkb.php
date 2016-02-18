@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2012 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,43 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geometry;
+namespace CrEOF\Geo\Obj\Value\Adapter;
 
-use CrEOF\Spatial\PHP\Types\AbstractPolygon;
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\WKB\Parser;
 
 /**
- * Polygon object for POLYGON geometry type
+ * Class Wkb
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Polygon extends AbstractPolygon
+class Wkb implements ValueAdapterInterface
 {
+    /**
+     * @var Parser
+     */
+    private static $parser;
 
+    public function __construct()
+    {
+        self::$parser = new Parser();
+    }
+
+    /**
+     * @param $value
+     *
+     * @return mixed
+     * @throws UnsupportedTypeException
+     */
+    public function process($value)
+    {
+        // Check if supported type
+        if (false) {
+            throw new UnsupportedTypeException();
+        }
+
+        // Process value
+        return self::$parser->parse($value);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2012 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,38 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geometry;
+namespace CrEOF\Geo\Obj\Object;
 
-use CrEOF\Spatial\PHP\Types\AbstractLineString;
+use CrEOF\Geo\Obj\AbstractObject;
+use CrEOF\Geo\Obj\Value\ValueFactory;
 
 /**
- * LineString object for LINESTRING geometry type
+ * Class ObjectFactory
+ *
+ * The singleton class ObjectFactory creates geo objects
+ *
+ * TODO would this be better in constructor of AbstractObject?
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineString extends AbstractLineString
+final class ObjectFactory
 {
+    /**
+     * Private constructor to prevent instantiation
+     */
+    private function __construct()
+    {
 
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return AbstractObject
+     */
+    public static function create($value)
+    {
+
+    }
 }

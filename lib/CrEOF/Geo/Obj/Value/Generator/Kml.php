@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2015 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geography;
-
-use CrEOF\Spatial\PHP\Types\AbstractPolygon;
+namespace CrEOF\Geo\Obj\Value\Generator;
 
 /**
- * Polygon object for POLYGON geography type
+ * Class Kml
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Polygon extends AbstractPolygon implements GeographyInterface
+class Kml implements ValueGeneratorInterface
 {
-
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function generate($value)
+    {
+        // Generate value
+        return $value;
+    }
 }

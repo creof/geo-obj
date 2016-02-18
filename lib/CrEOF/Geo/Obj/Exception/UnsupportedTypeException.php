@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2012 Derek J. Lambert
+ * Copyright (C) 2016 Derek J. Lambert
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,32 +21,15 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Spatial\PHP\Types\Geography;
+namespace CrEOF\Geo\Obj\Exception;
 
 /**
- * Geography interface for Geography objects
+ * UnsupportedTypeExpection
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface GeographyInterface
+class UnsupportedTypeException extends \DomainException implements ExceptionInterface
 {
-    const GEOGRAPHY = 'Geography';
 
-    /**
-     * @return int
-     */
-    public function getSrid();
-
-    /**
-     * @param int $srid
-     *
-     * @return self
-     */
-    public function setSrid($srid);
-
-    /**
-     * @return string
-     */
-    public function getType();
 }
