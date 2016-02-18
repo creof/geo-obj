@@ -31,7 +31,7 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-abstract class AbstractObject implements GeoInterface
+abstract class AbstractObject implements ObjectInterface
 {
     /**
      * @var array

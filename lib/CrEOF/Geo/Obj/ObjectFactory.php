@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Object;
+namespace CrEOF\Geo\Obj;
 
 use CrEOF\Geo\Obj\AbstractObject;
 use CrEOF\Geo\Obj\Value\ValueFactory;
@@ -51,7 +51,7 @@ final class ObjectFactory
      *
      * @return AbstractObject
      */
-    public static function create($value)
+    public static function create($value, $typeHint = null)
     {
 
     }
