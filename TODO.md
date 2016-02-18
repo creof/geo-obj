@@ -1,0 +1,3 @@
+- Write Objects
+- Write Tests
+- Write Docs
