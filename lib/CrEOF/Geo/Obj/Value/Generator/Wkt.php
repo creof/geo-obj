@@ -23,6 +23,9 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\WKT\Parser;
+
 /**
  * Class Wkt
  *
@@ -32,13 +35,29 @@ namespace CrEOF\Geo\Obj\Value\Generator;
 class Wkt implements ValueGeneratorInterface
 {
     /**
+     * @var Parser
+     */
+    private static $parser;
+
+    public function __construct()
+    {
+        self::$parser = new Parser();
+    }
+
+    /**
      * @param mixed $value
      *
-     * @return mixed
+     * @return array
+     * @throws UnsupportedTypeException
      */
     public function generate($value)
     {
-        // Generate value
-        return $value;
+        // Check if supported type
+        if (false) {
+            throw new UnsupportedTypeException();
+        }
+
+        // Generate value from format
+        return self::$parser->parse($value);
     }
 }

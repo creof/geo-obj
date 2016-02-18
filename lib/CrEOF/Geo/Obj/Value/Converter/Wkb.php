@@ -21,24 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Adapter;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+namespace CrEOF\Geo\Obj\Value\Converter;
 
 /**
- * Interface ValueAdapterInterface
+ * Class Wkb
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ValueAdapterInterface
+class Wkb implements ValueConverterInterface
 {
-
     /**
-     * @param $value
+     * @param array $value
      *
      * @return mixed
-     * @throws UnsupportedTypeException
      */
-    public function process($value);
+    public function convert(array $value)
+    {
+        // Convert value to format
+        return $value;
+    }
 }

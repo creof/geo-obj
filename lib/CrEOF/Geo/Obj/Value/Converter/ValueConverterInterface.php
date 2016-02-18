@@ -21,33 +21,22 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Adapter;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+namespace CrEOF\Geo\Obj\Value\Converter;
 
 /**
- * Class GeoJson
+ * Interface ValueConverterInterface
+ * A class implementing ValueConverterInterface takes a value in the structure used internally
+ * and converters it to a standard value (WKB, WKB, etc.)
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoJson implements ValueAdapterInterface
+interface ValueConverterInterface
 {
     /**
-     * @param $value
+     * @param array $value
      *
      * @return mixed
-     * @throws UnsupportedTypeException
      */
-    public function process($value)
-    {
-        // Check if supported type
-        if (false) {
-            throw new UnsupportedTypeException();
-        }
-
-        // Process value
-        return $value;
-    }
-
+    public function convert(array $value);
 }

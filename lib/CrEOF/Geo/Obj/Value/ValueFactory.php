@@ -23,30 +23,30 @@
 
 namespace CrEOF\Geo\Obj\Value;
 
-use CrEOF\Geo\Obj\Value\Adapter;
 use CrEOF\Geo\Obj\Value\Generator;
+use CrEOF\Geo\Obj\Value\Converter;
 use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
 
 /**
  * Class ValueFactory
  *
- * The singleton class ValueFactory converts from/to input and output values in various data formats
- * to/from internal type representation using adapter classes.
+ * The singleton class ValueFactory converts from/to standard values in various formats
+ * to/from internally used structure using converter and generator classes.
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-final class ValueFactory
+class ValueFactory
 {
-    /**
-     * @var Adapter\ValueAdapterInterface[]
-     */
-    private static $adapters;
-
     /**
      * @var Generator\ValueGeneratorInterface[]
      */
     private static $generators;
+
+    /**
+     * @var Converter\ValueConverterInterface[]
+     */
+    private static $converters;
 
     /**
      * Private constructor to prevent instantiation
@@ -57,27 +57,27 @@ final class ValueFactory
     }
 
     /**
-     * @param             $value
+     * @param mixed       $value
      * @param null|string $formatHint
      *
-     * @return mixed
+     * @return array
      * @throws UnsupportedTypeException
      */
-    public static function process($value, $formatHint = null)
+    public static function generate($value, $formatHint = null)
     {
-        if (null !== self::$adapters) {
-            self::addDefaultAdapters();
+        if (null !== self::$generators) {
+            self::addDefaultGenerators();
         }
 
         if (null !== $formatHint) {
-            return self::$adapters[$formatHint]->process($value);
+            return self::$generators[$formatHint]->generate($value);
         }
 
-        foreach (self::$adapters as $type => $adapter) {
+        foreach (self::$generators as $type => $generator) {
             try {
-                return $adapter->process($value);
+                return $generator->generate($value);
             } catch (UnsupportedTypeException $e) {
-                // Try next adapter
+                // Try next generator
             }
         }
 
@@ -85,67 +85,41 @@ final class ValueFactory
     }
 
     /**
-     * @param        $value
+     * @param array  $value
      * @param string $type
      *
      * @return mixed
      * @throws UnsupportedTypeException
      */
-    public static function generate($value, $type)
+    public static function convert(array $value, $type)
     {
-        if (null !== self::$generators) {
-            self::addDefaultGenerators();
+        if (null !== self::$converters) {
+            self::addDefaultConverters();
         }
 
-        if (! array_key_exists($type, self::$generators)) {
+        if (! array_key_exists($type, self::$converters)) {
             throw new UnsupportedTypeException();
         }
 
-        return self::$generators[$type]->generate($value);
+        return self::$converters[$type]->convert($value);
     }
 
     /**
-     * @return Adapter\ValueAdapterInterface[]
+     * @param Generator\ValueGeneratorInterface $generator ValueGeneratorInterface instance
+     * @param string                            $format    Format supported by adapter
      */
-    public static function getAdapters()
-    {
-        return self::$adapters;
-    }
-
-    /**
-     * @param Adapter\ValueAdapterInterface $adapter ValueAdapterInterface instance
-     * @param string                $format  Format supported by adapter
-     */
-    public static function addAdapter(Adapter\ValueAdapterInterface $adapter, $format)
-    {
-        self::$adapters[$format] = $adapter;
-    }
-
-    /**
-     * @return Generator\ValueGeneratorInterface[]
-     */
-    public static function getGenerators()
-    {
-        return self::$generators;
-    }
-
-    /**
-     * @param Generator\ValueGeneratorInterface $generator ValueGeneratorInterface
-     * @param string                  $format    Format supported by generator
-     */
-    public static function addGenerator(Generator\ValueGeneratorInterface $generator, $format)
+    public static function addAdapter(Generator\ValueGeneratorInterface $generator, $format)
     {
         self::$generators[$format] = $generator;
     }
 
-    private static function addDefaultAdapters()
+    /**
+     * @param Converter\ValueConverterInterface $converter ValueGeneratorInterface
+     * @param string                            $format    Format supported by generator
+     */
+    public static function addConverter(Converter\ValueConverterInterface $converter, $format)
     {
-        self::$adapters = array(
-            'wkt'     => new Adapter\Wkt(),
-            'wkb'     => new Adapter\Wkb(),
-            'geojson' => new Adapter\GeoJson(),
-            'kml'     => new Adapter\Kml()
-        );
+        self::$converters[$format] = $converter;
     }
 
     private static function addDefaultGenerators()
@@ -155,6 +129,16 @@ final class ValueFactory
             'wkb'     => new Generator\Wkb(),
             'geojson' => new Generator\GeoJson(),
             'kml'     => new Generator\Kml()
+        );
+    }
+
+    private static function addDefaultConverters()
+    {
+        self::$converters = array(
+            'wkt'     => new Converter\Wkt(),
+            'wkb'     => new Converter\Wkb(),
+            'geojson' => new Converter\GeoJson(),
+            'kml'     => new Converter\Kml()
         );
     }
 }

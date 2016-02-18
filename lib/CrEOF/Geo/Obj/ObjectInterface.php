@@ -24,12 +24,18 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Interface GeoInterface
+ * Interface ObjectInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
 interface ObjectInterface
 {
-
+    /**
+     * @param mixed  $value
+     * @param string $formatHint
+     *
+     * @return ObjectInterface
+     */
+    public static function create($value, $formatHint = null);
 }

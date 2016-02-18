@@ -38,6 +38,10 @@ abstract class AbstractObject implements ObjectInterface
      */
     protected $properties;
 
+    /**
+     * @param string $name
+     * @param array  $arguments
+     */
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
@@ -63,5 +67,18 @@ abstract class AbstractObject implements ObjectInterface
     public function setProperty($name, $value)
     {
         $this->properties[$name] = $value;
+    }
+
+    /**
+     * @param mixed  $value
+     * @param string $formatHint
+     *
+     * @return AbstractObject
+     */
+    public static function create($value, $formatHint = null)
+    {
+        $value = ValueFactory::process($value, $formatHint);
+
+        return new $value['type']($value['value']);
     }
 }

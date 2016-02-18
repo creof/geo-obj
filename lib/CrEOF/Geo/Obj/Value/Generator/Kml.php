@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+
 /**
  * Class Kml
  *
@@ -34,11 +36,17 @@ class Kml implements ValueGeneratorInterface
     /**
      * @param mixed $value
      *
-     * @return mixed
+     * @return array
+     * @throws UnsupportedTypeException
      */
     public function generate($value)
     {
-        // Generate value
+        // Check if supported type
+        if (false) {
+            throw new UnsupportedTypeException();
+        }
+
+        // Generate value from format
         return $value;
     }
 }

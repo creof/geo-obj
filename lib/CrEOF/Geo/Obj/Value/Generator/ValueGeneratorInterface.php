@@ -23,8 +23,13 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
+use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+
 /**
  * Interface ValueGeneratorInterface
+ *
+ * A class implementing ValueGeneratorInterface takes a standard value (WKB, WKB, etc.)
+ * and generates a value in the structure used internally
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
@@ -34,7 +39,8 @@ interface ValueGeneratorInterface
     /**
      * @param mixed $value
      *
-     * @return mixed
+     * @return array
+     * @throws UnsupportedTypeException
      */
     public function generate($value);
 }
