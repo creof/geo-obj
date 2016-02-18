@@ -33,11 +33,35 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  */
 abstract class AbstractObject implements GeoInterface
 {
+    /**
+     * @var array
+     */
+    protected $properties;
+
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 1 === count($arguments)) {
             ValueFactory::generate($arguments[0], substr($name, 2));
         }
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function getProperty($name)
+    {
+        return $this->properties[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setProperty($name, $value)
+    {
+        $this->properties[$name] = $value;
     }
 }
