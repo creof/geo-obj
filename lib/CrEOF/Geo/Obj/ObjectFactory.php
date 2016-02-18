@@ -51,7 +51,7 @@ final class ObjectFactory
      *
      * @return AbstractObject
      */
-    public static function create($value, $typeHint = null)
+    public static function create($value, $formatHint = null)
     {
 
     }

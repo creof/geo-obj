@@ -58,15 +58,15 @@ final class ValueFactory
 
     /**
      * @param             $value
-     * @param null|string $typeHint
+     * @param null|string $formatHint
      *
      * @return mixed
      * @throws UnsupportedTypeException
      */
-    public static function process($value, $typeHint = null)
+    public static function process($value, $formatHint = null)
     {
-        if (null !== $typeHint) {
-            return self::$adapters[$typeHint]->process($value);
+        if (null !== $formatHint) {
+            return self::$adapters[$formatHint]->process($value);
         }
 
         foreach (self::$adapters as $type => $adapter) {
