@@ -32,8 +32,13 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-abstract class AbstractObject implements ObjectInterface
+abstract class AbstractObject implements ObjectInterface, \Countable
 {
+    /**
+     * @var array
+     */
+    protected $value;
+
     /**
      * @var array
      */
@@ -47,6 +52,8 @@ abstract class AbstractObject implements ObjectInterface
     public function __construct()
     {
         self::$valueFactory = new ValueFactory();
+
+        $this->properties = array();
     }
 
     /**
@@ -72,6 +79,14 @@ abstract class AbstractObject implements ObjectInterface
 
         // TODO use better exception
         throw new RangeException();
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->value);
     }
 
     /**
