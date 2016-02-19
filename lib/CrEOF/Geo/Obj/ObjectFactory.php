@@ -23,7 +23,6 @@
 
 namespace CrEOF\Geo\Obj;
 
-use CrEOF\Geo\Obj\AbstractObject;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
 /**
@@ -31,28 +30,47 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  *
  * The singleton class ObjectFactory creates geo objects
  *
- * TODO would this be better in constructor of AbstractObject?
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-final class ObjectFactory
+class ObjectFactory implements ObjectFactoryInterface
 {
-    /**
-     * Private constructor to prevent instantiation
-     */
-    private function __construct()
-    {
 
+    /**
+     * @var ValueFactory
+     */
+    private $valueFactory;
+
+    public function __construct()
+    {
+        $this->valueFactory = new ValueFactory();
     }
 
     /**
-     * @param mixed $value
+     * Take a standard format value and create object
+     *
+     * @param mixed       $value
+     * @param null|string $formatHint
      *
      * @return AbstractObject
      */
-    public static function create($value, $formatHint = null)
+    public function create($value, $formatHint = null)
     {
+        $val = $this->valueFactory->generate($value, $formatHint);
 
+        return new $val['type']($val['value']);
+    }
+
+    /**
+     * Convert object to standard format
+     *
+     * @param        $value
+     * @param string $format
+     *
+     * @return mixed
+     */
+    public function convert($value, $format)
+    {
+        return $this->valueFactory->convert($value, $format);
     }
 }
