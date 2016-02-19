@@ -30,7 +30,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
 /**
  * Class ValueFactory
  *
- * The singleton class ValueFactory converts from/to standard values in various formats
+ * The ValueFactory class converts from/to standard values in various formats
  * to/from internally used structure using converter and generator classes.
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
@@ -41,20 +41,12 @@ class ValueFactory
     /**
      * @var Generator\ValueGeneratorInterface[]
      */
-    private static $generators;
+    private $generators;
 
     /**
      * @var Converter\ValueConverterInterface[]
      */
-    private static $converters;
-
-    /**
-     * Private constructor to prevent instantiation
-     */
-    private function __construct()
-    {
-
-    }
+    private $converters;
 
     /**
      * @param mixed       $value
@@ -63,17 +55,17 @@ class ValueFactory
      * @return array
      * @throws UnsupportedTypeException
      */
-    public static function generate($value, $formatHint = null)
+    public function generate($value, $formatHint = null)
     {
-        if (null !== self::$generators) {
+        if (null !== $this->generators) {
             self::addDefaultGenerators();
         }
 
         if (null !== $formatHint) {
-            return self::$generators[$formatHint]->generate($value);
+            return $this->generators[$formatHint]->generate($value);
         }
 
-        foreach (self::$generators as $type => $generator) {
+        foreach ($this->generators as $type => $generator) {
             try {
                 return $generator->generate($value);
             } catch (UnsupportedTypeException $e) {
@@ -91,40 +83,40 @@ class ValueFactory
      * @return mixed
      * @throws UnsupportedTypeException
      */
-    public static function convert(array $value, $type)
+    public function convert(array $value, $type)
     {
-        if (null !== self::$converters) {
+        if (null !== $this->converters) {
             self::addDefaultConverters();
         }
 
-        if (! array_key_exists($type, self::$converters)) {
+        if (! array_key_exists($type, $this->converters)) {
             throw new UnsupportedTypeException();
         }
 
-        return self::$converters[$type]->convert($value);
+        return $this->converters[$type]->convert($value);
     }
 
     /**
      * @param Generator\ValueGeneratorInterface $generator ValueGeneratorInterface instance
      * @param string                            $format    Format supported by adapter
      */
-    public static function addAdapter(Generator\ValueGeneratorInterface $generator, $format)
+    public function addGenerator(Generator\ValueGeneratorInterface $generator, $format)
     {
-        self::$generators[$format] = $generator;
+        $this->generators[$format] = $generator;
     }
 
     /**
      * @param Converter\ValueConverterInterface $converter ValueGeneratorInterface
      * @param string                            $format    Format supported by generator
      */
-    public static function addConverter(Converter\ValueConverterInterface $converter, $format)
+    public function addConverter(Converter\ValueConverterInterface $converter, $format)
     {
-        self::$converters[$format] = $converter;
+        $this->converters[$format] = $converter;
     }
 
-    private static function addDefaultGenerators()
+    private function addDefaultGenerators()
     {
-        self::$generators = array(
+        $this->generators = array(
             'wkt'     => new Generator\Wkt(),
             'wkb'     => new Generator\Wkb(),
             'geojson' => new Generator\GeoJson(),
@@ -132,9 +124,9 @@ class ValueFactory
         );
     }
 
-    private static function addDefaultConverters()
+    private function addDefaultConverters()
     {
-        self::$converters = array(
+        $this->converters = array(
             'wkt'     => new Converter\Wkt(),
             'wkb'     => new Converter\Wkb(),
             'geojson' => new Converter\GeoJson(),
