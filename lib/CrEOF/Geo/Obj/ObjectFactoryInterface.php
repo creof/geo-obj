@@ -24,14 +24,30 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Interface ObjectInterface
- *
- * TODO is this needed?
+ * Interface ObjectFactoryInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectInterface
+interface ObjectFactoryInterface
 {
+    /**
+     * Take a standard format value and create object
+     *
+     * @param mixed       $value
+     * @param null|string $formatHint
+     *
+     * @return mixed
+     */
+    public function create($value, $formatHint = null);
 
+    /**
+     * Convert object to standard format
+     *
+     * @param mixed  $value
+     * @param string $format
+     *
+     * @return mixed
+     */
+    public function convert($value, $format);
 }
