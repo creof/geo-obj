@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
 /**
@@ -39,15 +40,38 @@ abstract class AbstractObject implements ObjectInterface
     protected $properties;
 
     /**
+     * @var ValueFactory
+     */
+    protected static $valueFactory;
+
+    public function __construct()
+    {
+        self::$valueFactory = new ValueFactory();
+    }
+
+    /**
      * @param string $name
      * @param array  $arguments
+     *
+     * @return mixed
      */
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 1 === count($arguments)) {
-            ValueFactory::generate($arguments[0], substr($name, 2));
+            return self::$valueFactory->generate($arguments[0], substr($name, 2));
         }
+
+        if (0 === strpos($name, 'get') && 0 === count($arguments)) {
+            return $this->getProperty(substr($name, 3));
+        }
+
+        if (0 === strpos($name, 'set') && 1 === count($arguments)) {
+            return $this->setProperty(substr($name, 3), $arguments[0]);
+        }
+
+        // TODO use better exception
+        throw new RangeException();
     }
 
     /**
@@ -57,28 +81,26 @@ abstract class AbstractObject implements ObjectInterface
      */
     public function getProperty($name)
     {
+        if (! array_key_exists($name, $this->properties)) {
+            // TODO more specific exception
+            throw new RangeException();
+        }
+
         return $this->properties[$name];
     }
 
     /**
+     * Return self to allow chaining
+     *
      * @param string $name
      * @param mixed  $value
+     *
+     * @return self
      */
     public function setProperty($name, $value)
     {
         $this->properties[$name] = $value;
-    }
 
-    /**
-     * @param mixed  $value
-     * @param string $formatHint
-     *
-     * @return AbstractObject
-     */
-    public static function create($value, $formatHint = null)
-    {
-        $value = ValueFactory::process($value, $formatHint);
-
-        return new $value['type']($value['value']);
+        return $this;
     }
 }
