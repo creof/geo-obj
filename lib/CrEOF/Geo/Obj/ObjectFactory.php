@@ -28,8 +28,6 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
 /**
  * Class ObjectFactory
  *
- * The singleton class ObjectFactory creates geo objects
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
