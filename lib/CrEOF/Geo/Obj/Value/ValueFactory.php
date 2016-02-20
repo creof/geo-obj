@@ -41,12 +41,12 @@ class ValueFactory
     /**
      * @var Generator\ValueGeneratorInterface[]
      */
-    private $generators;
+    private static $generators;
 
     /**
      * @var Converter\ValueConverterInterface[]
      */
-    private $converters;
+    private static $converters;
 
     /**
      * @param mixed       $value
@@ -57,15 +57,15 @@ class ValueFactory
      */
     public function generate($value, $formatHint = null)
     {
-        if (null !== $this->generators) {
+        if (null !== self::$generators) {
             self::addDefaultGenerators();
         }
 
         if (null !== $formatHint) {
-            return $this->generators[$formatHint]->generate($value);
+            return self::$generators[$formatHint]->generate($value);
         }
 
-        foreach ($this->generators as $type => $generator) {
+        foreach (self::$generators as $type => $generator) {
             try {
                 return $generator->generate($value);
             } catch (UnsupportedTypeException $e) {
@@ -85,15 +85,15 @@ class ValueFactory
      */
     public function convert(array $value, $type)
     {
-        if (null !== $this->converters) {
+        if (null !== self::$converters) {
             self::addDefaultConverters();
         }
 
-        if (! array_key_exists($type, $this->converters)) {
+        if (! array_key_exists($type, self::$converters)) {
             throw new UnsupportedTypeException();
         }
 
-        return $this->converters[$type]->convert($value);
+        return self::$converters[$type]->convert($value);
     }
 
     /**
@@ -102,7 +102,7 @@ class ValueFactory
      */
     public function addGenerator(Generator\ValueGeneratorInterface $generator, $format)
     {
-        $this->generators[$format] = $generator;
+        self::$generators[$format] = $generator;
     }
 
     /**
@@ -111,12 +111,12 @@ class ValueFactory
      */
     public function addConverter(Converter\ValueConverterInterface $converter, $format)
     {
-        $this->converters[$format] = $converter;
+        self::$converters[$format] = $converter;
     }
 
     private function addDefaultGenerators()
     {
-        $this->generators = array(
+        self::$generators = array(
             'wkt'     => new Generator\Wkt(),
             'wkb'     => new Generator\Wkb(),
             'geojson' => new Generator\GeoJson(),
@@ -126,7 +126,7 @@ class ValueFactory
 
     private function addDefaultConverters()
     {
-        $this->converters = array(
+        self::$converters = array(
             'wkt'     => new Converter\Wkt(),
             'wkb'     => new Converter\Wkb(),
             'geojson' => new Converter\GeoJson(),

@@ -37,11 +37,11 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * @var ValueFactory
      */
-    private $valueFactory;
+    private static $valueFactory;
 
     public function __construct()
     {
-        $this->valueFactory = new ValueFactory();
+        self::$valueFactory = new ValueFactory();
     }
 
     /**
@@ -54,7 +54,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function create($value, $formatHint = null)
     {
-        $val = $this->valueFactory->generate($value, $formatHint);
+        $val = self::$valueFactory->generate($value, $formatHint);
 
         return new $val['type']($val['value']);
     }
@@ -69,6 +69,6 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function convert($value, $format)
     {
-        return $this->valueFactory->convert($value, $format);
+        return self::$valueFactory->convert($value, $format);
     }
 }
