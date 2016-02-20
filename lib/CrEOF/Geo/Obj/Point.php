@@ -31,5 +31,19 @@ namespace CrEOF\Geo\Obj;
  */
 class Point extends AbstractObject
 {
+    public function __construct($value, array $properties = array())
+    {
+        parent::__construct();
 
+        $val = $value;
+
+        if (! is_array($val)) {
+            $val = self::$valueFactory->generate($value);
+        }
+
+        // TODO: Sanity check value
+        $this->value = $val;
+
+        $this->properties = $properties;
+    }
 }
