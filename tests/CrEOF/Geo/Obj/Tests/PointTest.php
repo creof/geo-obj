@@ -27,6 +27,7 @@ use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Point;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
+use CrEOF\Geo\Obj\Validator\DValidator;
 
 /**
  * Class PointTest
@@ -127,5 +128,67 @@ class PointTest extends \PHPUnit_Framework_TestCase
         Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(20, 300));
+    }
+
+    /**
+     * @backupStaticAttributes
+     */
+    public function testGoodPointValidatorStacking()
+    {
+        $validator = new GeographyValidator();
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        $validator = new DValidator($validator);
+
+        $validator->setSize(2);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        $point = new Point(array(20, 300));
+
+        static::assertEquals(array(20, 300), $point->getValue());
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid size "3", size must be 2.
+     */
+    public function testBadLongPointSizeInnerValidator()
+    {
+        $validator = new DValidator();
+
+        $validator->setSize(2);
+
+        $validator = new GeographyValidator($validator);
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(20, 10, 30));
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid size "3", size must be 4.
+     */
+    public function testBadShortPointSizeInnerValidator()
+    {
+        $validator = new DValidator();
+
+        $validator->setSize(4);
+
+        $validator = new GeographyValidator($validator);
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(20, 10, 30));
     }
 }
