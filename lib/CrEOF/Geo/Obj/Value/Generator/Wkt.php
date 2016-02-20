@@ -41,7 +41,8 @@ class Wkt implements ValueGeneratorInterface
 
     public function __construct()
     {
-        self::$parser = new Parser();
+        // TODO: Needs PR#5
+        //self::$parser = new Parser();
     }
 
     /**
@@ -53,7 +54,7 @@ class Wkt implements ValueGeneratorInterface
     public function generate($value)
     {
         // Check if supported type
-        if (false) {
+        if (! ctype_alpha($value[0])) {
             throw new UnsupportedTypeException();
         }
 

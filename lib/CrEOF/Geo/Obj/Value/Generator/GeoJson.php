@@ -42,7 +42,7 @@ class GeoJson implements ValueGeneratorInterface
     public function generate($value)
     {
         // Check if supported type
-        if (false) {
+        if ('{' !== $value[0]) {
             throw new UnsupportedTypeException();
         }
 
