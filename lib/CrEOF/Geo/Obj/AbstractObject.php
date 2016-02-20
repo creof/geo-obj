@@ -129,7 +129,7 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
     protected function validate(array $value)
     {
-        $validator = Configuration::getValidator(static::class);
+        $validator = Configuration::getValidator(get_class($this));
 
         null !== $validator && $validator->validate($value);
     }
