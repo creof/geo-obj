@@ -23,7 +23,10 @@
 
 namespace CrEOF\Geo\Obj\Tests;
 
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Point;
+use CrEOF\Geo\Obj\Validator\GeographyValidator;
 
 /**
  * Class PointTest
@@ -38,5 +41,91 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $point = new Point(array(0,0));
 
         static::assertEquals(array(0,0), $point->getValue());
+    }
+
+    /**
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Point value count must be between 2 and 4.
+     */
+    public function testShortPoint()
+    {
+        new Point(array(0));
+    }
+
+    /**
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Point value count must be between 2 and 4.
+     */
+    public function testLongPoint()
+    {
+        new Point(array(0,0,0,0,0));
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
+     */
+    public function testPointGeographyValidatorLongitudeFirstBadLongitude()
+    {
+        $validator = new GeographyValidator();
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(300, 20));
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
+     */
+    public function testPointGeographyValidatorLongitudeFirstBadLatitude()
+    {
+        $validator = new GeographyValidator();
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(20, 300));
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
+     */
+    public function testPointGeographyValidatorLatitudeFirstBadLatitude()
+    {
+        $validator = new GeographyValidator();
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(300, 20));
+    }
+
+    /**
+     * @backupStaticAttributes
+     *
+     * @expectedException        RangeException
+     * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
+     */
+    public function testPointGeographyValidatorLatitudeFirstBadLongitude()
+    {
+        $validator = new GeographyValidator();
+
+        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        Configuration::setValidator('CrEOF\Geo\Obj\Point', $validator);
+
+        new Point(array(20, 300));
     }
 }
