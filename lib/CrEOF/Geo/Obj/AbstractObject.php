@@ -126,4 +126,12 @@ abstract class AbstractObject implements ObjectInterface, \Countable
     {
         return $this->value;
     }
+
+    protected function validate(array $value)
+    {
+        $validator = Configuration::getValidator(static::class);
+
+        null !== $validator && $validator->validate($value);
+    }
+
 }
