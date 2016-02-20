@@ -23,10 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
-use CrEOF\Geo\Obj\AbstractObject;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Point;
 
 /**
  * Class GeographyValidator
