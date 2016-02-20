@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\RangeException;
+
 /**
  * Class Point
  *
@@ -41,9 +43,21 @@ class Point extends AbstractObject
             $val = self::$valueFactory->generate($value);
         }
 
-        // TODO: Sanity check value
+        $this->validate($val);
+
         $this->value = $val;
 
         $this->properties = $properties;
+    }
+
+    protected function validate(array $value)
+    {
+        $count = count($value);
+
+        if ($count < 2 || $count > 4) {
+            throw new RangeException('Point value count must be between 2 and 4.');
+        }
+
+        parent::validate($value);
     }
 }
