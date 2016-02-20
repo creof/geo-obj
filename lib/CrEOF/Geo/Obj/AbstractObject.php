@@ -118,4 +118,12 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
