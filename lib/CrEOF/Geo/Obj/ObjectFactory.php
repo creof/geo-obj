@@ -33,7 +33,6 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  */
 class ObjectFactory implements ObjectFactoryInterface
 {
-
     /**
      * @var ValueFactory
      */
@@ -56,7 +55,9 @@ class ObjectFactory implements ObjectFactoryInterface
     {
         $val = self::$valueFactory->generate($value, $formatHint);
 
-        return new $val['type']($val['value']);
+        $objectClass = 'CrEOF\Geo\Obj\\' . $val['type'];
+
+        return new $objectClass($val['value']);
     }
 
     /**
