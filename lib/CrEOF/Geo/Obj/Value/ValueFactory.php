@@ -57,7 +57,7 @@ class ValueFactory
      */
     public function generate($value, $formatHint = null)
     {
-        if (null !== self::$generators) {
+        if (null === self::$generators) {
             self::addDefaultGenerators();
         }
 
@@ -85,7 +85,7 @@ class ValueFactory
      */
     public function convert(array $value, $type)
     {
-        if (null !== self::$converters) {
+        if (null === self::$converters) {
             self::addDefaultConverters();
         }
 
