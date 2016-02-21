@@ -35,9 +35,31 @@ use CrEOF\Geo\Obj\Validator\ValidatorInterface;
 final class Configuration
 {
     /**
+     * @var Configuration
+     */
+    private static $configuration;
+
+    /**
      * @var ValidatorInterface[]
      */
-    private static $validators = array();
+    private $validators;
+
+    private function __construct()
+    {
+        $this->validators = array();
+    }
+
+    /**
+     * @return Configuration
+     */
+    public static function getConfiguration()
+    {
+        if (null === self::$configuration) {
+            self::$configuration = new self();
+        }
+
+        return self::$configuration;
+    }
 
     /**
      * @param string             $type
@@ -45,11 +67,11 @@ final class Configuration
      *
      * @throws UnsupportedTypeException
      */
-    public static function setValidator($type, ValidatorInterface $validator)
+    public function setValidator($type, ValidatorInterface $validator)
     {
-        self::validateObjectType($type);
+        $this->validateObjectType($type);
 
-        self::$validators[$type] = $validator;
+        $this->validators[$type] = $validator;
     }
 
     /**
@@ -59,11 +81,11 @@ final class Configuration
      *
      * @throws UnsupportedTypeException
      */
-    public static function getValidator($type)
+    public function getValidator($type)
     {
-        self::validateObjectType($type);
+        $this->validateObjectType($type);
 
-        return array_key_exists($type, self::$validators) ?  self::$validators[$type] : null;
+        return array_key_exists($type, $this->validators) ?  $this->validators[$type] : null;
     }
 
     /**
@@ -71,7 +93,7 @@ final class Configuration
      *
      * @throws UnsupportedTypeException
      */
-    private static function validateObjectType($type)
+    private function validateObjectType($type)
     {
         if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
             throw new UnsupportedTypeException('Unsupported type "' . $type . '"');
