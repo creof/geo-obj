@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value;
 
+use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Value\Converter;
 use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
@@ -38,7 +39,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
  */
 class ValueFactory
 {
-    private static $valueFactory;
+    use Singleton;
 
     /**
      * @var Generator\ValueGeneratorInterface[]
@@ -50,7 +51,7 @@ class ValueFactory
      */
     private $converters;
 
-    private function __construct()
+    protected function __construct()
     {
         $this->addDefaultGenerators();
         $this->addDefaultConverters();
@@ -112,18 +113,6 @@ class ValueFactory
     public function addConverter(Converter\ValueConverterInterface $converter, $format)
     {
         $this->converters[$format] = $converter;
-    }
-
-    /**
-     * @return ValueFactory
-     */
-    public static function getValueFactory()
-    {
-        if (null === self::$valueFactory) {
-            self::$valueFactory = new self();
-        }
-
-        return self::$valueFactory;
     }
 
     private function addDefaultGenerators()

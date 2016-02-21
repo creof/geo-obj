@@ -40,7 +40,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new Point(array(34.23, -87));
 
-        $actual = ObjectFactory::getObjectFactory()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
+        $actual = ObjectFactory::getInstance()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
         self::assertEquals($expected, $actual);
     }
@@ -49,7 +49,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $expected = new Point(array(34.23, -87));
 
-        $actual = ObjectFactory::getObjectFactory()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
+        $actual = ObjectFactory::getInstance()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
 
         self::assertEquals($expected, $actual);
     }

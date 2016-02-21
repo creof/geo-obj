@@ -56,5 +56,5 @@ interface ObjectFactoryInterface
      *
      * @return ObjectFactory
      */
-    public static function getObjectFactory();
+    public static function getInstance();
 }

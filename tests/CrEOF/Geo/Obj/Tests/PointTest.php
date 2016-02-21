@@ -74,7 +74,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(300, 20));
     }
@@ -91,7 +91,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(20, 300));
     }
@@ -108,7 +108,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(300, 20));
     }
@@ -125,7 +125,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(20, 300));
     }
@@ -143,7 +143,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setSize(2);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         $point = new Point(array(20, 300));
 
@@ -166,7 +166,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(20, 10, 30));
     }
@@ -187,7 +187,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getConfiguration()->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
         new Point(array(20, 10, 30));
     }

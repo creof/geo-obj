@@ -43,7 +43,7 @@ class ValueFactoryTest extends \PHPUnit_Framework_TestCase
             'value' => array(34.23, -87)
         );
 
-        $actual = ValueFactory::getValueFactory()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
+        $actual = ValueFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
         self::assertEquals($expected, $actual);
     }

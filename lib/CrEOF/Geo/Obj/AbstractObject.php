@@ -51,7 +51,7 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
     public function __construct()
     {
-        self::$valueFactory = ValueFactory::getValueFactory();
+        self::$valueFactory = ValueFactory::getInstance();
 
         $this->properties = array();
     }
@@ -129,7 +129,7 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
     protected function validate(array $value)
     {
-        $validator = Configuration::getConfiguration()->getValidator(get_class($this));
+        $validator = Configuration::getInstance()->getValidator(get_class($this));
 
         null !== $validator && $validator->validate($value);
     }

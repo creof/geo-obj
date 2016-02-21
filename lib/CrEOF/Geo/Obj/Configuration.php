@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
 
@@ -34,17 +35,14 @@ use CrEOF\Geo\Obj\Validator\ValidatorInterface;
  */
 final class Configuration
 {
-    /**
-     * @var Configuration
-     */
-    private static $configuration;
+    use Singleton;
 
     /**
      * @var ValidatorInterface[]
      */
     private $validators;
 
-    private function __construct()
+    protected function __construct()
     {
         $this->validators = array();
     }
@@ -74,18 +72,6 @@ final class Configuration
         $this->validateObjectType($type);
 
         return array_key_exists($type, $this->validators) ?  $this->validators[$type] : null;
-    }
-
-    /**
-     * @return Configuration
-     */
-    public static function getConfiguration()
-    {
-        if (null === self::$configuration) {
-            self::$configuration = new self();
-        }
-
-        return self::$configuration;
     }
 
     /**

@@ -21,58 +21,43 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
-
-use CrEOF\Geo\Obj\Traits\Singleton;
-use CrEOF\Geo\Obj\Value\ValueFactory;
+namespace CrEOF\Geo\Obj\Traits;
 
 /**
- * Class ObjectFactory
+ * Trait Singleton
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class ObjectFactory implements ObjectFactoryInterface
+trait Singleton
 {
-    use Singleton;
+    /**
+     * @var static
+     */
+    private static $instance;
 
     /**
-     * @var ValueFactory
+     * Singleton constructor
      */
-    private $valueFactory;
-
     protected function __construct()
     {
-        $this->valueFactory = ValueFactory::getInstance();
+
+    }
+
+    final private function __clone()
+    {
+
     }
 
     /**
-     * Take a standard format value and create object
-     *
-     * @param mixed       $value
-     * @param null|string $formatHint
-     *
-     * @return AbstractObject
+     * @return static
      */
-    public function create($value, $formatHint = null)
+    public static function getInstance()
     {
-        $val = $this->valueFactory->generate($value, $formatHint);
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
 
-        $objectClass = 'CrEOF\Geo\Obj\\' . $val['type'];
-
-        return new $objectClass($val['value']);
-    }
-
-    /**
-     * Convert object to standard format
-     *
-     * @param        $value
-     * @param string $format
-     *
-     * @return mixed
-     */
-    public function convert($value, $format)
-    {
-        return $this->valueFactory->convert($value, $format);
+        return self::$instance;
     }
 }
