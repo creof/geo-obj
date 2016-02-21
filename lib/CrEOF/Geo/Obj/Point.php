@@ -33,7 +33,7 @@ use CrEOF\Geo\Obj\Exception\RangeException;
  */
 class Point extends AbstractObject
 {
-    public function __construct($value, array $properties = array())
+    public function __construct($value, array $properties = [])
     {
         parent::__construct();
 

@@ -53,7 +53,7 @@ abstract class AbstractObject implements ObjectInterface, \Countable
     {
         self::$valueFactory = ValueFactory::getInstance();
 
-        $this->properties = array();
+        $this->properties = [];
     }
 
     /**

@@ -117,21 +117,21 @@ class ValueFactory
 
     private function addDefaultGenerators()
     {
-        $this->generators = array(
+        $this->generators = [
             'wkt'     => new Generator\Wkt(),
             'wkb'     => new Generator\Wkb(),
             'geojson' => new Generator\GeoJson(),
             'kml'     => new Generator\Kml()
-        );
+        ];
     }
 
     private function addDefaultConverters()
     {
-        $this->converters = array(
+        $this->converters = [
             'wkt'     => new Converter\Wkt(),
             'wkb'     => new Converter\Wkb(),
             'geojson' => new Converter\GeoJson(),
             'kml'     => new Converter\Kml()
-        );
+        ];
     }
 }

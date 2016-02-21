@@ -39,9 +39,9 @@ class PointTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoint1()
     {
-        $point = new Point(array(0,0));
+        $point = new Point([0,0]);
 
-        static::assertEquals(array(0,0), $point->getValue());
+        static::assertEquals([0,0], $point->getValue());
     }
 
     /**
@@ -50,7 +50,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortPoint()
     {
-        new Point(array(0));
+        new Point([0]);
     }
 
     /**
@@ -59,7 +59,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testLongPoint()
     {
-        new Point(array(0,0,0,0,0));
+        new Point([0,0,0,0,0]);
     }
 
     /**
@@ -76,7 +76,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(300, 20));
+        new Point([300, 20]);
     }
 
     /**
@@ -93,7 +93,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(20, 300));
+        new Point([20, 300]);
     }
 
     /**
@@ -110,7 +110,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(300, 20));
+        new Point([300, 20]);
     }
 
     /**
@@ -127,7 +127,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(20, 300));
+        new Point([20, 300]);
     }
 
     /**
@@ -145,9 +145,9 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        $point = new Point(array(20, 300));
+        $point = new Point([20, 300]);
 
-        static::assertEquals(array(20, 300), $point->getValue());
+        static::assertEquals([20, 300], $point->getValue());
     }
 
     /**
@@ -168,7 +168,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(20, 10, 30));
+        new Point([20, 10, 30]);
     }
 
     /**
@@ -189,6 +189,6 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->setValidator('CrEOF\Geo\Obj\Point', $validator);
 
-        new Point(array(20, 10, 30));
+        new Point([20, 10, 30]);
     }
 }

@@ -44,7 +44,7 @@ final class Configuration
 
     protected function __construct()
     {
-        $this->validators = array();
+        $this->validators = [];
     }
 
     /**
