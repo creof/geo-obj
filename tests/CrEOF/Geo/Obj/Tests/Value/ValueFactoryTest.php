@@ -37,15 +37,13 @@ class ValueFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaultWkbGenerator()
     {
-        $valueFactory = new ValueFactory();
-
         $expected = array(
             'srid'  => null,
             'type'  => 'POINT',
             'value' => array(34.23, -87)
         );
 
-        $actual = $valueFactory->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
+        $actual = ValueFactory::getValueFactory()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
         self::assertEquals($expected, $actual);
     }

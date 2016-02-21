@@ -50,18 +50,6 @@ final class Configuration
     }
 
     /**
-     * @return Configuration
-     */
-    public static function getConfiguration()
-    {
-        if (null === self::$configuration) {
-            self::$configuration = new self();
-        }
-
-        return self::$configuration;
-    }
-
-    /**
      * @param string             $type
      * @param ValidatorInterface $validator
      *
@@ -86,6 +74,18 @@ final class Configuration
         $this->validateObjectType($type);
 
         return array_key_exists($type, $this->validators) ?  $this->validators[$type] : null;
+    }
+
+    /**
+     * @return Configuration
+     */
+    public static function getConfiguration()
+    {
+        if (null === self::$configuration) {
+            self::$configuration = new self();
+        }
+
+        return self::$configuration;
     }
 
     /**

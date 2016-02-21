@@ -51,7 +51,7 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
     public function __construct()
     {
-        self::$valueFactory = new ValueFactory();
+        self::$valueFactory = ValueFactory::getValueFactory();
 
         $this->properties = array();
     }

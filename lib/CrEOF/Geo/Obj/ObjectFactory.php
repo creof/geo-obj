@@ -36,11 +36,16 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * @var ValueFactory
      */
-    private static $valueFactory;
+    private $valueFactory;
 
-    public function __construct()
+    /**
+     * @var ObjectFactory
+     */
+    private static $objectFactory;
+
+    private function __construct()
     {
-        self::$valueFactory = new ValueFactory();
+        $this->valueFactory = ValueFactory::getValueFactory();
     }
 
     /**
@@ -53,7 +58,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function create($value, $formatHint = null)
     {
-        $val = self::$valueFactory->generate($value, $formatHint);
+        $val = $this->valueFactory->generate($value, $formatHint);
 
         $objectClass = 'CrEOF\Geo\Obj\\' . $val['type'];
 
@@ -70,6 +75,18 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function convert($value, $format)
     {
-        return self::$valueFactory->convert($value, $format);
+        return $this->valueFactory->convert($value, $format);
+    }
+
+    /**
+     * @return ObjectFactory
+     */
+    public static function getObjectFactory()
+    {
+        if (null === self::$objectFactory) {
+            self::$objectFactory = new self();
+        }
+
+        return self::$objectFactory;
     }
 }

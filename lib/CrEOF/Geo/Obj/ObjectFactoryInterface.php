@@ -50,4 +50,11 @@ interface ObjectFactoryInterface
      * @return mixed
      */
     public function convert($value, $format);
+
+    /**
+     * Get ObjectFactory instance
+     *
+     * @return ObjectFactory
+     */
+    public static function getObjectFactory();
 }
