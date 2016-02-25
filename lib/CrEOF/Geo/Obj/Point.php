@@ -33,23 +33,6 @@ use CrEOF\Geo\Obj\Exception\RangeException;
  */
 class Point extends AbstractObject
 {
-    public function __construct($value, array $properties = [])
-    {
-        parent::__construct();
-
-        $val = $value;
-
-        if (! is_array($val)) {
-            $val = self::$valueFactory->generate($value);
-        }
-
-        $this->validate($val);
-
-        $this->value = $val;
-
-        $this->properties = $properties;
-    }
-
     protected function validate(array $value)
     {
         $count = count($value);

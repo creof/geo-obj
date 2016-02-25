@@ -49,11 +49,22 @@ abstract class AbstractObject implements ObjectInterface, \Countable
      */
     protected static $valueFactory;
 
-    public function __construct()
+    public function __construct($value, array $properties = [])
     {
         self::$valueFactory = ValueFactory::getInstance();
 
-        $this->properties = [];
+        $val = $value;
+
+        if (! is_array($val)) {
+            $val = self::$valueFactory->generate($value);
+
+            $this->properties['srid'] = $val['srid'];
+        }
+
+        $this->validate($val);
+
+        $this->value      = $val;
+        $this->properties = $properties;
     }
 
     /**
@@ -133,5 +144,4 @@ abstract class AbstractObject implements ObjectInterface, \Countable
 
         null !== $validator && $validator->validate($value);
     }
-
 }
