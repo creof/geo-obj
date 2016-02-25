@@ -26,7 +26,7 @@ namespace CrEOF\Geo\Obj\Value;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Value\Converter;
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class ValueFactory
@@ -62,7 +62,7 @@ class ValueFactory
      * @param null|string $formatHint
      *
      * @return array
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function generate($value, $formatHint = null)
     {
@@ -73,12 +73,12 @@ class ValueFactory
         foreach ($this->generators as $type => $generator) {
             try {
                 return $generator->generate($value);
-            } catch (UnsupportedTypeException $e) {
+            } catch (UnexpectedValueException $e) {
                 // Try next generator
             }
         }
 
-        throw new UnsupportedTypeException();
+        throw new UnexpectedValueException();
     }
 
     /**
@@ -86,12 +86,12 @@ class ValueFactory
      * @param string $type
      *
      * @return mixed
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function convert(array $value, $type)
     {
         if (! array_key_exists($type, $this->converters)) {
-            throw new UnsupportedTypeException();
+            throw new UnexpectedValueException();
         }
 
         return $this->converters[$type]->convert($value);

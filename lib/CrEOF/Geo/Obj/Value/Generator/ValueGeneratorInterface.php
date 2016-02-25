@@ -23,7 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Interface ValueGeneratorInterface
@@ -40,7 +40,7 @@ interface ValueGeneratorInterface
      * @param mixed $value
      *
      * @return array
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function generate($value);
 }

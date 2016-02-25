@@ -24,7 +24,7 @@
 namespace CrEOF\Geo\Obj;
 
 use CrEOF\Geo\Obj\Traits\Singleton;
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
 
 /**
@@ -51,7 +51,7 @@ final class Configuration
      * @param string             $type
      * @param ValidatorInterface $validator
      *
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function setValidator($type, ValidatorInterface $validator)
     {
@@ -65,7 +65,7 @@ final class Configuration
      *
      * @return ValidatorInterface
      *
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function getValidator($type)
     {
@@ -77,12 +77,12 @@ final class Configuration
     /**
      * @param string $type
      *
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     private function validateObjectType($type)
     {
         if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
-            throw new UnsupportedTypeException('Unsupported type "' . $type . '"');
+            throw new UnexpectedValueException('Unsupported type "' . $type . '"');
         }
     }
 }

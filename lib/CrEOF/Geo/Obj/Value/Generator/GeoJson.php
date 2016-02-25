@@ -23,7 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class GeoJson
@@ -37,13 +37,13 @@ class GeoJson implements ValueGeneratorInterface
      * @param mixed $value
      *
      * @return array
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function generate($value)
     {
         // Check if supported type
         if ('{' !== $value[0]) {
-            throw new UnsupportedTypeException();
+            throw new UnexpectedValueException();
         }
 
         // Generate value from format

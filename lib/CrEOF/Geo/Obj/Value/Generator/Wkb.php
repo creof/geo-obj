@@ -23,7 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value\Generator;
 
-use CrEOF\Geo\Obj\Exception\UnsupportedTypeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\WKB\Parser;
 
 /**
@@ -48,13 +48,13 @@ class Wkb implements ValueGeneratorInterface
      * @param mixed $value
      *
      * @return array
-     * @throws UnsupportedTypeException
+     * @throws UnexpectedValueException
      */
     public function generate($value)
     {
         // Check if supported type
         if (false) {
-            throw new UnsupportedTypeException();
+            throw new UnexpectedValueException();
         }
 
         // Generate value from format
