@@ -31,7 +31,7 @@ use CrEOF\Geo\Obj\Exception\RangeException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Point extends AbstractObject
+class Point extends Object
 {
     protected function validate(array $value)
     {

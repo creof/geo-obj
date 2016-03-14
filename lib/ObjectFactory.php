@@ -52,7 +52,7 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param mixed       $value
      * @param null|string $formatHint
      *
-     * @return AbstractObject
+     * @return Object
      */
     public function create($value, $formatHint = null)
     {
