@@ -40,7 +40,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $validator = Configuration::getInstance()->getValidator('CrEOF\Geo\Obj\Point');
 
-        static::assertEquals(null, $validator);
+        static::assertInstanceOf('CrEOF\Geo\Obj\Validator\TypeValidator', $validator);
     }
 
     public function testGetValidator()

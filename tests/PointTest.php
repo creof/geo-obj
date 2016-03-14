@@ -37,11 +37,19 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
-    public function testPoint1()
+    public function testArrayPoint()
     {
         $point = new Point([0,0]);
 
         static::assertEquals([0,0], $point->getValue());
+    }
+
+    public function testWkbPoint()
+    {
+        $wkb   = pack('H*', '01010000003D0AD7A3701D41400000000000C055C0');
+        $point = new Point($wkb);
+
+        static::assertEquals([34.23, -87], $point->getValue());
     }
 
     /**

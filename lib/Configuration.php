@@ -26,6 +26,7 @@ namespace CrEOF\Geo\Obj;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
+use CrEOF\Geo\Obj\Validator\TypeValidator;
 
 /**
  * Class Configuration
@@ -45,6 +46,10 @@ final class Configuration
     protected function __construct()
     {
         $this->validators = [];
+        $validator        = new TypeValidator();
+
+        $validator->setType('CrEOF\Geo\Obj\Point');
+        $this->setValidator('CrEOF\Geo\Obj\Point', $validator);
     }
 
     /**

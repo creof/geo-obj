@@ -24,9 +24,11 @@
         "phpunit/phpunit": ">=4.8",
         "codeclimate/php-test-reporter": "dev-master"
     },
-    "autoload": {
-        "psr-0": {
-            "CrEOF\\Geo\\Obj": "lib/"
-        }
+    "autoload":          {
+        "psr-4": {"CrEOF\\Geo\\Obj\\": "lib/"}
+    },
+    "autoload-dev":      {
+        "psr-4": {"CrEOF\\Geo\\Obj\\Tests\\": "tests/"}
     }
+
 }
