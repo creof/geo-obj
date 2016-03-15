@@ -60,7 +60,7 @@ final class Configuration
      */
     public function setValidator($type, ValidatorInterface $validator)
     {
-        $this->validateObjectType($type);
+        $this->validateType($type);
 
         $this->validators[$type] = $validator;
     }
@@ -74,7 +74,7 @@ final class Configuration
      */
     public function getValidator($type)
     {
-        $this->validateObjectType($type);
+        $this->validateType($type);
 
         return array_key_exists($type, $this->validators) ?  $this->validators[$type] : null;
     }
@@ -84,7 +84,7 @@ final class Configuration
      *
      * @throws UnexpectedValueException
      */
-    private function validateObjectType($type)
+    private function validateType($type)
     {
         if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
             throw new UnexpectedValueException('Unsupported type "' . $type . '"');
