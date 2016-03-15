@@ -38,11 +38,16 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGoodType()
     {
-        $validator = new TypeValidator();
+        $exception = null;
 
-        $validator->setType('CrEOF\Geo\Obj\Point');
+        try {
+            $validator = new TypeValidator();
 
-        self::assertNull(null);
+            $validator->setType('CrEOF\Geo\Obj\Point');
+        } catch (UnexpectedValueException $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected UnexpectedValueException');
     }
 
     /**
@@ -54,5 +59,28 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = new TypeValidator();
 
         $validator->setType('CrEOF\Geo\Obj\Configuration');
+    }
+
+    /**
+     */
+    public function testValidateType()
+    {
+        $exception = null;
+
+        try {
+            $validator = new TypeValidator();
+
+            $validator->setType('CrEOF\Geo\Obj\Point');
+
+            $value = [
+                'type'  => 'point',
+                'value' => null
+            ];
+
+            $validator->validate($value);
+        } catch (UnexpectedValueException $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected UnexpectedValueException');
     }
 }
