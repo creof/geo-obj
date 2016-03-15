@@ -32,7 +32,7 @@ namespace CrEOF\Geo\Obj;
 interface ObjectFactoryInterface
 {
     /**
-     * Take a standard format value and create object
+     * Take a value in a standard data format and create object
      *
      * @param mixed       $value
      * @param null|string $formatHint
@@ -42,7 +42,7 @@ interface ObjectFactoryInterface
     public function create($value, $formatHint = null);
 
     /**
-     * Convert object to standard format
+     * Convert object to standard data format value
      *
      * @param mixed  $value
      * @param string $format

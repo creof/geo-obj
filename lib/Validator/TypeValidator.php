@@ -58,13 +58,12 @@ class TypeValidator implements ValidatorInterface
      * @param array $value
      *
      * @throws UnexpectedValueException
-     * @throws RangeException
      */
     public function validate(array $value)
     {
         $type = 'CrEOF\\Geo\\Obj\\' . $value['type'];
 
-        if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
+        if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\\Geo\\Obj\\ObjectInterface')) {
             throw new UnexpectedValueException('Unsupported type "' . $type . '"');
         }
     }
@@ -76,7 +75,7 @@ class TypeValidator implements ValidatorInterface
      */
     public function setType($type)
     {
-        if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
+        if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\\Geo\\Obj\\ObjectInterface')) {
             throw new UnexpectedValueException('Unsupported type "' . $type . '"');
         }
 

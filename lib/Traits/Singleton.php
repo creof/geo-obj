@@ -24,7 +24,7 @@
 namespace CrEOF\Geo\Obj\Traits;
 
 /**
- * Trait Singleton
+ * Singleton Trait
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
@@ -41,15 +41,15 @@ trait Singleton
      */
     protected function __construct()
     {
-
     }
 
     final private function __clone()
     {
-
     }
 
     /**
+     * Get instance of object
+     *
      * @return static
      */
     public static function getInstance()
