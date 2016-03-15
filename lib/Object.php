@@ -37,12 +37,7 @@ abstract class Object implements ObjectInterface, \Countable
     /**
      * @var array
      */
-    protected $value;
-
-    /**
-     * @var array
-     */
-    protected $properties;
+    protected $data;
 
     /**
      * @var ValueFactory
@@ -53,18 +48,24 @@ abstract class Object implements ObjectInterface, \Countable
     {
         self::$valueFactory = ValueFactory::getInstance();
 
-        $val = $value;
-
-        if (! is_array($val)) {
-            $val = self::$valueFactory->generate($value);
-
-            $this->properties['srid'] = $val['srid'];
+        if (! is_array($value)) {
+            $value               = self::$valueFactory->generate($value);
+            $value['properties'] = $properties;
         }
 
-        $this->validate($val);
+        if (! array_key_exists('value', $value)) {
+            $val['value'] = $value;
+            $value        = $val;
+        }
 
-        $this->value      = $val;
-        $this->properties = $properties;
+        if (! array_key_exists('type', $value)) {
+            $class         = get_class($this);
+            $value['type'] = strtolower(substr($class, strrpos($class, '\\') + 1));
+        }
+
+        $this->validate($value);
+
+        $this->data = $value;
     }
 
     /**
@@ -97,7 +98,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function count()
     {
-        return count($this->value);
+        return count($this->data['value']);
     }
 
     /**
@@ -107,12 +108,12 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function getProperty($name)
     {
-        if (! array_key_exists($name, $this->properties)) {
+        if (! array_key_exists($name, $this->data['properties'])) {
             // TODO more specific exception
             throw new RangeException();
         }
 
-        return $this->properties[$name];
+        return $this->data['properties'][$name];
     }
 
     /**
@@ -125,7 +126,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function setProperty($name, $value)
     {
-        $this->properties[$name] = $value;
+        $this->data['properties'][$name] = $value;
 
         return $this;
     }
@@ -135,7 +136,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function getValue()
     {
-        return $this->value;
+        return $this->data['value'];
     }
 
     protected function validate(array $value)

@@ -62,12 +62,7 @@ class TypeValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        if (! array_key_exists('type', $value)) {
-            return;
-        }
-
-        $type  = $value['type'];
-        $value = $value['value'];
+        $type = 'CrEOF\\Geo\\Obj\\' . $value['type'];
 
         if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
             throw new UnexpectedValueException('Unsupported type "' . $type . '"');

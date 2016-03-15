@@ -62,9 +62,9 @@ class DValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        $size = count($value);
+        $size = count($value['value']);
 
-        if ($this->size !== count($value)) {
+        if ($this->size !== $size) {
             throw new RangeException('Invalid size "' . $size . '", size must be '. $this->size . '.');
         }
     }

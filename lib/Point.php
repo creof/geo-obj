@@ -35,7 +35,7 @@ class Point extends Object
 {
     protected function validate(array $value)
     {
-        $count = count($value);
+        $count = count($value['value']);
 
         if ($count < 2 || $count > 4) {
             throw new RangeException('Point value count must be between 2 and 4.');

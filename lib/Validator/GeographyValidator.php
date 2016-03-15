@@ -67,8 +67,8 @@ class GeographyValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        $this->validateLongitude($value[$this->order]);
-        $this->validateLatitude($value[$this->order ? 0 : 1]);
+        $this->validateLongitude($value['value'][$this->order]);
+        $this->validateLatitude($value['value'][$this->order ? 0 : 1]);
 
         null !== $this->validator && $this->validator->validate($value);
     }
