@@ -68,10 +68,14 @@ class LineStringValueValidator implements ValidatorInterface
                 throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
             }
 
-            Configuration::getInstance()->getValidators(ObjectInterface::T_POINT)->validate([
-                'type' => 'point',
-                'value' => $point
-            ]);
+            try {
+                Configuration::getInstance()->getValidators(ObjectInterface::T_POINT)->validate([
+                    'type' => 'point',
+                    'value' => $point
+                ]);
+            } catch (ExceptionInterface $e) {
+                throw new RangeException('Bad Point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
+            }
         }
     }
 }
