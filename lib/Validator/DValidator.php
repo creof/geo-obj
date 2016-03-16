@@ -59,6 +59,10 @@ class DValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
+        if ('point' !== $value['type']) {
+            return;
+        }
+
         $size = count($value['value']);
 
         if ($this->size !== $size) {
