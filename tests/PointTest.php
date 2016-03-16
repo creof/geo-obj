@@ -53,13 +53,14 @@ class PointTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider pointTestData
      */
-    public function testParser($value, $validators, $expected)
+    public function testPoint($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
                 Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
             }
         }
+        
         try {
             $actual = (new Point($value))->getValue();
         } catch (\Exception $e) {
@@ -69,6 +70,9 @@ class PointTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array[]
+     */
     public function pointTestData()
     {
         return [
