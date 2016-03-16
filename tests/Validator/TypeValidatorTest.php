@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Tests\Value;
 
+use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Validator\TypeValidator;
 
@@ -43,7 +44,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         try {
             $validator = new TypeValidator();
 
-            $validator->setType('CrEOF\Geo\Obj\Point');
+            $validator->setType(ObjectInterface::T_POINT);
         } catch (UnexpectedValueException $e) {
         }
 
@@ -58,7 +59,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new TypeValidator();
 
-        $validator->setType('CrEOF\Geo\Obj\Configuration');
+        $validator->setType('Configuration');
     }
 
     /**
@@ -70,7 +71,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         try {
             $validator = new TypeValidator();
 
-            $validator->setType('CrEOF\Geo\Obj\Point');
+            $validator->setType(ObjectInterface::T_POINT);
 
             $value = [
                 'type'  => 'point',

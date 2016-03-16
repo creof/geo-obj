@@ -48,8 +48,8 @@ final class Configuration
         $this->validators = [];
         $validator        = new TypeValidator();
 
-        $validator->setType('CrEOF\Geo\Obj\Point');
-        $this->setValidator('CrEOF\Geo\Obj\Point', $validator);
+        $validator->setType(ObjectInterface::T_POINT);
+        $this->setValidator(ObjectInterface::T_POINT, $validator);
     }
 
     /**

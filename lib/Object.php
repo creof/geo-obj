@@ -141,7 +141,7 @@ abstract class Object implements ObjectInterface, \Countable
 
     protected function validate(array $value)
     {
-        $validator = Configuration::getInstance()->getValidator(get_class($this));
+        $validator = Configuration::getInstance()->getValidator($value['type']);
 
         null !== $validator && $validator->validate($value);
     }
