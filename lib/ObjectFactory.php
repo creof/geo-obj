@@ -97,7 +97,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public static function getTypeClass($type)
     {
-        if (array_key_exists($type, self::$typeClassCache[$type])) {
+        if (isset(self::$typeClassCache[$type])) {
             return self::$typeClassCache[$type];
         }
 
