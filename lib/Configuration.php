@@ -76,16 +76,4 @@ final class Configuration
 
         return isset($this->validators[$typeClass]) ?  $this->validators[$typeClass] : null;
     }
-
-    /**
-     * @param string $type
-     *
-     * @throws UnexpectedValueException
-     */
-    private function validateType($type)
-    {
-        if (! class_exists($type) || ! is_subclass_of($type, 'CrEOF\Geo\Obj\ObjectInterface')) {
-            throw new UnexpectedValueException('Unsupported type "' . $type . '"');
-        }
-    }
 }
