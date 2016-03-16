@@ -53,7 +53,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException        UnexpectedValueException
-     * @expectedExceptionMessage Unsupported type "CrEOF\Geo\Obj\Configuration"
+     * @expectedExceptionMessage Unknown type "Configuration"
      */
     public function testSetBadType()
     {
