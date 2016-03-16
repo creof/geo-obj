@@ -60,9 +60,7 @@ final class Configuration
      */
     public function setValidator($type, ValidatorInterface $validator)
     {
-        $this->validateType($type);
-
-        $this->validators[$type] = $validator;
+        $this->validators[ObjectFactory::getTypeClass($type)] = $validator;
     }
 
     /**
@@ -74,9 +72,9 @@ final class Configuration
      */
     public function getValidator($type)
     {
-        $this->validateType($type);
+        $typeClass = ObjectFactory::getTypeClass($type);
 
-        return array_key_exists($type, $this->validators) ?  $this->validators[$type] : null;
+        return isset($this->validators[$typeClass]) ?  $this->validators[$typeClass] : null;
     }
 
     /**

@@ -67,11 +67,11 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function create($value, $formatHint = null)
     {
-        $val = $this->valueFactory->generate($value, $formatHint);
+        $data = $this->valueFactory->generate($value, $formatHint);
 
-        $objectClass = 'CrEOF\Geo\Obj\\' . $val['type'];
+        $objectClass = self::getTypeClass($data['type']);
 
-        return new $objectClass($val['value']);
+        return new $objectClass($data['value']);
     }
 
     /**
