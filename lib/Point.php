@@ -24,6 +24,8 @@
 namespace CrEOF\Geo\Obj;
 
 use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+
 
 /**
  * Class Point
@@ -41,6 +43,12 @@ class Point extends Object
 
         if ($count < 2 || $count > 4) {
             throw new RangeException('Point value count must be between 2 and 4.');
+        }
+
+        foreach ($value['value'] as $num) {
+            if (! is_int($num) && ! is_float($num)) {
+                throw new UnexpectedValueException('Point value must be array containing "integer" or "float", "' . gettype($num) . '" found');
+            }
         }
 
         parent::validate($value);
