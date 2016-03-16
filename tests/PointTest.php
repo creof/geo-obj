@@ -53,6 +53,31 @@ class PointTest extends \PHPUnit_Framework_TestCase
         static::assertEquals([34.23, -87], $point->getValue());
     }
 
+    public function testWktPoint()
+    {
+        $point = new Point('POINT(34.23 -87)');
+
+        static::assertEquals([34.23, -87], $point->getValue());
+    }
+
+    public function testCountPoint()
+    {
+        $point = new Point([0,0]);
+
+        static::assertCount(2, $point);
+    }
+
+    public function testBadPointWktType()
+    {
+        $point = new Point('LINESTRING(0 0,1 1)');
+    }
+
+    public function testBadPointWkbType()
+    {
+        $wkb   = pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0');
+        $point = new Point($wkb);
+    }
+
     /**
      * @expectedException        RangeException
      * @expectedExceptionMessage Point value count must be between 2 and 4.
