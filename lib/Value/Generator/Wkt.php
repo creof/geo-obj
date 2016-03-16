@@ -59,6 +59,11 @@ class Wkt implements ValueGeneratorInterface
         }
 
         // Generate value from format
-        return self::$parser->parse($value);
+        // TODO: Needs PR#5
+        //return self::$parser->parse($value);
+
+        $parser = new Parser($value);
+
+        return $parser->parse();
     }
 }
