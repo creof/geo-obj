@@ -114,8 +114,6 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @backupStaticAttributes
-     *
      * @expectedException        RangeException
      * @expectedExceptionMessage Invalid size "3", size must be 2.
      */
@@ -135,8 +133,6 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @backupStaticAttributes
-     *
      * @expectedException        RangeException
      * @expectedExceptionMessage Invalid size "3", size must be 4.
      */
