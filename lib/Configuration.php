@@ -25,6 +25,7 @@ namespace CrEOF\Geo\Obj;
 
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Validator\TypeValidator;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
 use CrEOF\Geo\Obj\Validator\ValidatorStack;
 use ReflectionClass;
@@ -49,7 +50,13 @@ final class Configuration
         $reflectionClass = new ReflectionClass('CrEOF\\Geo\\Obj\\ObjectInterface');
 
         foreach ($reflectionClass->getConstants() as $const => $value) {
-            $this->validators[ObjectFactory::getTypeClass($value)] = new ValidatorStack();
+            $validatorStack      = new ValidatorStack();
+            $valueValidatorClass = 'CrEOF\\Geo\\Obj\\Validator\\' . $value . 'ValueValidator';
+
+            $validatorStack->push(new TypeValidator($value));
+            $validatorStack->push(new $valueValidatorClass());
+
+            $this->validators[ObjectFactory::getTypeClass($value)] = $validatorStack;
         }
     }
 
