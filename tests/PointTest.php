@@ -39,28 +39,6 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
-    public function testArrayPoint()
-    {
-        $point = new Point([0,0]);
-
-        static::assertEquals([0,0], $point->getValue());
-    }
-
-    public function testWkbPoint()
-    {
-        $wkb   = pack('H*', '01010000003D0AD7A3701D41400000000000C055C0');
-        $point = new Point($wkb);
-
-        static::assertEquals([34.23, -87], $point->getValue());
-    }
-
-    public function testWktPoint()
-    {
-        $point = new Point('POINT(34.23 -87)');
-
-        static::assertEquals([34.23, -87], $point->getValue());
-    }
-
     public function testCountPoint()
     {
         $point = new Point([0,0]);
@@ -69,74 +47,85 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
-     * @expectedExceptionMessage Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider pointTestData
      */
-    public function testBadPointWktType()
+    public function testParser($value, $validators, $expected)
     {
-        new Point('LINESTRING(0 0,1 1)');
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+            }
+        }
+        try {
+            $actual = (new Point($value))->getValue();
+        } catch (\Exception $e) {
+            $actual = $e;
+        }
+
+        self::assertEquals($expected, $actual);
     }
 
-    /**
-     * @expectedException        UnexpectedValueException
-     * @expectedExceptionMessage Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point
-     */
-    public function testBadPointWkbType()
+    public function pointTestData()
     {
-        $wkb   = pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0');
-
-        new Point($wkb);
-    }
-
-    /**
-     * @expectedException        RangeException
-     * @expectedExceptionMessage Point value count must be between 2 and 4.
-     */
-    public function testShortPoint()
-    {
-        new Point([0]);
-    }
-
-    /**
-     * @expectedException        RangeException
-     * @expectedExceptionMessage Point value count must be between 2 and 4.
-     */
-    public function testLongPoint()
-    {
-        new Point([0,0,0,0,0]);
-    }
-
-    public function testGoodPointValidatorStacking()
-    {
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(2));
-
-        $point = new Point([20, 120]);
-
-        static::assertEquals([20, 120], $point->getValue());
-    }
-
-    /**
-     * @expectedException        RangeException
-     * @expectedExceptionMessage Invalid size "3", size must be 2.
-     */
-    public function testBadLongPointSizeInnerValidator()
-    {
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(2));
-
-        new Point([20, 10, 30]);
-    }
-
-    /**
-     * @expectedException        RangeException
-     * @expectedExceptionMessage Invalid size "3", size must be 4.
-     */
-    public function testBadShortPointSizeInnerValidator()
-    {
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(4));
-
-        new Point([20, 10, 30]);
+        return [
+            'testGoodArrayPoint' => [
+                'value'      => [0,0],
+                'validators' => null,
+                'expected'   => [0,0]
+            ],
+            'testGoodWkbPoint' => [
+                'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
+                'validators' => null,
+                'expected'   => [34.23, -87]
+            ],
+            'testBadPointWktType' => [
+                'value'      => 'LINESTRING(0 0,1 1)',
+                'validators' => null,
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point')
+            ],
+            'testBadPointWkbType' => [
+                'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
+                'validators' => null,
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point')
+            ],
+            'testBadShortPoint' => [
+                'value'      => [0],
+                'validators' => null,
+                'expected'   => new RangeException('Point value count must be between 2 and 4.')
+            ],
+            'testBadLongPoint' => [
+                'value'      => [0,0,0,0,0],
+                'validators' => null,
+                'expected'   => new RangeException('Point value count must be between 2 and 4.')
+            ],
+            'testGoodPointValidatorStacking' => [
+                'value'      => [20, 120],
+                'validators' => [
+                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
+                    new DValidator(2)
+                ],
+                'expected'   => [20, 120]
+            ],
+            'testBadLongPointDValidator' => [
+                'value'      => [20, 10, 30],
+                'validators' => [
+                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
+                    new DValidator(2)
+                ],
+                'expected'   => new RangeException('Invalid size "3", size must be 2.')
+            ],
+            'testBadShortPointDValidator' => [
+                'value'      => [20, 10, 30],
+                'validators' => [
+                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
+                    new DValidator(4)
+                ],
+                'expected'   => new RangeException('Invalid size "3", size must be 4.')
+            ]
+        ];
     }
 }
