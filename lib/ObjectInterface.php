@@ -33,5 +33,13 @@ namespace CrEOF\Geo\Obj;
  */
 interface ObjectInterface
 {
-
+    //TODO: add remaining types
+    const T_GEOMETRY           = 'Geometry';
+    const T_POINT              = 'Point';
+    const T_LINESTRING         = 'LineString';
+    const T_POLYGON            = 'Polygon';
+    const T_MULTIPOINT         = 'MultiPoint';
+    const T_MULTILINESTRING    = 'MultiLineString';
+    const T_MULTIPOLYGON       = 'MultiPolygon';
+    const T_GEOMETRYCOLLECTION = 'GeometryCollection';
 }
