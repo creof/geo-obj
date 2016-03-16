@@ -25,6 +25,7 @@ namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Point;
 use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
@@ -67,15 +68,24 @@ class PointTest extends \PHPUnit_Framework_TestCase
         static::assertCount(2, $point);
     }
 
+    /**
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point
+     */
     public function testBadPointWktType()
     {
-        $point = new Point('LINESTRING(0 0,1 1)');
+        new Point('LINESTRING(0 0,1 1)');
     }
 
+    /**
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point
+     */
     public function testBadPointWkbType()
     {
         $wkb   = pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0');
-        $point = new Point($wkb);
+
+        new Point($wkb);
     }
 
     /**
