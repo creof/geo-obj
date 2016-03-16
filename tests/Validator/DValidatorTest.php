@@ -40,9 +40,7 @@ class DValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadLargeSize()
     {
-        $validator = new DValidator();
-
-        $validator->setSize(5);
+        new DValidator(5);
     }
 
     /**
@@ -51,8 +49,6 @@ class DValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadSmallSize()
     {
-        $validator = new DValidator();
-
-        $validator->setSize(-1);
+        new DValidator(-1);
     }
 }

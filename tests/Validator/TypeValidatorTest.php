@@ -42,9 +42,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         $exception = null;
 
         try {
-            $validator = new TypeValidator();
-
-            $validator->setType(ObjectInterface::T_POINT);
+            new TypeValidator(ObjectInterface::T_POINT);
         } catch (UnexpectedValueException $e) {
         }
 
@@ -57,9 +55,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetBadType()
     {
-        $validator = new TypeValidator();
-
-        $validator->setType('Configuration');
+        new TypeValidator('Configuration');
     }
 
     /**
@@ -69,9 +65,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
         $exception = null;
 
         try {
-            $validator = new TypeValidator();
-
-            $validator->setType(ObjectInterface::T_POINT);
+            $validator = new TypeValidator(ObjectInterface::T_POINT);
 
             $value = [
                 'type'  => 'point',

@@ -108,19 +108,12 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
     public function testGoodPointValidatorStacking()
     {
-        $validator = new GeographyValidator();
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(2));
 
-        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+        $point = new Point([20, 120]);
 
-        $validator = new DValidator($validator);
-
-        $validator->setSize(2);
-
-        Configuration::getInstance()->setValidator(ObjectInterface::T_POINT, $validator);
-
-        $point = new Point([20, 300]);
-
-        static::assertEquals([20, 300], $point->getValue());
+        static::assertEquals([20, 120], $point->getValue());
     }
 
     /**
@@ -129,15 +122,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadLongPointSizeInnerValidator()
     {
-        $validator = new DValidator();
-
-        $validator->setSize(2);
-
-        $validator = new GeographyValidator($validator);
-
-        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
-
-        Configuration::getInstance()->setValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(2));
 
         new Point([20, 10, 30]);
     }
@@ -148,15 +134,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadShortPointSizeInnerValidator()
     {
-        $validator = new DValidator();
-
-        $validator->setSize(4);
-
-        $validator = new GeographyValidator($validator);
-
-        $validator->setOrder(GeographyValidator::CRITERIA_LATITUDE_FIRST);
-
-        Configuration::getInstance()->setValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST));
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, new DValidator(4));
 
         new Point([20, 10, 30]);
     }
