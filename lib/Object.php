@@ -34,7 +34,7 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  */
 abstract class Object implements ObjectInterface, \Countable
 {
-    const T_TYPE = ObjectInterface::T_OBJECT;
+    const T_TYPE = 'Object';
 
     /**
      * @var array

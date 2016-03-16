@@ -38,14 +38,8 @@ class ObjectFactory implements ObjectFactoryInterface
     use Singleton;
 
     //TODO: add remaining types
-    const C_GEOMETRY           = 'CrEOF\\Geo\\Obj\\Geometry';
-    const C_POINT              = 'CrEOF\\Geo\\Obj\\Point';
-    const C_LINESTRING         = 'CrEOF\\Geo\\Obj\\LineString';
-    const C_POLYGON            = 'CrEOF\\Geo\\Obj\\Polygon';
-    const C_MULTIPOINT         = 'CrEOF\\Geo\\Obj\\MultiPoint';
-    const C_MULTILINESTRING    = 'CrEOF\\Geo\\Obj\\MultiLineString';
-    const C_MULTIPOLYGON       = 'CrEOF\\Geo\\Obj\\MultiPolygon';
-    const C_GEOMETRYCOLLECTION = 'CrEOF\\Geo\\Obj\\GeometryCollection';
+    const C_POINT      = 'CrEOF\\Geo\\Obj\\Point';
+    const C_LINESTRING = 'CrEOF\\Geo\\Obj\\LineString';
 
     /**
      * @var ValueFactory

@@ -35,13 +35,6 @@ interface ObjectInterface
 {
     //TODO: does Object need a const?
     //TODO: add remaining types
-    const T_OBJECT             = 'Object';
-    const T_GEOMETRY           = 'Geometry';
     const T_POINT              = 'Point';
     const T_LINESTRING         = 'LineString';
-    const T_POLYGON            = 'Polygon';
-    const T_MULTIPOINT         = 'MultiPoint';
-    const T_MULTILINESTRING    = 'MultiLineString';
-    const T_MULTIPOLYGON       = 'MultiPolygon';
-    const T_GEOMETRYCOLLECTION = 'GeometryCollection';
 }
