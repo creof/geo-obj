@@ -66,6 +66,8 @@ class TypeValidator implements ValidatorInterface
         if ($type !== $this->type) {
             throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . $this->type);
         }
+
+        null !== $this->validator && $this->validator->validate($value);
     }
 
     /**
