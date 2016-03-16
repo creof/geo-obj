@@ -142,8 +142,11 @@ abstract class Object implements ObjectInterface, \Countable
 
     protected function validate(array $value)
     {
-        $validator = Configuration::getInstance()->getValidator(static::T_TYPE);
+        foreach (Configuration::getInstance()->getValidators(static::T_TYPE) as $validator) {
+            $validator->validate($value);
+        }
+        //$validator = Configuration::getInstance()->getValidator(static::T_TYPE);
 
-        null !== $validator && $validator->validate($value);
+        //null !== $validator && $validator->validate($value);
     }
 }
