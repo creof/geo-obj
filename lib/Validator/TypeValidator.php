@@ -35,23 +35,18 @@ use CrEOF\Geo\Obj\ObjectFactory;
 class TypeValidator implements ValidatorInterface
 {
     /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    /**
      * @var string
      */
     private $type;
 
     /**
-     * @param ValidatorInterface|null $validator
+     * @param string $type
+     *
+     * @throws UnexpectedValueException
      */
-    public function __construct(ValidatorInterface $validator = null)
+    public function __construct($type)
     {
-        if (null !== $validator) {
-            $this->validator = $validator;
-        }
+        $this->type = ObjectFactory::getTypeClass($type);
     }
 
     /**
@@ -66,17 +61,5 @@ class TypeValidator implements ValidatorInterface
         if ($type !== $this->type) {
             throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . $this->type);
         }
-
-        null !== $this->validator && $this->validator->validate($value);
-    }
-
-    /**
-     * @param string $type
-     *
-     * @throws UnexpectedValueException
-     */
-    public function setType($type)
-    {
-        $this->type = ObjectFactory::getTypeClass($type);
     }
 }

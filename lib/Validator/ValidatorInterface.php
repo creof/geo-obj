@@ -34,11 +34,6 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 interface ValidatorInterface
 {
     /**
-     * @param ValidatorInterface|null $validator
-     */
-    public function __construct(ValidatorInterface $validator = null);
-
-    /**
      * @param array $value
      *
      * @throws ExceptionInterface

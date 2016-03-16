@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class GeographyValidator
@@ -38,11 +37,6 @@ class GeographyValidator implements ValidatorInterface
     const CRITERIA_LATITUDE_FIRST  = 1;
 
     /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    /**
      * @var int
      */
     private $order;
@@ -50,35 +44,22 @@ class GeographyValidator implements ValidatorInterface
     /**
      * GeographyValidator constructor
      *
-     * @param ValidatorInterface|null $validator
+     * @param int $order
      */
-    public function __construct(ValidatorInterface $validator = null)
+    public function __construct($order)
     {
-        if (null !== $validator) {
-            $this->validator = $validator;
-        }
+        $this->order = $order;
     }
 
     /**
      * @param array $value
      *
-     * @throws UnexpectedValueException
      * @throws RangeException
      */
     public function validate(array $value)
     {
         $this->validateLongitude($value['value'][$this->order]);
         $this->validateLatitude($value['value'][$this->order ? 0 : 1]);
-
-        null !== $this->validator && $this->validator->validate($value);
-    }
-
-    /**
-     * @param int $order
-     */
-    public function setOrder($order)
-    {
-        $this->order = $order;
     }
 
     /**

@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class DValidator
@@ -35,29 +34,27 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 class DValidator implements ValidatorInterface
 {
     /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    /**
      * @var int
      */
     private $size = 2;
 
     /**
-     * @param ValidatorInterface|null $validator
+     * @param int $size
+     *
+     * @throws RangeException
      */
-    public function __construct(ValidatorInterface $validator = null)
+    public function __construct($size)
     {
-        if (null !== $validator) {
-            $this->validator = $validator;
+        if ($size < 2 || $size > 4) {
+            throw new RangeException('Size must be between 2 and 4.');
         }
+
+        $this->size = $size;
     }
 
     /**
      * @param array $value
      *
-     * @throws UnexpectedValueException
      * @throws RangeException
      */
     public function validate(array $value)
@@ -67,19 +64,5 @@ class DValidator implements ValidatorInterface
         if ($this->size !== $size) {
             throw new RangeException('Invalid size "' . $size . '", size must be '. $this->size . '.');
         }
-    }
-
-    /**
-     * @param int $size
-     *
-     * @throws RangeException
-     */
-    public function setSize($size)
-    {
-        if ($size < 2 || $size > 4) {
-            throw new RangeException('Size must be between 2 and 4.');
-        }
-
-        $this->size = $size;
     }
 }
