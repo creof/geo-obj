@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
@@ -84,5 +85,26 @@ class ObjectFactory implements ObjectFactoryInterface
     public function convert($value, $format)
     {
         return $this->valueFactory->convert($value, $format);
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     * @throws UnexpectedValueException
+     */
+    public static function getTypeClass($type)
+    {
+        try {
+            $typeClass = constant('self::C_' . strtoupper($type));
+
+            if (class_exists($typeClass) && is_subclass_of($typeClass, 'CrEOF\\Geo\\Obj\\ObjectInterface')) {
+                return $typeClass;
+            }
+        } catch (\Exception $e) {
+
+        }
+
+        throw new UnexpectedValueException('Unknown type "' . $type . '"');
     }
 }
