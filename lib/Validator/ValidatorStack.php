@@ -34,25 +34,11 @@ namespace CrEOF\Geo\Obj\Validator;
  * @method ValidatorInterface pop()
  * @method ValidatorInterface shift()
  * @method ValidatorInterface top()
+ * @method void               add(int $index, ValidatorInterface $validator)
+ * @method void               push(ValidatorInterface $validator)
  */
 
 class ValidatorStack extends \SplDoublyLinkedList
 {
-    /**
-     * @param mixed              $index
-     * @param ValidatorInterface $validator
-     */
-    public function add($index, ValidatorInterface $validator)
-    {
-        parent::add($index, $validator);
 
-    }
-
-    /**
-     * @param ValidatorInterface $validator
-     */
-    public function push(ValidatorInterface $validator)
-    {
-        parent::push($validator);
-    }
 }
