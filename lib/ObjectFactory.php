@@ -52,6 +52,8 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     private $valueFactory;
 
+    private static $typeClassCache;
+
     protected function __construct()
     {
         $this->valueFactory = ValueFactory::getInstance();
@@ -95,10 +97,16 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public static function getTypeClass($type)
     {
+        if (array_key_exists($type, self::$typeClassCache[$type])) {
+            return self::$typeClassCache[$type];
+        }
+
         try {
             $typeClass = constant('self::C_' . strtoupper($type));
 
             if (class_exists($typeClass) && is_subclass_of($typeClass, 'CrEOF\\Geo\\Obj\\ObjectInterface')) {
+                self::$typeClassCache[$type] = $typeClass;
+
                 return $typeClass;
             }
         } catch (\Exception $e) {
