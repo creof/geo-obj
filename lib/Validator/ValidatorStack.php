@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+
 /**
  * Class ValidatorStack
  *
@@ -40,5 +42,18 @@ namespace CrEOF\Geo\Obj\Validator;
 
 class ValidatorStack extends \SplDoublyLinkedList
 {
+    /**
+     * @param array $value
+     *
+     * @throws ExceptionInterface
+     */
+    public function validate(array $value)
+    {
+        $this->rewind();
 
+        while ($this->valid()) {
+            $this->current()->validate($value);
+            $this->next();
+        }
+    }
 }
