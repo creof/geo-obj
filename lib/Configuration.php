@@ -26,7 +26,8 @@ namespace CrEOF\Geo\Obj;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
-use CrEOF\Geo\Obj\Validator\TypeValidator;
+use CrEOF\Geo\Obj\Validator\ValidatorStack;
+use ReflectionClass;
 
 /**
  * Class Configuration
@@ -39,17 +40,17 @@ final class Configuration
     use Singleton;
 
     /**
-     * @var ValidatorInterface[]
+     * @var ValidatorStack[]
      */
     private $validators;
 
     protected function __construct()
     {
-        $this->validators = [];
-        $validator        = new TypeValidator();
+        $reflectionClass = new ReflectionClass('CrEOF\\Geo\\Obj\\ObjectInterface');
 
-        $validator->setType(ObjectInterface::T_POINT);
-        $this->setValidator(ObjectInterface::T_POINT, $validator);
+        foreach ($reflectionClass->getConstants() as $const => $value) {
+            $this->validators[ObjectFactory::getTypeClass($value)] = new ValidatorStack();
+        }
     }
 
     /**
@@ -58,22 +59,32 @@ final class Configuration
      *
      * @throws UnexpectedValueException
      */
-    public function setValidator($type, ValidatorInterface $validator)
+    public function pushValidator($type, ValidatorInterface $validator)
     {
-        $this->validators[ObjectFactory::getTypeClass($type)] = $validator;
+        $this->validators[ObjectFactory::getTypeClass($type)]->push($validator);
+    }
+
+    /**
+     * @param string             $type
+     * @param int                $index
+     * @param ValidatorInterface $validator
+     *
+     * @throws UnexpectedValueException
+     */
+    public function addValidator($type, $index, ValidatorInterface $validator)
+    {
+        $this->validators[ObjectFactory::getTypeClass($type)]->add($index, $validator);
     }
 
     /**
      * @param string $type
      *
-     * @return ValidatorInterface
+     * @return ValidatorStack
      *
      * @throws UnexpectedValueException
      */
-    public function getValidator($type)
+    public function getValidators($type)
     {
-        $typeClass = ObjectFactory::getTypeClass($type);
-
-        return isset($this->validators[$typeClass]) ?  $this->validators[$typeClass] : null;
+        return clone $this->validators[ObjectFactory::getTypeClass($type)];
     }
 }
