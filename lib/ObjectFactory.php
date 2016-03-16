@@ -40,6 +40,7 @@ class ObjectFactory implements ObjectFactoryInterface
     //TODO: add remaining types
     const C_POINT      = 'CrEOF\\Geo\\Obj\\Point';
     const C_LINESTRING = 'CrEOF\\Geo\\Obj\\LineString';
+    const C_POLYGON    = 'CrEOF\\Geo\\Obj\\Polygon';
 
     /**
      * @var ValueFactory

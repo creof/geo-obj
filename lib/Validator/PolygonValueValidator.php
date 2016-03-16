@@ -21,21 +21,31 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Validator;
+
+use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
- * Interface ObjectInterface
- *
- * TODO is this needed?
+ * Class PolygonValueValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectInterface
+class PolygonValueValidator implements ValidatorInterface
 {
-    //TODO: does Object need a const?
-    //TODO: add remaining types
-    const T_POINT      = 'Point';
-    const T_LINESTRING = 'LineString';
-    const T_POLYGON    = 'Polygon';
+    /**
+     * @param array $value
+     *
+     * @throws RangeException
+     * @throws UnexpectedValueException
+     */
+    public function validate(array $value)
+    {
+        if ('polygon' !== $value['type']) {
+            return;
+        }
+
+        //validate
+    }
 }

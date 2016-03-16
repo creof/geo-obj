@@ -24,18 +24,12 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Interface ObjectInterface
- *
- * TODO is this needed?
+ * Class Polygon
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectInterface
+class Polygon extends Object
 {
-    //TODO: does Object need a const?
-    //TODO: add remaining types
-    const T_POINT      = 'Point';
-    const T_LINESTRING = 'LineString';
-    const T_POLYGON    = 'Polygon';
+    const T_TYPE = ObjectInterface::T_POLYGON;
 }
