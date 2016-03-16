@@ -61,8 +61,7 @@ abstract class Object implements ObjectInterface, \Countable
         }
 
         if (! array_key_exists('type', $value)) {
-            $class         = get_class($this);
-            $value['type'] = strtolower(substr($class, strrpos($class, '\\') + 1));
+            $value['type'] = strtolower(static::T_TYPE);
         }
 
         $this->validate($value);
@@ -143,7 +142,7 @@ abstract class Object implements ObjectInterface, \Countable
 
     protected function validate(array $value)
     {
-        $validator = Configuration::getInstance()->getValidator($value['type']);
+        $validator = Configuration::getInstance()->getValidator(static::T_TYPE);
 
         null !== $validator && $validator->validate($value);
     }
