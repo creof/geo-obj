@@ -23,8 +23,11 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class LineStringValidator
@@ -35,10 +38,24 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 class LineStringValueValidator implements ValidatorInterface
 {
     /**
+     * @var PointValueValidator
+     */
+    protected static $pointValidator;
+
+    /**
+     * LineStringValueValidator constructor
+     */
+    public function __construct()
+    {
+        self::$pointValidator = new PointValueValidator();
+    }
+
+    /**
      * @param array $value
      *
      * @throws RangeException
      * @throws UnexpectedValueException
+     * @throws ExceptionInterface
      */
     public function validate(array $value)
     {
@@ -46,6 +63,15 @@ class LineStringValueValidator implements ValidatorInterface
             return;
         }
 
-        // validate
+        foreach ($value['value'] as $point) {
+            if (! is_array($point)) {
+                throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
+            }
+
+            Configuration::getInstance()->getValidators(ObjectInterface::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
+            ]);
+        }
     }
 }
