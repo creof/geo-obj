@@ -33,5 +33,5 @@ use CrEOF\Geo\Obj\Exception\RangeException;
  */
 class LineString extends Object
 {
-
+    const T_TYPE = ObjectInterface::T_LINESTRING;
 }

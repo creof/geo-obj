@@ -33,6 +33,8 @@ use CrEOF\Geo\Obj\Exception\RangeException;
  */
 class Point extends Object
 {
+    const T_TYPE = ObjectInterface::T_POINT;
+
     protected function validate(array $value)
     {
         $count = count($value['value']);
