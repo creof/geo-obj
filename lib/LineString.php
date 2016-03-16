@@ -23,8 +23,6 @@
 
 namespace CrEOF\Geo\Obj;
 
-use CrEOF\Geo\Obj\Exception\RangeException;
-
 /**
  * Class LineString
  *

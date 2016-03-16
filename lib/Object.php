@@ -23,7 +23,9 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
 /**
@@ -46,6 +48,15 @@ abstract class Object implements ObjectInterface, \Countable
      */
     protected static $valueFactory;
 
+    /**
+     * Object constructor
+     *
+     * @param       $value
+     * @param array $properties
+     *
+     * @throws UnexpectedValueException
+     * @throws ExceptionInterface
+     */
     public function __construct($value, array $properties = [])
     {
         self::$valueFactory = ValueFactory::getInstance();
@@ -74,6 +85,9 @@ abstract class Object implements ObjectInterface, \Countable
      * @param array  $arguments
      *
      * @return mixed
+     *
+     * @throws UnexpectedValueException
+     * @throws RangeException
      */
     public function __call($name, $arguments)
     {
@@ -106,6 +120,8 @@ abstract class Object implements ObjectInterface, \Countable
      * @param string $name
      *
      * @return mixed
+     *
+     * @throws RangeException
      */
     public function getProperty($name)
     {
@@ -140,13 +156,15 @@ abstract class Object implements ObjectInterface, \Countable
         return $this->data['value'];
     }
 
+    /**
+     * @param array $value
+     *
+     * @throws ExceptionInterface
+     */
     protected function validate(array $value)
     {
         foreach (Configuration::getInstance()->getValidators(static::T_TYPE) as $validator) {
             $validator->validate($value);
         }
-        //$validator = Configuration::getInstance()->getValidator(static::T_TYPE);
-
-        //null !== $validator && $validator->validate($value);
     }
 }

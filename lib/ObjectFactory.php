@@ -46,8 +46,14 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     private $valueFactory;
 
+    /**
+     * @var string[]
+     */
     private static $typeClassCache;
 
+    /**
+     * Singelton ObjectFactory constructor
+     */
     protected function __construct()
     {
         $this->valueFactory = ValueFactory::getInstance();
@@ -77,6 +83,7 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param string $format
      *
      * @return mixed
+     * @throws UnexpectedValueException
      */
     public function convert($value, $format)
     {
