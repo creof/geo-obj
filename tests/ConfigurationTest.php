@@ -37,23 +37,23 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetValidatorEmpty()
+    public function testGetDefaultValidators()
     {
-        $validator = Configuration::getInstance()->getValidator(ObjectInterface::T_POINT);
+        $validators = Configuration::getInstance()->getValidators(ObjectInterface::T_POINT);
 
-        static::assertInstanceOf('CrEOF\Geo\Obj\Validator\TypeValidator', $validator);
+        static::assertInstanceOf('CrEOF\Geo\Obj\Validator\ValidatorStack', $validators);
+        static::assertCount(2, $validators);
     }
 
-    public function testGetValidator()
+    public function testGetAddedValidator()
     {
-        $validator = new GeographyValidator();
+        $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        $validator->setOrder(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
+        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
 
-        Configuration::getInstance()->setValidator(ObjectInterface::T_POINT, $validator);
+        $actual = Configuration::getInstance()->getValidators(ObjectInterface::T_POINT);
 
-        $actual = Configuration::getInstance()->getValidator(ObjectInterface::T_POINT);
-
-        static::assertEquals($validator, $actual);
+        static::assertCount(3, $actual);
+        static::assertEquals($validator, $actual->pop());
     }
 }
