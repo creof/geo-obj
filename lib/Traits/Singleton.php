@@ -39,7 +39,7 @@ trait Singleton
     /**
      * Singleton constructor
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 
