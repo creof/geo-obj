@@ -45,7 +45,7 @@ final class Configuration
      */
     private $validators;
 
-    protected function __construct()
+    private function __construct()
     {
         $reflectionClass = new ReflectionClass('CrEOF\\Geo\\Obj\\ObjectInterface');
 

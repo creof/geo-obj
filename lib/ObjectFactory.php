@@ -55,7 +55,7 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * Singelton ObjectFactory constructor
      */
-    protected function __construct()
+    private function __construct()
     {
         $this->valueFactory = ValueFactory::getInstance();
     }

@@ -51,7 +51,7 @@ class ValueFactory
      */
     private $converters;
 
-    protected function __construct()
+    private function __construct()
     {
         $this->addDefaultGenerators();
         $this->addDefaultConverters();
