@@ -21,26 +21,15 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+namespace CrEOF\Geo\Obj\Exception;
 
 /**
- * Interface ValueGeneratorInterface
- *
- * A class implementing ValueGeneratorInterface takes a standard value (WKB, WKB, etc.)
- * and generates a value in the structure used internally
+ * UnsupportedFormatException
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ValueGeneratorInterface
+class UnsupportedFormatException extends UnexpectedValueException
 {
-    /**
-     * @param mixed $value
-     *
-     * @return array
-     * @throws UnsupportedFormatException
-     */
-    public function generate($value);
+
 }

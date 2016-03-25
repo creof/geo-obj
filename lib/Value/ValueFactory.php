@@ -27,6 +27,7 @@ use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Value\Converter;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
  * Class ValueFactory
@@ -73,7 +74,7 @@ class ValueFactory
         foreach ($this->generators as $type => $generator) {
             try {
                 return $generator->generate($value);
-            } catch (UnexpectedValueException $e) {
+            } catch (UnsupportedFormatException $e) {
                 // Try next generator
             }
         }
