@@ -106,7 +106,7 @@ class ObjectFactory implements ObjectFactoryInterface
         try {
             $typeClass = constant('self::C_' . strtoupper($type));
 
-            if (class_exists($typeClass) && is_subclass_of($typeClass, 'CrEOF\\Geo\\Obj\\ObjectInterface')) {
+            if (class_exists($typeClass) && is_subclass_of($typeClass, 'CrEOF\\Geo\\Obj\\Object')) {
                 self::$typeClassCache[$type] = $typeClass;
 
                 return $typeClass;

@@ -25,7 +25,7 @@ namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class DValidator
@@ -53,7 +53,7 @@ class DValidator extends AbstractValidator
 
         $this->size = $size;
 
-        parent::__construct(ObjectInterface::T_POINT);
+        parent::__construct(Object::T_POINT);
     }
 
     /**

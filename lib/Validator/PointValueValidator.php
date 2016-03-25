@@ -26,7 +26,7 @@ namespace CrEOF\Geo\Obj\Validator;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class PointValueValidator
@@ -41,7 +41,7 @@ class PointValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(ObjectInterface::T_POINT);
+        parent::__construct(Object::T_POINT);
     }
 
     /**

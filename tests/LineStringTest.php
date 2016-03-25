@@ -27,7 +27,7 @@ use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\LineString;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
 use CrEOF\Geo\Obj\Validator\DValidator;
 
@@ -57,7 +57,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
-                Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
             }
         }
 

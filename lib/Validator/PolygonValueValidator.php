@@ -27,7 +27,7 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class PolygonValueValidator
@@ -42,7 +42,7 @@ class PolygonValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(ObjectInterface::T_POLYGON);
+        parent::__construct(Object::T_POLYGON);
     }
 
     /**

@@ -26,7 +26,7 @@ namespace CrEOF\Geo\Obj\Tests\Validator;
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Point;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
 
 /**
@@ -47,7 +47,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
         new Point([300, 20]);
     }
@@ -62,7 +62,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
         new Point([20, 300]);
     }
@@ -77,7 +77,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
         new Point([300, 20]);
     }
@@ -92,7 +92,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
         new Point([20, 300]);
     }

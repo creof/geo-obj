@@ -25,7 +25,7 @@ namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class GeographyValidator
@@ -52,7 +52,7 @@ class GeographyValidator extends AbstractValidator
     {
         $this->order = $order;
 
-        parent::__construct(ObjectInterface::T_POINT);
+        parent::__construct(Object::T_POINT);
     }
 
     /**

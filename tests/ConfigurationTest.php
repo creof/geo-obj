@@ -24,7 +24,7 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
 
 /**
@@ -39,7 +39,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDefaultValidators()
     {
-        $validators = Configuration::getInstance()->getValidators(ObjectInterface::T_POINT);
+        $validators = Configuration::getInstance()->getValidators(Object::T_POINT);
 
         static::assertInstanceOf('CrEOF\Geo\Obj\Validator\ValidatorStack', $validators);
         static::assertCount(2, $validators);
@@ -49,9 +49,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        Configuration::getInstance()->pushValidator(ObjectInterface::T_POINT, $validator);
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
-        $actual = Configuration::getInstance()->getValidators(ObjectInterface::T_POINT);
+        $actual = Configuration::getInstance()->getValidators(Object::T_POINT);
 
         static::assertCount(3, $actual);
         static::assertEquals($validator, $actual->pop());

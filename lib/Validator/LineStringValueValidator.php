@@ -28,7 +28,7 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class LineStringValidator
@@ -43,7 +43,7 @@ class LineStringValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(ObjectInterface::T_LINESTRING);
+        parent::__construct(Object::T_LINESTRING);
     }
 
     /**
@@ -72,7 +72,7 @@ class LineStringValueValidator extends AbstractValidator
         }
 
         try {
-            Configuration::getInstance()->getValidators(ObjectInterface::T_POINT)->validate([
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
                 'type' => 'point',
                 'value' => $point
             ]);
