@@ -23,27 +23,28 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
-use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
-use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
- * Class LineStringValidator
+ * Class AbstractValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineStringValueValidator extends AbstractValidator
+abstract class AbstractValidator implements ValidatorInterface
 {
+    private $expectedType;
+
     /**
-     * LineStringValueValidator constructor
+     * AbstractValidator constructor
+     *
+     * @param string $expectedType
      */
-    public function __construct()
+    public function __construct($expectedType)
     {
-        parent::__construct(ObjectInterface::T_LINESTRING);
+        $this->expectedType = $expectedType;
     }
 
     /**
@@ -53,31 +54,12 @@ class LineStringValueValidator extends AbstractValidator
      */
     public function validate(array $value)
     {
-        parent::validate($value);
-
-        foreach ($value['value'] as $point) {
-            $this->validatePoint($point);
-        }
-    }
-
-    /**
-     * @param mixed $point
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validatePoint($point)
-    {
-        if (! is_array($point)) {
-            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
+        if (! array_key_exists('type', $value)) {
+            throw new InvalidArgumentException('Missing "type" in value');
         }
 
-        try {
-            Configuration::getInstance()->getValidators(ObjectInterface::T_POINT)->validate([
-                'type' => 'point',
-                'value' => $point
-            ]);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad Point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
+        if (0 !== strcasecmp($this->expectedType, $value['type'])) {
+            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "' . $this->expectedType . '"');
         }
     }
 }

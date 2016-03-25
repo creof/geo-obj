@@ -24,9 +24,8 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class DValidator
@@ -34,7 +33,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class DValidator implements ValidatorInterface
+class DValidator extends AbstractValidator
 {
     /**
      * @var int
@@ -53,6 +52,8 @@ class DValidator implements ValidatorInterface
         }
 
         $this->size = $size;
+
+        parent::__construct(ObjectInterface::T_POINT);
     }
 
     /**
@@ -62,13 +63,7 @@ class DValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        if (! array_key_exists('type', $value)) {
-            throw new InvalidArgumentException('Missing "type" in value');
-        }
-
-        if ('point' !== $value['type']) {
-            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "point"');
-        }
+        parent::validate($value);
 
         $size = count($value['value']);
 

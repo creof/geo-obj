@@ -27,6 +27,7 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class PolygonValueValidator
@@ -34,8 +35,16 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PolygonValueValidator implements ValidatorInterface
+class PolygonValueValidator extends AbstractValidator
 {
+    /**
+     * PolygonValueValidator constructor
+     */
+    public function __construct()
+    {
+        parent::__construct(ObjectInterface::T_POLYGON);
+    }
+
     /**
      * @param array $value
      *
@@ -43,13 +52,7 @@ class PolygonValueValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        if (! array_key_exists('type', $value)) {
-            throw new InvalidArgumentException('Missing "type" in value');
-        }
-
-        if ('polygon' !== $value['type']) {
-            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "point"');
-        }
+        parent::validate($value);
 
         //TODO implement validator
         //validate

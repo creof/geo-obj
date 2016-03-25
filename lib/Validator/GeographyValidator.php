@@ -24,9 +24,8 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class GeographyValidator
@@ -34,7 +33,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeographyValidator implements ValidatorInterface
+class GeographyValidator extends AbstractValidator
 {
     const CRITERIA_LONGITUDE_FIRST = 0;
     const CRITERIA_LATITUDE_FIRST  = 1;
@@ -52,6 +51,8 @@ class GeographyValidator implements ValidatorInterface
     public function __construct($order)
     {
         $this->order = $order;
+
+        parent::__construct(ObjectInterface::T_POINT);
     }
 
     /**
@@ -61,13 +62,7 @@ class GeographyValidator implements ValidatorInterface
      */
     public function validate(array $value)
     {
-        if (! array_key_exists('type', $value)) {
-            throw new InvalidArgumentException('Missing "type" in value');
-        }
-
-        if ('point' !== $value['type']) {
-            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "point"');
-        }
+        parent::validate($value);
 
         $this->validateLongitude($value['value'][$this->order]);
         $this->validateLatitude($value['value'][$this->order ? 0 : 1]);
