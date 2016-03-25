@@ -61,23 +61,12 @@ abstract class Object implements ObjectInterface, \Countable
     {
         self::$valueFactory = ValueFactory::getInstance();
 
-        if (! is_array($value)) {
-            $value               = self::$valueFactory->generate($value);
-            $value['properties'] = $properties;
-        }
+        $data               = $this->generate($value);
+        $data['properties'] = $properties;
 
-        if (! array_key_exists('value', $value)) {
-            $val['value'] = $value;
-            $value        = $val;
-        }
+        $this->validate($data);
 
-        if (! array_key_exists('type', $value)) {
-            $value['type'] = strtolower(static::T_TYPE);
-        }
-
-        $this->validate($value);
-
-        $this->data = $value;
+        $this->data = $data;
     }
 
     /**
@@ -164,5 +153,24 @@ abstract class Object implements ObjectInterface, \Countable
     protected function validate(array $value)
     {
         Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return array
+     * @throws UnexpectedValueException
+     */
+    protected function generate($value)
+    {
+        if (! is_array($value)) {
+            return self::$valueFactory->generate($value);
+        }
+
+        return [
+            'value' => array_key_exists('value', $value) ? $value['value'] : $value,
+            'type'  => array_key_exists('type', $value) ? $value['type'] : strtolower(static::T_TYPE),
+            'srid'  => array_key_exists('srid', $value) ? $value['type'] : null
+        ];
     }
 }
