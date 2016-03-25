@@ -91,8 +91,8 @@ abstract class Object implements ObjectInterface, \Countable
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
-        if (0 === strpos($name, 'to') && 1 === count($arguments)) {
-            return self::$valueFactory->generate($arguments[0], substr($name, 2));
+        if (0 === strpos($name, 'to') && 0 === count($arguments)) {
+            return self::$valueFactory->convert($this->data, strtolower(substr($name, 2)));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
