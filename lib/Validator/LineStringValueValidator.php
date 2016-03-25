@@ -39,16 +39,10 @@ use CrEOF\Geo\Obj\ObjectInterface;
 class LineStringValueValidator implements ValidatorInterface
 {
     /**
-     * @var PointValueValidator
-     */
-    protected static $pointValidator;
-
-    /**
      * LineStringValueValidator constructor
      */
     public function __construct()
     {
-        self::$pointValidator = new PointValueValidator();
     }
 
     /**
