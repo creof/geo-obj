@@ -39,11 +39,15 @@ abstract class Object implements ObjectInterface, \Countable
     const T_TYPE = 'Object';
 
     /**
+     * Array containing object's value and properties
+     *
      * @var array
      */
     protected $data;
 
     /**
+     * ValueFactory instance
+     *
      * @var ValueFactory
      */
     protected static $valueFactory;
@@ -79,6 +83,10 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @throws UnexpectedValueException
      * @throws RangeException
+     *
+     * @method string toWkt()
+     * @method string toWkb()
+     * @method string toGeoJson()
      */
     public function __call($name, $arguments)
     {
@@ -100,6 +108,8 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
+     * Get count of coordinates, points, rings, etc.
+     *
      * @return int
      */
     public function count()
@@ -148,6 +158,8 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
+     * Validate value array with configured validators for type
+     *
      * @param array $value
      *
      * @throws ExceptionInterface
@@ -158,6 +170,8 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
+     * Generate value array from input
+     *
      * @param mixed $value
      *
      * @return array
