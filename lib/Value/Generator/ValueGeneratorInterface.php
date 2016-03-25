@@ -29,7 +29,14 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * Interface ValueGeneratorInterface
  *
  * A class implementing ValueGeneratorInterface takes a standard value (WKB, WKB, etc.)
- * and generates a value in the structure used internally
+ * and generates the value array used internally
+ *
+ * array {
+ *      $type       string       Type of object
+ *      $value      array        Array of numbers (for points) or array(s) of point arrays
+ *      $srid       null|integer SRID for object
+ *      $properties array        Array with string keys and mixed values containing additional object properties
+ * }
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
