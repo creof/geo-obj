@@ -60,7 +60,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
             }
         }
-        
+
         try {
             $actual = (new Point($value))->getValue();
         } catch (\Exception $e) {
@@ -68,6 +68,14 @@ class PointTest extends \PHPUnit_Framework_TestCase
         }
 
         self::assertEquals($expected, $actual);
+    }
+
+    public function testPointToWkt()
+    {
+        $point    = new Point(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
+        $expected = 'POINT(34.23 -87)';
+
+        self::assertEquals($expected, $point->toWkt());
     }
 
     /**
