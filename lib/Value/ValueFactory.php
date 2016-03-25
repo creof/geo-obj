@@ -120,8 +120,7 @@ class ValueFactory
         $this->generators = [
             'wkt'     => new Generator\Wkt(),
             'wkb'     => new Generator\Wkb(),
-            'geojson' => new Generator\GeoJson(),
-            'kml'     => new Generator\Kml()
+            'geojson' => new Generator\GeoJson()
         ];
     }
 
@@ -130,8 +129,7 @@ class ValueFactory
         $this->converters = [
             'wkt'     => new Converter\Wkt(),
             'wkb'     => new Converter\Wkb(),
-            'geojson' => new Converter\GeoJson(),
-            'kml'     => new Converter\Kml()
+            'geojson' => new Converter\GeoJson()
         ];
     }
 }
