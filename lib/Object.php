@@ -59,7 +59,9 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function __construct($value, array $properties = [])
     {
-        self::$valueFactory = ValueFactory::getInstance();
+        if (null === self::$valueFactory) {
+            self::$valueFactory = ValueFactory::getInstance();
+        }
 
         $data               = $this->generate($value);
         $data['properties'] = $properties;
