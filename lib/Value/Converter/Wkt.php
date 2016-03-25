@@ -38,7 +38,37 @@ class Wkt implements ValueConverterInterface
      */
     public function convert(array $value)
     {
-        // Convert value to format
-        return $value;
+        // TODO: MultiGeometry case
+        $result = strtoupper($value['type']) . '(' . $this->getValueString($value['value']) . ')';
+
+        return $result;
+    }
+
+    /**
+     * @param array $value
+     * @param int   $depth
+     *
+     * @return string
+     */
+    private function getValueString(array $value, $depth = 0)
+    {
+        if (! is_array($value[0])) {
+            return implode(' ', $value);
+        }
+
+        $results = [];
+        $depth++;
+
+        foreach ($value as $item) {
+            $results[] = $this->getValueString($item, $depth);
+        }
+
+        $result = implode(',', $results);
+
+        if (2 > $depth) {
+            return $result;
+        }
+
+        return '(' . $result . ')';
     }
 }
