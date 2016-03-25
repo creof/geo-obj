@@ -53,7 +53,7 @@ class Wkb implements ValueGeneratorInterface
     public function generate($value)
     {
         // Check if supported type
-        if (false) {
+        if (ord($value[0]) > 1) {
             throw new UnexpectedValueException();
         }
 
