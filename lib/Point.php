@@ -31,5 +31,5 @@ namespace CrEOF\Geo\Obj;
  */
 class Point extends Object
 {
-    const T_TYPE = ObjectInterface::T_POINT;
+    const T_TYPE = self::T_POINT;
 }

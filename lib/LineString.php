@@ -31,5 +31,5 @@ namespace CrEOF\Geo\Obj;
  */
 class LineString extends Object
 {
-    const T_TYPE = ObjectInterface::T_LINESTRING;
+    const T_TYPE = self::T_LINESTRING;
 }

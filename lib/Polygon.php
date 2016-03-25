@@ -31,5 +31,5 @@ namespace CrEOF\Geo\Obj;
  */
 class Polygon extends Object
 {
-    const T_TYPE = ObjectInterface::T_POLYGON;
+    const T_TYPE = self::T_POLYGON;
 }
