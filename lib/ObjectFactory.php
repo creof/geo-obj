@@ -70,8 +70,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function create($value, $formatHint = null)
     {
-        $data = $this->valueFactory->generate($value, $formatHint);
-
+        $data        = $this->valueFactory->generate($value, $formatHint);
         $objectClass = self::getTypeClass($data['type']);
 
         return new $objectClass($data['value']);
