@@ -33,6 +33,10 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @method string toWkt()
+ * @method string toWkb()
+ * @method string toGeoJson()
  */
 abstract class Object implements ObjectInterface, \Countable
 {
@@ -83,10 +87,6 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @throws UnexpectedValueException
      * @throws RangeException
-     *
-     * @method string toWkt()
-     * @method string toWkb()
-     * @method string toGeoJson()
      */
     public function __call($name, $arguments)
     {
