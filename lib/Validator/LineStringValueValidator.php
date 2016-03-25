@@ -25,6 +25,7 @@ namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\ObjectInterface;
@@ -53,14 +54,16 @@ class LineStringValueValidator implements ValidatorInterface
     /**
      * @param array $value
      *
-     * @throws RangeException
-     * @throws UnexpectedValueException
      * @throws ExceptionInterface
      */
     public function validate(array $value)
     {
+        if (! array_key_exists('type', $value)) {
+            throw new InvalidArgumentException('Missing "type" in value');
+        }
+
         if ('linestring' !== $value['type']) {
-            return;
+            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "point"');
         }
 
         foreach ($value['value'] as $point) {

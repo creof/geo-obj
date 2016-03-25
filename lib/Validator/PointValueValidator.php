@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
@@ -37,13 +39,16 @@ class PointValueValidator implements ValidatorInterface
     /**
      * @param array $value
      *
-     * @throws RangeException
-     * @throws UnexpectedValueException
+     * @throws ExceptionInterface
      */
     public function validate(array $value)
     {
+        if (! array_key_exists('type', $value)) {
+            throw new InvalidArgumentException('Missing "type" in value');
+        }
+
         if ('point' !== $value['type']) {
-            return;
+            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "point"');
         }
 
         $count = count($value['value']);
