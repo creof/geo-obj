@@ -94,6 +94,16 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [34.23, -87]
             ],
+            'testGoodStringCoordArrayLongitudeFirst' => [
+                'value'      => '79:56:55W 40:26:46N',
+                'validators' => null,
+                'expected'   => [-79.948611111111, 40.446111111111]
+            ],
+            'testGoodStringCoordArrayLatitudeFirst' => [
+                'value'      => '40:26:46N 79:56:55W',
+                'validators' => null,
+                'expected'   => [40.446111111111, -79.948611111111]
+            ],
             'testBadPointWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
