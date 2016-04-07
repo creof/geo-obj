@@ -24,6 +24,8 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Polygon;
 use CrEOF\Geo\Obj\Object;
 
@@ -79,7 +81,26 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
             ],
+            'testGoodWktPolygon' => [
+                'value'      => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
+                'validators' => null,
+                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+            ],
+            'testGoodWkbPolygon' => [
+                'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
+                'validators' => null,
+                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+            ],
+            'testBadPolygonWktType' => [
+                'value'      => 'LINESTRING(0 0,1 1)',
+                'validators' => null,
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Polygon')
+            ],
+            'testBadArrayPolygon' => [
+                'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
+                'validators' => null,
+                'expected'   => new RangeException('Bad ring value in Polygon. LineString value must be array of "array", "integer" found')
+            ],
         ];
     }
-
 }
