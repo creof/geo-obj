@@ -35,6 +35,8 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * TODO: would it make sense to inherit from MultiPoint validator? LineString is a MultiPoint
  */
 class LineStringValueValidator extends AbstractValidator
 {
@@ -68,7 +70,7 @@ class LineStringValueValidator extends AbstractValidator
     protected function validatePoint($point)
     {
         if (! is_array($point)) {
-            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
+            throw new UnexpectedValueException($this->expectedType . ' value must be array of "array", "' . gettype($point) . '" found');
         }
 
         try {
@@ -77,7 +79,7 @@ class LineStringValueValidator extends AbstractValidator
                 'value' => $point
             ]);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in ' . $this->expectedType . '. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }
