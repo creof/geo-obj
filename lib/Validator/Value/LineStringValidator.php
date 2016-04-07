@@ -21,28 +21,30 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator;
+namespace CrEOF\Geo\Obj\Validator\Value;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class PolygonValueValidator
+ * Class LineStringValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PolygonValueValidator extends AbstractValidator
+class LineStringValidator extends AbstractValidator
 {
     /**
-     * PolygonValueValidator constructor
+     * LineStringValidator constructor
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_POLYGON;
+        $this->expectedType = Object::T_LINESTRING;
     }
 
     /**
@@ -54,31 +56,29 @@ class PolygonValueValidator extends AbstractValidator
     {
         parent::validate($value);
 
-        foreach ($value['value'] as $ring) {
-            $this->validateRing($ring);
+        foreach ($value['value'] as $point) {
+            $this->validatePoint($point);
         }
     }
 
     /**
-     * @param mixed $ring
+     * @param mixed $point
      *
      * @throws ExceptionInterface
      */
-    protected function validateRing($ring)
+    protected function validatePoint($point)
     {
-        if (! is_array($ring)) {
-            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
+        if (! is_array($point)) {
+            throw new UnexpectedValueException($this->expectedType . ' value must be array of "array", "' . gettype($point) . '" found');
         }
 
         try {
-            Configuration::getInstance()->getValidators(Object::T_LINESTRING)->validate([
-                'type' => 'linestring',
-                'value' => $ring
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
             ]);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in ' . $this->expectedType . '. ' . $e->getMessage(), $e->getCode(), $e);
         }
-
-        //TODO rings must be closed
     }
 }

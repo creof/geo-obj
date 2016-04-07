@@ -47,11 +47,11 @@ final class Configuration
 
     private function __construct()
     {
-        $reflectionClass = new ReflectionClass('CrEOF\\Geo\\Obj\\ObjectInterface');
+        $reflectionClass = new ReflectionClass('CrEOF\Geo\Obj\ObjectInterface');
 
         foreach ($reflectionClass->getConstants() as $const => $value) {
             $validatorStack      = new ValidatorStack();
-            $valueValidatorClass = 'CrEOF\\Geo\\Obj\\Validator\\' . $value . 'ValueValidator';
+            $valueValidatorClass = 'CrEOF\Geo\Obj\Validator\Value\\' . $value . 'Validator';
 
             $validatorStack->push(new TypeValidator($value));
             $validatorStack->push(new $valueValidatorClass());

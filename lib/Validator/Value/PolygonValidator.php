@@ -21,28 +21,29 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator;
+namespace CrEOF\Geo\Obj\Validator\Value;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class MultiLineStringValueValidator
+ * Class PolygonValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineStringValueValidator extends AbstractValidator
+class PolygonValidator extends AbstractValidator
 {
     /**
-     * MultiLineStringValueValidator constructor
+     * PolygonValidator constructor
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_MULTILINESTRING;
+        $this->expectedType = Object::T_POLYGON;
     }
 
     /**
@@ -54,29 +55,31 @@ class MultiLineStringValueValidator extends AbstractValidator
     {
         parent::validate($value);
 
-        foreach ($value['value'] as $lineString) {
-            $this->validateLineString($lineString);
+        foreach ($value['value'] as $ring) {
+            $this->validateRing($ring);
         }
     }
 
     /**
-     * @param mixed $lineString
+     * @param mixed $ring
      *
      * @throws ExceptionInterface
      */
-    protected function validateLineString($lineString)
+    protected function validateRing($ring)
     {
-        if (! is_array($lineString)) {
-            throw new UnexpectedValueException('MultiLineString value must be array of "array", "' . gettype($lineString) . '" found');
+        if (! is_array($ring)) {
+            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
         }
 
         try {
             Configuration::getInstance()->getValidators(Object::T_LINESTRING)->validate([
                 'type' => 'linestring',
-                'value' => $lineString
+                'value' => $ring
             ]);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
         }
+
+        //TODO rings must be closed
     }
 }
