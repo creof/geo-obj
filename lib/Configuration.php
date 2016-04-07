@@ -92,6 +92,7 @@ final class Configuration
      */
     public function getValidators($type)
     {
+        //TODO does this really need clone, or let people do stupid things?
         return clone $this->validators[ObjectFactory::getTypeClass($type)];
     }
 }
