@@ -43,7 +43,7 @@ class LineStringValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(Object::T_LINESTRING);
+        $this->expectedType = Object::T_LINESTRING;
     }
 
     /**

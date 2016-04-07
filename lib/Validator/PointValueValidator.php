@@ -41,7 +41,7 @@ class PointValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(Object::T_POINT);
+        $this->expectedType = Object::T_POINT;
     }
 
     /**

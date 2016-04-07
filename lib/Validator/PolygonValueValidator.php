@@ -42,7 +42,7 @@ class PolygonValueValidator extends AbstractValidator
      */
     public function __construct()
     {
-        parent::__construct(Object::T_POLYGON);
+        $this->expectedType = Object::T_POLYGON;
     }
 
     /**
@@ -78,5 +78,7 @@ class PolygonValueValidator extends AbstractValidator
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
         }
+
+        //TODO rings must be closed
     }
 }
