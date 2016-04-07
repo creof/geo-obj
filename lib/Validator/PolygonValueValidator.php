@@ -23,8 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Validator;
 
+use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
@@ -54,7 +54,29 @@ class PolygonValueValidator extends AbstractValidator
     {
         parent::validate($value);
 
-        //TODO implement validator
-        //validate
+        foreach ($value['value'] as $ring) {
+            $this->validateRing($ring);
+        }
+    }
+
+    /**
+     * @param mixed $ring
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validateRing($ring)
+    {
+        if (! is_array($ring)) {
+            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
+        }
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_LINESTRING)->validate([
+                'type' => 'linestring',
+                'value' => $ring
+            ]);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
