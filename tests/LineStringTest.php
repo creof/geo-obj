@@ -105,7 +105,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => [[0,0],[1,1],[0]],
                 'validators' => null,
                 'expected'   => new RangeException( //TODO: This pattern will become unwieldy in higher order types
-                    'Bad Point value in LineString. Point value count must be between 2 and 4.',
+                    'Bad point value in LineString. Point value count must be between 2 and 4.',
                     0,
                     new RangeException('Point value count must be between 2 and 4.')
                 )
@@ -125,7 +125,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     new DValidator(2)
                 ],
                 'expected'   => new RangeException(
-                    'Bad Point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.',
+                    'Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.',
                     0,
                     new RangeException('Invalid latitude value "137.239059", must be in range -90 to 90.')
                 )

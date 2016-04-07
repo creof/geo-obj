@@ -77,7 +77,7 @@ class LineStringValueValidator extends AbstractValidator
                 'value' => $point
             ]);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad Point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }
