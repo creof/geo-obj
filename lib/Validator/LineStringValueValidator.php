@@ -31,7 +31,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class LineStringValidator
+ * Class LineStringValueValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
