@@ -63,11 +63,13 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
 
         try {
             $actual = (new LineString($value))->getValue();
-        } catch (\Exception $e) {
-            $actual = $e;
-        }
 
-        self::assertEquals($expected, $actual);
+            self::assertEquals($expected, $actual);
+        } catch (\Exception $e) {
+            /** @var \Exception $expected */
+            self::assertInstanceOf(get_class($expected), $e);
+            self::assertEquals($expected->getMessage(), $e->getMessage());
+        }
     }
 
     /**
@@ -104,11 +106,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
             'testBadShortPointInLineString' => [
                 'value'      => [[0,0],[1,1],[0]],
                 'validators' => null,
-                'expected'   => new RangeException( //TODO: This pattern will become unwieldy in higher order types
-                    'Bad point value in LineString. Point value count must be between 2 and 4.',
-                    0,
-                    new RangeException('Point value count must be between 2 and 4.')
-                )
+                'expected'   => new RangeException('Bad point value in LineString. Point value count must be between 2 and 4.')
             ],
             'testGoodGeometryLineString' => [
                 'value'      => [[37.235142, -115.800834],[37.236620, -115.801573],[37.239059, -115.802904]],
@@ -124,11 +122,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(2)
                 ],
-                'expected'   => new RangeException(
-                    'Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.',
-                    0,
-                    new RangeException('Invalid latitude value "137.239059", must be in range -90 to 90.')
-                )
+                'expected'   => new RangeException('Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.')
             ],
         ];
     }

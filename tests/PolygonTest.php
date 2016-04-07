@@ -59,11 +59,13 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
 
         try {
             $actual = (new Polygon($value))->getValue();
-        } catch (\Exception $e) {
-            $actual = $e;
-        }
 
-        self::assertEquals($expected, $actual);
+            self::assertEquals($expected, $actual);
+        } catch (\Exception $e) {
+            /** @var \Exception $expected */
+            self::assertInstanceOf(get_class($expected), $e);
+            self::assertEquals($expected->getMessage(), $e->getMessage());
+        }
     }
 
     /**

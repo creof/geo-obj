@@ -59,11 +59,13 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
 
         try {
             $actual = (new MultiLineString($value))->getValue();
-        } catch (\Exception $e) {
-            $actual = $e;
-        }
 
-        self::assertEquals($expected, $actual);
+            self::assertEquals($expected, $actual);
+        } catch (\Exception $e) {
+            /** @var \Exception $expected */
+            self::assertInstanceOf(get_class($expected), $e);
+            self::assertEquals($expected->getMessage(), $e->getMessage());
+        }
     }
 
     /**
