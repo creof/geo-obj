@@ -38,6 +38,7 @@ class ObjectFactory implements ObjectFactoryInterface
     use Singleton;
 
     //TODO: add remaining types
+    const C_OBJECT             = 'CrEOF\Geo\Obj\Object';
     const C_POINT              = 'CrEOF\Geo\Obj\Point';
     const C_LINESTRING         = 'CrEOF\Geo\Obj\LineString';
     const C_POLYGON            = 'CrEOF\Geo\Obj\Polygon';
@@ -109,7 +110,7 @@ class ObjectFactory implements ObjectFactoryInterface
         try {
             $typeClass = constant('self::C_' . strtoupper($type));
 
-            if (class_exists($typeClass) && is_subclass_of($typeClass, 'CrEOF\\Geo\\Obj\\Object')) {
+            if (class_exists($typeClass) && is_subclass_of($typeClass, self::C_OBJECT)) {
                 self::$typeClassCache[$type] = $typeClass;
 
                 return $typeClass;
