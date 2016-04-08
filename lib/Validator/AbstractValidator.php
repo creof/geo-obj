@@ -35,6 +35,9 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
  */
 abstract class AbstractValidator implements ValidatorInterface
 {
+    /**
+     * @var string
+     */
     protected $expectedType;
 
     /**
