@@ -185,7 +185,7 @@ abstract class Object implements ObjectInterface, \Countable
 
         return [
             'value' => array_key_exists('value', $value) ? $value['value'] : $value,
-            'type'  => array_key_exists('type', $value) ? $value['type'] : strtolower(static::T_TYPE),
+            'type'  => array_key_exists('type', $value) ? $value['type'] : static::T_TYPE,
             'srid'  => array_key_exists('srid', $value) ? $value['type'] : null
         ];
     }
