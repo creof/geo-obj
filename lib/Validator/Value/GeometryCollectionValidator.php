@@ -72,9 +72,7 @@ class GeometryCollectionValidator extends AbstractValidator
         }
 
         try {
-            $const = constant('CrEOF\Geo\Obj\Object::T_' . strtoupper($geometry['type']));
-
-            Configuration::getInstance()->getValidators($const)->validate($geometry);
+            Configuration::getInstance()->getValidators($geometry['type'])->validate($geometry);
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad geometry value in GeometryCollection. ' . $e->getMessage(), $e->getCode(), $e);
         }
