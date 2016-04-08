@@ -107,6 +107,12 @@ class ObjectFactory implements ObjectFactoryInterface
             return self::$typeClassCache[$type];
         }
 
+        if (class_exists($type) && is_subclass_of($type, self::C_OBJECT)) {
+            self::$typeClassCache[$type] = $type;
+
+            return $type;
+        }
+
         try {
             $typeClass = constant('self::C_' . strtoupper($type));
 
