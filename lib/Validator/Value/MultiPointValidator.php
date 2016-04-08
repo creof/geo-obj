@@ -23,7 +23,13 @@
 
 namespace CrEOF\Geo\Obj\Validator\Value;
 
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
+use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
  * Class MultiPointValidator
@@ -31,7 +37,7 @@ use CrEOF\Geo\Obj\Object;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPointValidator extends LineStringValidator
+class MultiPointValidator extends AbstractValidator
 {
     /**
      * MultiPointValidator constructor
@@ -39,5 +45,40 @@ class MultiPointValidator extends LineStringValidator
     public function __construct()
     {
         $this->expectedType = Object::T_MULTIPOINT;
+    }
+
+    /**
+     * @param array $value
+     *
+     * @throws ExceptionInterface
+     */
+    public function validate(array $value)
+    {
+        parent::validate($value);
+
+        foreach ($value['value'] as $point) {
+            $this->validatePoint($point);
+        }
+    }
+
+    /**
+     * @param mixed $point
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePoint($point)
+    {
+        if (! is_array($point)) {
+            throw new UnexpectedValueException('MultiPoint value must be array of "array", "' . gettype($point) . '" found');
+        }
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
+            ]);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad point value in MultiPoint. ' . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

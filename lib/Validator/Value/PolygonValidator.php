@@ -72,14 +72,34 @@ class PolygonValidator extends AbstractValidator
         }
 
         try {
-            Configuration::getInstance()->getValidators(Object::T_LINESTRING)->validate([
-                'type' => 'linestring',
-                'value' => $ring
-            ]);
+            foreach ($ring as $point) {
+                $this->validatePoint($point);
+            }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
         }
 
         //TODO rings must be closed
+    }
+
+    /**
+     * @param mixed $point
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePoint($point)
+    {
+        if (! is_array($point)) {
+            throw new UnexpectedValueException('Ring value must be array of "array", "' . gettype($point) . '" found');
+        }
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
+            ]);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad point value in ring. ' . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

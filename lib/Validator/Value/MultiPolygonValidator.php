@@ -72,12 +72,54 @@ class MultiPolygonValidator extends AbstractValidator
         }
 
         try {
-            Configuration::getInstance()->getValidators(Object::T_POLYGON)->validate([
-                'type' => 'polygon',
-                'value' => $polygon
-            ]);
+            foreach ($polygon as $ring) {
+                $this->validateRing($ring);
+            }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad polygon value in MultiPolygon. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param mixed $ring
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validateRing($ring)
+    {
+        if (! is_array($ring)) {
+            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
+        }
+
+        try {
+            foreach ($ring as $point) {
+                $this->validatePoint($point);
+            }
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        //TODO rings must be closed
+    }
+
+    /**
+     * @param mixed $point
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePoint($point)
+    {
+        if (! is_array($point)) {
+            throw new UnexpectedValueException('Ring value must be array of "array", "' . gettype($point) . '" found');
+        }
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
+            ]);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad point value in ring. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

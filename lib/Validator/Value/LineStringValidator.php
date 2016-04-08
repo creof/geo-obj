@@ -69,7 +69,7 @@ class LineStringValidator extends AbstractValidator
     protected function validatePoint($point)
     {
         if (! is_array($point)) {
-            throw new UnexpectedValueException($this->expectedType . ' value must be array of "array", "' . gettype($point) . '" found');
+            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
         }
 
         try {
@@ -78,7 +78,7 @@ class LineStringValidator extends AbstractValidator
                 'value' => $point
             ]);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in ' . $this->expectedType . '. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

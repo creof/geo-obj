@@ -72,12 +72,32 @@ class MultiLineStringValidator extends AbstractValidator
         }
 
         try {
-            Configuration::getInstance()->getValidators(Object::T_LINESTRING)->validate([
-                'type' => 'linestring',
-                'value' => $lineString
-            ]);
+            foreach ($lineString as $point) {
+                $this->validatePoint($point);
+            }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param mixed $point
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePoint($point)
+    {
+        if (! is_array($point)) {
+            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
+        }
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
+                'type' => 'point',
+                'value' => $point
+            ]);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }
