@@ -39,9 +39,14 @@ class Wkb implements ValueGeneratorInterface
      */
     private static $parser;
 
+    /**
+     * Wkb constructor
+     */
     public function __construct()
     {
-        self::$parser = new Parser();
+        if (null === self::$parser) {
+            self::$parser = new Parser();
+        }
     }
 
     /**
