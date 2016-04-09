@@ -46,6 +46,7 @@ class ObjectFactory implements ObjectFactoryInterface
     const C_MULTILINESTRING    = 'CrEOF\Geo\Obj\MultiLineString';
     const C_MULTIPOLYGON       = 'CrEOF\Geo\Obj\MultiPolygon';
     const C_GEOMETRYCOLLECTION = 'CrEOF\Geo\Obj\GeometryCollection';
+    const C_CIRCULARSTRING     = 'CrEOF\Geo\Obj\CircularString';
 
     /**
      * @var ValueFactory
