@@ -74,7 +74,7 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
     public function multiLineStringTestData()
     {
         return [
-            'testGoodArrayPolygon' => [
+            'testGoodArrayMultiLineString' => [
                 'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]],
                 'validators' => null,
                 'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
