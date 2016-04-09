@@ -39,10 +39,14 @@ class Wkt implements ValueGeneratorInterface
      */
     private static $parser;
 
+    /**
+     * Wkt constructor
+     */
     public function __construct()
     {
-        // TODO: Needs PR#5
-        //self::$parser = new Parser();
+        if (null === self::$parser) {
+            self::$parser = new Parser();
+        }
     }
 
     /**
@@ -58,12 +62,6 @@ class Wkt implements ValueGeneratorInterface
             throw new UnsupportedFormatException();
         }
 
-        // Generate value from format
-        // TODO: Needs PR#5
-        //return self::$parser->parse($value);
-
-        $parser = new Parser($value);
-
-        return $parser->parse();
+        return self::$parser->parse($value);
     }
 }
