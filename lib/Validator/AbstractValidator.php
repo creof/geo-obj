@@ -41,22 +41,6 @@ abstract class AbstractValidator implements ValidatorInterface
     private $expectedType;
 
     /**
-     * @return string
-     */
-    protected function getExpectedType()
-    {
-        return $this->expectedType;
-    }
-
-    /**
-     * @param string $expectedType
-     */
-    protected function setExpectedType($expectedType)
-    {
-        $this->expectedType = $expectedType;
-    }
-
-    /**
      * @param array $value
      *
      * @throws ExceptionInterface
@@ -70,5 +54,21 @@ abstract class AbstractValidator implements ValidatorInterface
         if (0 !== strcasecmp($this->expectedType, $value['type'])) {
             throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "' . $this->expectedType . '"');
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getExpectedType()
+    {
+        return $this->expectedType;
+    }
+
+    /**
+     * @param string $expectedType
+     */
+    protected function setExpectedType($expectedType)
+    {
+        $this->expectedType = $expectedType;
     }
 }
