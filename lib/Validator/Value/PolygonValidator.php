@@ -43,7 +43,7 @@ class PolygonValidator extends AbstractValidator
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_POLYGON;
+        $this->setExpectedType(Object::T_POLYGON);
     }
 
     /**

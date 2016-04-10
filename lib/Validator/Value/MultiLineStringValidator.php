@@ -43,7 +43,7 @@ class MultiLineStringValidator extends AbstractValidator
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_MULTILINESTRING;
+        $this->setExpectedType(Object::T_MULTILINESTRING);
     }
 
     /**

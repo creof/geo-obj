@@ -43,7 +43,7 @@ class GeometryCollectionValidator extends AbstractValidator
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_GEOMETRYCOLLECTION;
+        $this->setExpectedType(Object::T_GEOMETRYCOLLECTION);
     }
 
     /**

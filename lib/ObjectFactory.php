@@ -59,7 +59,7 @@ class ObjectFactory implements ObjectFactoryInterface
     private static $typeClassCache;
 
     /**
-     * Singelton ObjectFactory constructor
+     * Singleton ObjectFactory constructor
      */
     private function __construct()
     {
