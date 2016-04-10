@@ -9,6 +9,8 @@ Geometry and Geography library.
 ## Usage
 Make things.
 
+Implement CrEOF\Geo\Obj\ObjectFactoryInterface to use custom objects for representing spatial data in creof/doctrine2-spatial.
+
 ```php
 echo "Foo";
 ```
