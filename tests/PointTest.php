@@ -91,6 +91,22 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [0,0]
             ],
+            'testGoodValueArrayLowercasePoint' => [
+                'value'      => [
+                    'value' => [0,0],
+                    'type'  => 'point'
+                    ],
+                'validators' => null,
+                'expected'   => [0,0]
+            ],
+            'testGoodValueArrayUppercasePoint' => [
+                'value'      => [
+                    'value' => [0,0],
+                    'type'  => 'POINT'
+                ],
+                'validators' => null,
+                'expected'   => [0,0]
+            ],
             'testGoodWkbPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
