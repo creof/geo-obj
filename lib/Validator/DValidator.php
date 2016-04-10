@@ -47,7 +47,7 @@ class DValidator extends AbstractValidator
      */
     public function __construct($size)
     {
-        $this->expectedType = Object::T_POINT;
+        $this->setExpectedType(Object::T_POINT);
 
         if ($size < 2 || $size > 4) {
             throw new RangeException('Size must be between 2 and 4.');

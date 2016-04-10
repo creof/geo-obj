@@ -43,7 +43,7 @@ class MultiPolygonValidator extends AbstractValidator
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_MULTIPOLYGON;
+        $this->setExpectedType(Object::T_MULTIPOLYGON);
     }
 
     /**

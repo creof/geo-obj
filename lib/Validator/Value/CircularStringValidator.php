@@ -25,7 +25,6 @@ namespace CrEOF\Geo\Obj\Validator\Value;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
@@ -44,7 +43,7 @@ class CircularStringValidator extends AbstractValidator
      */
     public function __construct()
     {
-        $this->expectedType = Object::T_CIRCULARSTRING;
+        $this->setExpectedType(Object::T_CIRCULARSTRING);
     }
 
     /**

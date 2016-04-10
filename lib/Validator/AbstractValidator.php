@@ -38,7 +38,23 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * @var string
      */
-    protected $expectedType;
+    private $expectedType;
+
+    /**
+     * @return string
+     */
+    protected function getExpectedType()
+    {
+        return $this->expectedType;
+    }
+
+    /**
+     * @param string $expectedType
+     */
+    protected function setExpectedType($expectedType)
+    {
+        $this->expectedType = $expectedType;
+    }
 
     /**
      * @param array $value
