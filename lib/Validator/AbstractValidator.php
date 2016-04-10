@@ -53,7 +53,7 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function setExpectedType($expectedType)
     {
-        $this->setExpectedType($expectedType);
+        $this->expectedType = $expectedType;
     }
 
     /**
