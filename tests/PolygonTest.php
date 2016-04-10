@@ -99,7 +99,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
             'testBadArrayPolygon' => [
                 'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
                 'validators' => null,
-                'expected'   => new RangeException('Bad ring value in Polygon. LineString value must be array of "array", "integer" found')
+                'expected'   => new RangeException('Bad ring value in Polygon. Ring value must be array of "array", "integer" found')
             ],
         ];
     }
