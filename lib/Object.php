@@ -187,7 +187,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     protected function generate($value)
     {
-        $value = self::$valueFactory->generate($value);
+        $value = self::$valueFactory->generate($value, $this);
 
         //TODO is this necessary?
         return [
