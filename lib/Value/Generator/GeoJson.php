@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class GeoJson
@@ -34,12 +35,13 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 class GeoJson implements ValueGeneratorInterface
 {
     /**
-     * @param mixed $value
+     * @param mixed  $value
+     * @param Object $object
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value)
+    public function generate($value, Object $object)
     {
         // Check if supported type
         if ('{' !== $value[0]) {

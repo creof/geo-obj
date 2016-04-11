@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\String\Parser;
 
 /**
@@ -35,12 +36,13 @@ use CrEOF\Geo\String\Parser;
 class GeoString implements ValueGeneratorInterface
 {
     /**
-     * @param mixed $value
+     * @param mixed  $value
+     * @param Object $object
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value)
+    public function generate($value, Object $object)
     {
         // Check if supported type
         if (! is_string($value) && ! is_numeric($value[0])) {

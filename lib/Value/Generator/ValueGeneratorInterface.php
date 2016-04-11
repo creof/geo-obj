@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Interface ValueGeneratorInterface
@@ -36,7 +37,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  *      $value      array        Array of numbers (for points) or array(s) of point arrays
  *      $srid       null|integer SRID for object
  *      $dimension  null|string  Object dimension (Z, M, or ZM)
- *      $properties array        Array with string keys and mixed values containing additional object properties
+ *      $properties array        Array with string keys and mixed values containing additional object properties TODO is this needed since object is passed?
  * }
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
@@ -45,10 +46,11 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 interface ValueGeneratorInterface
 {
     /**
-     * @param mixed $value
+     * @param mixed  $value
+     * @param Object $object
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value);
+    public function generate($value, Object $object);
 }
