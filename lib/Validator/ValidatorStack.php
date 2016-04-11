@@ -47,7 +47,7 @@ class ValidatorStack extends \SplDoublyLinkedList
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         $this->rewind();
 

@@ -172,7 +172,7 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @throws ExceptionInterface
      */
-    protected function validate(array $value)
+    protected function validate(array &$value)
     {
         Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
     }

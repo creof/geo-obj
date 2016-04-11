@@ -54,7 +54,7 @@ class TypeValidator implements ValidatorInterface
      *
      * @throws UnexpectedValueException
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         $type = ObjectFactory::getTypeClass($value['type']);
 

@@ -45,7 +45,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         if (! array_key_exists('type', $value)) {
             throw new InvalidArgumentException('Missing "type" in value');

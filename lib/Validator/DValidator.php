@@ -61,7 +61,7 @@ class DValidator extends AbstractValidator
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         parent::validate($value);
 
