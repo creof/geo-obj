@@ -91,11 +91,13 @@ class MultiLineStringValidator extends AbstractValidator
             throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
         }
 
+        $point = [
+            'type' => 'point',
+            'value' => $point
+        ];
+
         try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
-                'type' => 'point',
-                'value' => $point
-            ]);
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
