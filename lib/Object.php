@@ -166,6 +166,14 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return static::T_TYPE;
+    }
+
+    /**
      * Validate value array with configured validators for type
      *
      * @param array $value
