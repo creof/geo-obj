@@ -38,7 +38,7 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class MultiPointValidator extends AbstractValidator
 {
-    use ValidatePointTrait;
+    use Traits\ValidatePointTrait;
 
     /**
      * MultiPointValidator constructor

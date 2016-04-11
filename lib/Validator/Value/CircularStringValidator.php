@@ -38,7 +38,7 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class CircularStringValidator extends AbstractValidator
 {
-    use ValidatePointTrait;
+    use Traits\ValidatePointTrait;
 
     /**
      * CircularStringValidator constructor

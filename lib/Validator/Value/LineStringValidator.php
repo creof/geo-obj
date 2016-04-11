@@ -38,7 +38,7 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class LineStringValidator extends AbstractValidator
 {
-    use ValidatePointTrait;
+    use Traits\ValidatePointTrait;
 
     /**
      * LineStringValidator constructor

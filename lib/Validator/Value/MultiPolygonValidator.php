@@ -38,7 +38,7 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class MultiPolygonValidator extends AbstractValidator
 {
-    use ValidatePointTrait;
+    use Traits\ValidatePointTrait;
 
     /**
      * MultiPolygonValidator constructor
