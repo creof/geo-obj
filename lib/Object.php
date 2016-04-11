@@ -158,6 +158,14 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
+     * @return string|null
+     */
+    public function getDimension()
+    {
+        return $this->data['dimension'];
+    }
+
+    /**
      * Validate value array with configured validators for type
      *
      * @param array $value
