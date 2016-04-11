@@ -35,6 +35,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  *      $type       string       Type of object
  *      $value      array        Array of numbers (for points) or array(s) of point arrays
  *      $srid       null|integer SRID for object
+ *      $dimension  null|string  Object dimension (Z, M, or ZM)
  *      $properties array        Array with string keys and mixed values containing additional object properties
  * }
  *
