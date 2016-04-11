@@ -38,6 +38,8 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class LineStringValidator extends AbstractValidator
 {
+    use ValidatePointTrait;
+
     /**
      * LineStringValidator constructor
      */
@@ -56,28 +58,7 @@ class LineStringValidator extends AbstractValidator
         parent::validate($value);
 
         foreach ($value['value'] as $point) {
-            $this->validatePoint($point);
-        }
-    }
-
-    /**
-     * @param mixed $point
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validatePoint($point)
-    {
-        if (! is_array($point)) {
-            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
-        }
-
-        try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
-                'type' => 'point',
-                'value' => $point
-            ]);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
+            $this->validatePoint($point, $this->getExpectedType());
         }
     }
 }
