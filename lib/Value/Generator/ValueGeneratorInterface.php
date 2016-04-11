@@ -24,7 +24,7 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Interface ValueGeneratorInterface
@@ -46,11 +46,11 @@ use CrEOF\Geo\Obj\Object;
 interface ValueGeneratorInterface
 {
     /**
-     * @param mixed  $value
-     * @param Object $object
+     * @param mixed           $value
+     * @param ObjectInterface $object
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value, Object $object);
+    public function generate($value, ObjectInterface $object);
 }
