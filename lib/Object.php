@@ -187,13 +187,12 @@ abstract class Object implements ObjectInterface, \Countable
      */
     protected function generate($value)
     {
-        if (! is_array($value)) {
-            return self::$valueFactory->generate($value);
-        }
+        $value = self::$valueFactory->generate($value);
 
+        //TODO is this necessary?
         return [
-            'value'     => array_key_exists('value', $value) ? $value['value'] : $value,
-            'type'      => array_key_exists('type', $value) ? $value['type'] : static::T_TYPE,
+            'type'      => $value['type'],
+            'value'     => $value['value'],
             'srid'      => array_key_exists('srid', $value) ? $value['srid'] : null,
             'dimension' => array_key_exists('dimension', $value) ? $value['dimension'] : null
         ];
