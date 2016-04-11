@@ -44,7 +44,6 @@ class GeoString implements ValueGeneratorInterface
      */
     public function generate($value, Object $object)
     {
-        // Check if supported type
         if (! is_string($value) && ! is_numeric($value[0])) {
             throw new UnsupportedFormatException();
         }

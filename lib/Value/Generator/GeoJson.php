@@ -43,13 +43,10 @@ class GeoJson implements ValueGeneratorInterface
      */
     public function generate($value, Object $object)
     {
-        // Check if supported type
         if ('{' !== $value[0]) {
             throw new UnsupportedFormatException();
         }
 
-        // Generate value from format
         return $value;
     }
-
 }

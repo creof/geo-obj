@@ -59,12 +59,10 @@ class Wkb implements ValueGeneratorInterface
      */
     public function generate($value, Object $object)
     {
-        // Check if supported type
         if (ord($value[0]) > 1) {
             throw new UnsupportedFormatException();
         }
 
-        // Generate value from format
         return self::$parser->parse($value);
     }
 }
