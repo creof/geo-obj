@@ -36,6 +36,21 @@ use CrEOF\Geo\String\Parser;
 class GeoString implements ValueGeneratorInterface
 {
     /**
+     * @var Parser
+     */
+    private static $parser;
+
+    /**
+     * Wkb constructor
+     */
+    public function __construct()
+    {
+        if (null === self::$parser) {
+            self::$parser = new Parser();
+        }
+    }
+
+    /**
      * @param mixed  $value
      * @param Object $object
      *
@@ -48,13 +63,11 @@ class GeoString implements ValueGeneratorInterface
             throw new UnsupportedFormatException();
         }
 
-        //TODO static parser, geo/parser needs support
-        $parser = new Parser($value);
-
         return [
-            'value' => $parser->parse(),
-            'type'  => 'point',
-            'srid'  => null
+            'value'     => self::$parser->parse($value),
+            'type'      => 'point',
+            'srid'      => null,
+            'dimension' => null,
         ];
     }
 }
