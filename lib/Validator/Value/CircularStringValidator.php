@@ -38,6 +38,8 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class CircularStringValidator extends AbstractValidator
 {
+    use ValidatePointTrait;
+
     /**
      * CircularStringValidator constructor
      */
@@ -56,30 +58,7 @@ class CircularStringValidator extends AbstractValidator
         parent::validate($value);
 
         foreach ($value['value'] as $point) {
-            $this->validatePoint($point);
-        }
-    }
-
-    /**
-     * @param mixed $point
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validatePoint($point)
-    {
-        if (! is_array($point)) {
-            throw new UnexpectedValueException('CircularString value must be array of "array", "' . gettype($point) . '" found');
-        }
-
-        $point = [
-            'type' => 'point',
-            'value' => $point
-        ];
-
-        try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in CircularString. ' . $e->getMessage(), $e->getCode(), $e);
+            $this->validatePoint($point, $this->getExpectedType());
         }
     }
 }

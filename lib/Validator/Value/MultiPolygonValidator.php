@@ -38,6 +38,8 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class MultiPolygonValidator extends AbstractValidator
 {
+    use ValidatePointTrait;
+
     /**
      * MultiPolygonValidator constructor
      */
@@ -93,35 +95,12 @@ class MultiPolygonValidator extends AbstractValidator
 
         try {
             foreach ($ring as $point) {
-                $this->validatePoint($point);
+                $this->validatePoint($point, 'Ring');
             }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
         }
 
         //TODO rings must be closed
-    }
-
-    /**
-     * @param mixed $point
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validatePoint($point)
-    {
-        if (! is_array($point)) {
-            throw new UnexpectedValueException('Ring value must be array of "array", "' . gettype($point) . '" found');
-        }
-
-        $point = [
-            'type' => 'point',
-            'value' => $point
-        ];
-
-        try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in ring. ' . $e->getMessage(), $e->getCode(), $e);
-        }
     }
 }
