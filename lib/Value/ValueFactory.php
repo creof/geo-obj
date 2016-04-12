@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value;
 
+use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Value\Converter;
@@ -65,15 +66,15 @@ class ValueFactory
      * @return array
      * @throws UnexpectedValueException
      */
-    public function generate($value, $formatHint = null)
+    public function generate($value, $formatHint = null, ObjectInterface $object = null)
     {
         if (null !== $formatHint) {
-            return $this->generators[$formatHint]->generate($value);
+            return $this->generators[$formatHint]->generate($value, $object);
         }
 
         foreach ($this->generators as $type => $generator) {
             try {
-                return $generator->generate($value);
+                return $generator->generate($value, $object);
             } catch (UnsupportedFormatException $e) {
                 // Try next generator
             }
