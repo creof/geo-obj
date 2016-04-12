@@ -43,7 +43,7 @@ class GeoJson implements ValueGeneratorInterface
      */
     public function generate($value, ObjectInterface $object = null)
     {
-        if ('{' !== $value[0]) {
+        if (! is_string($value) || '{' !== $value[0]) {
             throw new UnsupportedFormatException();
         }
 

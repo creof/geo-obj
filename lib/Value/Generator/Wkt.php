@@ -59,7 +59,7 @@ class Wkt implements ValueGeneratorInterface
      */
     public function generate($value, ObjectInterface $object = null)
     {
-        if (! ctype_alpha($value[0])) {
+        if (! is_string($value) || ! ctype_alpha($value[0])) {
             throw new UnsupportedFormatException();
         }
 
