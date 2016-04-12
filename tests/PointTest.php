@@ -102,7 +102,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => [
                     'value' => [0,0],
                     'type'  => 'point'
-                    ],
+                ],
                 'validators' => null,
                 'expected'   => [0,0]
             ],
