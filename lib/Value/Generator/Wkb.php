@@ -57,7 +57,7 @@ class Wkb implements ValueGeneratorInterface
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value, ObjectInterface $object)
+    public function generate($value, ObjectInterface $object = null)
     {
         if (ord($value[0]) > 1) {
             throw new UnsupportedFormatException();

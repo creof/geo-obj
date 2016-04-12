@@ -46,11 +46,11 @@ use CrEOF\Geo\Obj\ObjectInterface;
 interface ValueGeneratorInterface
 {
     /**
-     * @param mixed           $value
-     * @param ObjectInterface $object
+     * @param mixed                $value
+     * @param null|ObjectInterface $object
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value, ObjectInterface $object);
+    public function generate($value, ObjectInterface $object = null);
 }
