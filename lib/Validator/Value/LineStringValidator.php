@@ -58,7 +58,7 @@ class LineStringValidator extends AbstractValidator
         parent::validate($value);
 
         foreach ($value['value'] as $point) {
-            $this->validatePoint($point, $this->getExpectedType());
+            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
         }
     }
 }

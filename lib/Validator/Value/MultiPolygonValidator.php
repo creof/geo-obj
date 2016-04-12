@@ -95,7 +95,7 @@ class MultiPolygonValidator extends AbstractValidator
 
         try {
             foreach ($ring as $point) {
-                $this->validatePoint($point, 'Ring');
+                $this->validatePoint($point, $this->getExpectedDimension(), 'Ring');
             }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);

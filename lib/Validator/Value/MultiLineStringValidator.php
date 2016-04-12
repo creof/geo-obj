@@ -75,7 +75,7 @@ class MultiLineStringValidator extends AbstractValidator
 
         try {
             foreach ($lineString as $point) {
-                $this->validatePoint($point, 'LineString');
+                $this->validatePoint($point, $this->getExpectedDimension(), 'LineString');
             }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
