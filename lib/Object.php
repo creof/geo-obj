@@ -59,20 +59,19 @@ abstract class Object implements ObjectInterface, \Countable
     /**
      * Object constructor
      *
-     * @param       $value
-     * @param array $properties
+     * @param             $value
+     * @param null|string $typeHint
      *
      * @throws UnexpectedValueException
      * @throws ExceptionInterface
      */
-    public function __construct($value, array $properties = [])
+    public function __construct($value, $typeHint = null)
     {
         if (null === self::$valueFactory) {
             self::$valueFactory = ValueFactory::getInstance();
         }
 
-        $data               = $this->generate($value);
-        $data['properties'] = $properties;
+        $data = $this->generate($value, $typeHint);
 
         $this->validate($data);
 
@@ -188,14 +187,15 @@ abstract class Object implements ObjectInterface, \Countable
     /**
      * Generate value array from input
      *
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function generate($value)
+    protected function generate($value, $typeHint = null)
     {
-        $value = self::$valueFactory->generate($value, $this);
+        $value = self::$valueFactory->generate($value, $typeHint, $this);
 
         //TODO is this necessary?
         return [
