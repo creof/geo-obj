@@ -120,10 +120,11 @@ class ValueFactory
     private function addDefaultGenerators()
     {
         $this->generators = [
-            'wkt'       => new Generator\Wkt(),
-            'wkb'       => new Generator\Wkb(),
-            'geojson'   => new Generator\GeoJson(),
-            'geostring' => new Generator\GeoString()
+            'wkt'         => new Generator\Wkt(),
+            'wkb'         => new Generator\Wkb(),
+            'geojson'     => new Generator\GeoJson(),
+            'geostring'   => new Generator\GeoString(),
+            'simplearray' => new Generator\SimpleArray()
         ];
     }
 
