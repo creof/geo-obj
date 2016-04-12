@@ -47,11 +47,39 @@ class SimpleArray implements ValueGeneratorInterface
             throw new UnsupportedFormatException();
         }
 
-        return [
+        $data = [
             'value'     => array_key_exists('value', $value) ? $value['value'] : $value,
             'type'      => array_key_exists('type', $value) ? $value['type'] : $object->getType(),
-            'srid'      => array_key_exists('srid', $value) ? $value['srid'] : null,
-            'dimension' => array_key_exists('dimension', $value) ? $value['dimension'] : null
+            'srid'      => array_key_exists('srid', $value) ? $value['srid'] : null
         ];
+
+        $data['dimension'] = array_key_exists('dimension', $value) ? $value['dimension'] : $this->getDimension($data['value']);
+
+        return $data;
+    }
+
+    /**
+     * @param array $value
+     *
+     * @return null|string
+     */
+    private function getDimension(array $value)
+    {
+        if (array_key_exists('type', $value)) {
+            return $this->getDimension($value['value']);
+        }
+
+        if (is_array($value[0])) {
+            return $this->getDimension($value[0]);
+        }
+
+        switch (count($value)) {
+            case 3:
+                return 'Z';
+            case 4:
+                return 'ZM';
+        }
+
+        return null;
     }
 }
