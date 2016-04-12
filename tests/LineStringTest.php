@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\LineString;
@@ -61,14 +62,20 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new LineString($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $lineString = new LineString($value);
+
+        if (! array_key_exists('value', $expected)) {
+            self::assertEquals($expected, $lineString->getValue());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $lineString->$function());
+            }
         }
     }
 

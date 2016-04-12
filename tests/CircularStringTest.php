@@ -25,6 +25,7 @@ namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\CircularString;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Object;
 
 /**
@@ -57,14 +58,20 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new CircularString($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $circularString = new CircularString($value);
+
+        if (! array_key_exists('value', $expected)) {
+            self::assertEquals($expected, $circularString->getValue());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $circularString->$function());
+            }
         }
     }
 
