@@ -30,44 +30,36 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class MultiPolygonValidator
+ * Class ValidatePointTrait
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
 trait ValidatePointTrait
 {
-    protected $dimension;
-
     /**
      * @param mixed  $point
-     * @param string $messageType Name of object containing points used in exception messages
+     * @param string $dimension
+     * @param string $parentType Name of object containing points used in exception messages
      *
      * @throws ExceptionInterface
      */
-    protected function validatePoint($point, $messageType)
+    protected function validatePoint($point, $dimension, $parentType)
     {
         if (! is_array($point)) {
-            throw new UnexpectedValueException($messageType . ' value must be array of "array", "' . gettype($point) . '" found');
-        }
-
-        if (null === $this->dimension) {
-            $this->dimension = count($point);
-        }
-
-        if (count($point) !== $this->dimension) {
-            throw new RangeException('Dimension mismatch'); //TODO fix message
+            throw new UnexpectedValueException($parentType . ' value must be array of "array", "' . gettype($point) . '" found');
         }
 
         $point = [
-            'type' => 'point',
-            'value' => $point
+            'type'      => 'point',
+            'value'     => $point,
+            'dimension' => $dimension
         ];
 
         try {
             Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in ' . $messageType . '. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in ' . $parentType . '. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }
