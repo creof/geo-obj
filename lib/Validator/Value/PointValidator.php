@@ -60,6 +60,10 @@ class PointValidator extends AbstractValidator
             throw new RangeException('Point value count must be between 2 and 4.');
         }
 
+        if ($count !== 2 + strlen($this->getExpectedDimension())) {
+            throw new RangeException('Dimension mismatch'); //TODO fix message
+        }
+
         foreach ($value['value'] as $num) {
             if (! is_int($num) && ! is_float($num)) {
                 throw new UnexpectedValueException('Point value must be array containing "integer" or "float", "' . gettype($num) . '" found');
