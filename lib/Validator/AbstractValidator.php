@@ -41,6 +41,11 @@ abstract class AbstractValidator implements ValidatorInterface
     private $expectedType;
 
     /**
+     * @var null|string
+     */
+    private $expectedDimension;
+
+    /**
      * @param array $value
      *
      * @throws ExceptionInterface
@@ -54,6 +59,12 @@ abstract class AbstractValidator implements ValidatorInterface
         if (0 !== strcasecmp($this->expectedType, $value['type'])) {
             throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "' . $this->expectedType . '"');
         }
+
+        if (! array_key_exists('dimension', $value)) {
+            throw new InvalidArgumentException('Missing "dimension" in value');
+        }
+
+        $this->expectedDimension = $value['dimension'];
     }
 
     /**
@@ -70,5 +81,13 @@ abstract class AbstractValidator implements ValidatorInterface
     protected function setExpectedType($expectedType)
     {
         $this->expectedType = $expectedType;
+    }
+
+    /**
+     * @return null|string
+     */
+    protected function getExpectedDimension()
+    {
+        return $this->expectedDimension;
     }
 }
