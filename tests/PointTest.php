@@ -114,10 +114,29 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [0,0]
             ],
+            'testGoodValueArrayPointZ' => [
+                'value'      => [
+                    'value' => [0,0,0],
+                    'type'  => 'POINT'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [0,0,0],
+                    'dimension' => 'Z'
+                ]
+            ],
             'testGoodWkbPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
                 'expected'   => [34.23, -87]
+            ],
+            'testGoodWkbPointZ' => [
+                'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [1,2,3],
+                    'dimension' => 'Z'
+                ]
             ],
             'testGoodStringCoordArrayLongitudeFirst' => [
                 'value'      => '79:56:55W 40:26:46N',
