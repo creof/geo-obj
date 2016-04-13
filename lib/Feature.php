@@ -31,5 +31,5 @@ namespace CrEOF\Geo\Obj;
  */
 class Feature extends Object implements FeatureInterface
 {
-
+    const T_TYPE = self::T_FEATURE;
 }
