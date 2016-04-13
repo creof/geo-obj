@@ -78,7 +78,10 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
                 'value'      => '{"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"name":"null spot"}}',
                 'validators' => null,
                 'expected'   => [
-                    'value' => ['type' => 'Point', 'coordinates' => [0,0]], //TODO this is bad
+                    'value' => [
+                        'type'  => 'point',
+                        'value' => [0,0]
+                    ],
                     'name'  => 'null spot'
                 ]
             ],
