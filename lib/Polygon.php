@@ -29,7 +29,7 @@ namespace CrEOF\Geo\Obj;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Polygon extends Object
+class Polygon extends Object implements GeometryInterface
 {
     const T_TYPE = self::T_POLYGON;
 }

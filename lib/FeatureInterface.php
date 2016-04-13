@@ -24,12 +24,12 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Class MultiLineString
+ * Interface FeatureInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineString extends Object implements GeometryInterface
+interface FeatureInterface
 {
-    const T_TYPE = self::T_MULTILINESTRING;
+
 }

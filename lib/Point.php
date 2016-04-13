@@ -29,7 +29,7 @@ namespace CrEOF\Geo\Obj;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Point extends Object
+class Point extends Object implements GeometryInterface
 {
     const T_TYPE = self::T_POINT;
 }
