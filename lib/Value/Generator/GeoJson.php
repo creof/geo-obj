@@ -51,7 +51,7 @@ class GeoJson implements ValueGeneratorInterface
         $data = json_decode($value, true);
 
         if (null === $data) {
-            throw new UnexpectedValueException($this->getError());
+            throw new UnexpectedValueException($this->getJsonError());
         }
 
         switch ($data['type']) {
@@ -77,12 +77,20 @@ class GeoJson implements ValueGeneratorInterface
 
         return [
             'type'       => strtolower($data['type']),
-            'value'      => $data[$key],
+            'value'      => 'geometry' === $key ? $this->getValueFromGeometry($data[$key]) : $data[$key],
             'properties' => array_key_exists('properties', $data) ? $data['properties'] : null
         ];
     }
 
-    private function getError()
+    private function getValueFromGeometry($geometry)
+    {
+        return [
+            'type'  => strtolower($geometry['type']),
+            'value' => $geometry['coordinates']
+        ];
+    }
+
+    private function getJsonError()
     {
         $error = json_last_error();
 
