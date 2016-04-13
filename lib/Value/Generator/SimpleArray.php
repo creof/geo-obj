@@ -47,6 +47,10 @@ class SimpleArray implements ValueGeneratorInterface
             throw new UnsupportedFormatException();
         }
 
+        if (! array_key_exists('dimension', $value) && array_key_exists('type', $value)) {
+            $value = $this->getDimensionFromType($value);
+        }
+
         $data = [
             'value'     => array_key_exists('value', $value) ? $value['value'] : $value,
             'type'      => array_key_exists('type', $value) ? $value['type'] : $object->getType(),
@@ -81,5 +85,24 @@ class SimpleArray implements ValueGeneratorInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param array $value
+     *
+     * @return array
+     */
+    private function getDimensionFromType(array $value)
+    {
+        $matches = [];
+
+        preg_match('/(\w+)(?:\s*)(z|m|zm)$/i', $value['type'], $matches);
+
+        if (3 === count($matches)) {
+            $value['type']      = $matches[1];
+            $value['dimension'] = $matches[2];
+        }
+
+        return $value;
     }
 }
