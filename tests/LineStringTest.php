@@ -109,7 +109,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'value'     => [[0,0,0],[1,1,1]],
-                    'dimension' => 'm'
+                    'dimension' => 'M'
                 ]
             ],
             'testGoodWkbLineString' => [
