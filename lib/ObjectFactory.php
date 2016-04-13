@@ -23,7 +23,9 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
@@ -73,13 +75,20 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param null|string $formatHint
      *
      * @return Object
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
+     * @throws RuntimeException
      */
     public function create($value, $formatHint = null)
     {
         $data        = $this->valueFactory->generate($value, $formatHint);
         $objectClass = self::getTypeClass($data['type']);
 
-        return new $objectClass($data['value']);
+        try {
+            return new $objectClass($data['value'], 'simplearray');
+        } catch (UnsupportedFormatException $e) {
+            throw new RuntimeException('ObjectFactory requires "simplearray" generator'); //TODO better message
+        }
     }
 
     /**
