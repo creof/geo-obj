@@ -76,8 +76,9 @@ class GeoJson implements ValueGeneratorInterface
         }
 
         return [
-            'type'  => strtolower($data['type']),
-            'value' => $data[$key]
+            'type'       => strtolower($data['type']),
+            'value'      => $data[$key],
+            'properties' => array_key_exists('properties', $data) ? $data['properties'] : null
         ];
     }
 
