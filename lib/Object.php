@@ -54,7 +54,7 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @var ValueFactory
      */
-    protected static $valueFactory;
+    private static $valueFactory;
 
     /**
      * Object constructor
@@ -179,7 +179,7 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @throws ExceptionInterface
      */
-    protected function validate(array &$value)
+    private function validate(array &$value)
     {
         Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
     }
@@ -193,7 +193,7 @@ abstract class Object implements ObjectInterface, \Countable
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function generate($value, $formatHint = null)
+    private function generate($value, $formatHint = null)
     {
         $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
 
