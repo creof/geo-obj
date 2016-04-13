@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class SimpleArray
@@ -35,13 +34,13 @@ use CrEOF\Geo\Obj\ObjectInterface;
 class SimpleArray implements ValueGeneratorInterface
 {
     /**
-     * @param mixed                $value
-     * @param null|ObjectInterface $object
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value, ObjectInterface $object = null)
+    public function generate($value, $typeHint = null)
     {
         if (! is_array($value)) {
             throw new UnsupportedFormatException();
@@ -53,7 +52,7 @@ class SimpleArray implements ValueGeneratorInterface
 
         $data = [
             'value' => array_key_exists('value', $value) ? $value['value'] : $value,
-            'type'  => array_key_exists('type', $value) ? $value['type'] : $object->getType(),
+            'type'  => array_key_exists('type', $value) ? $value['type'] : $typeHint,
             'srid'  => array_key_exists('srid', $value) ? $value['srid'] : null
         ];
 

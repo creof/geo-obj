@@ -62,20 +62,21 @@ class ValueFactory
     /**
      * @param mixed       $value
      * @param null|string $formatHint
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnexpectedValueException
      * @throws UnsupportedFormatException
      */
-    public function generate($value, $formatHint = null, ObjectInterface $object = null)
+    public function generate($value, $formatHint = null, $typeHint = null)
     {
         if (null !== $formatHint) {
-            return $this->getGenerator($formatHint)->generate($value, $object);
+            return $this->getGenerator($formatHint)->generate($value, $typeHint);
         }
 
         foreach ($this->generators as $type => $generator) {
             try {
-                return $generator->generate($value, $object);
+                return $generator->generate($value, $typeHint);
             } catch (UnsupportedFormatException $e) {
                 // Try next generator
             }

@@ -195,7 +195,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     protected function generate($value, $typeHint = null)
     {
-        $value = self::$valueFactory->generate($value, $typeHint, $this);
+        $value = self::$valueFactory->generate($value, $typeHint, static::T_TYPE);
 
         //TODO is this necessary? yes, wkb and wkt don't included properties currently
         return [

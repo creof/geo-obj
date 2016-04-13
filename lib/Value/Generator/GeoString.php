@@ -51,23 +51,24 @@ class GeoString implements ValueGeneratorInterface
     }
 
     /**
-     * @param mixed           $value
-     * @param ObjectInterface $object
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value, ObjectInterface $object = null)
+    public function generate($value, $typeHint = null)
     {
         if (! is_string($value) || ! is_numeric($value[0])) {
             throw new UnsupportedFormatException();
         }
 
         return [
-            'value'     => self::$parser->parse($value),
-            'type'      => 'point',
-            'srid'      => null,
-            'dimension' => null,
+            'value'      => self::$parser->parse($value),
+            'type'       => 'point',
+            'srid'       => null,
+            'dimension'  => null,
+            'properties' => null
         ];
     }
 }
