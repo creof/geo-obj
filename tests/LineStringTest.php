@@ -86,9 +86,31 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'testGoodArrayLineString' => [
+                'value'      => [[0,0],[1,1]],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [[0,0],[1,1]],
+                    'dimension' => null
+                ]
+            ],
+            'testGoodArrayLineStringZM' => [
                 'value'      => [[0,0,0,0],[1,1,1,1]],
                 'validators' => null,
-                'expected'   => [[0,0,0,0],[1,1,1,1]]
+                'expected'   => [
+                    'value'     => [[0,0,0,0],[1,1,1,1]],
+                    'dimension' => 'ZM'
+                ]
+            ],
+            'testGoodArrayLineStringM' => [
+                'value'      => [
+                    'value' => [[0,0,0],[1,1,1]],
+                    'type'  => 'linestringm'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [[0,0,0],[1,1,1]],
+                    'dimension' => 'm'
+                ]
             ],
             'testGoodWkbLineString' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
