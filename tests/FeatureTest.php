@@ -74,10 +74,13 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     public function featureTestData()
     {
         return [
-            'testGoodWkbCircularString' => [
+            'testFeaturePoint' => [
                 'value'      => '{"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"name":"null spot"}}',
                 'validators' => null,
-                'expected'   => [[0,0],[1,1],[2,0]]
+                'expected'   => [
+                    'value' => ['type' => 'Point', 'coordinates' => [0,0]], //TODO this is bad
+                    'name'  => 'null spot'
+                ]
             ],
         ];
     }
