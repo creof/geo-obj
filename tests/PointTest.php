@@ -96,7 +96,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
             'testGoodArrayPoint' => [
                 'value'      => [0,0],
                 'validators' => null,
-                'expected'   => [0,0]
+                'expected'   => [
+                    'value'     => [0,0],
+                    'dimension' => null
+                ]
             ],
             'testGoodValueArrayLowercasePoint' => [
                 'value'      => [
@@ -125,6 +128,51 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension' => 'Z'
                 ]
             ],
+            'testGoodValueArrayPointM' => [
+                'value'      => [
+                    'value' => [0,0,0],
+                    'type'  => 'POINTM'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [0,0,0],
+                    'dimension' => 'M'
+                ]
+            ],
+            'testGoodValueArrayPointSpaceM' => [
+                'value'      => [
+                    'value' => [0,0,0],
+                    'type'  => 'POINT M'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [0,0,0],
+                    'dimension' => 'M'
+                ]
+            ],
+            'testGoodValueArrayPointSpaceZM' => [
+                'value'      => [
+                    'value' => [0,0,0,0],
+                    'type'  => 'POINT ZM'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [0,0,0,0],
+                    'dimension' => 'ZM'
+                ]
+            ],
+            'testGoodValueArrayPointWithDimensionM' => [
+                'value'      => [
+                    'value'     => [0,0,0],
+                    'type'      => 'POINT',
+                    'dimension' => 'M'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'value'     => [0,0,0],
+                    'dimension' => 'M'
+                ]
+            ],
             'testGoodWkbPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
@@ -148,6 +196,24 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [40.446111111111, -79.948611111111]
             ],
+            'testGoodPointValidatorStacking' => [
+                'value'      => [20, 120],
+                'validators' => [
+                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
+                    new DValidator(2)
+                ],
+                'expected'   => [20, 120]
+            ],
+            'testGoodPointZGeographyValidator' => [
+                'value'      => [20, 120, 10],
+                'validators' => [
+                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST)
+                ],
+                'expected'   => [
+                    'value'     => [20, 120, 10],
+                    'dimension' => 'Z'
+                ]
+            ],
             'testBadPointWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
@@ -167,14 +233,6 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => [0,0,0,0,0],
                 'validators' => null,
                 'expected'   => new RangeException('Point value count must be between 2 and 4.')
-            ],
-            'testGoodPointValidatorStacking' => [
-                'value'      => [20, 120],
-                'validators' => [
-                    new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
-                    new DValidator(2)
-                ],
-                'expected'   => [20, 120]
             ],
             'testBadLongPointDValidator' => [
                 'value'      => [20, 10, 30],
