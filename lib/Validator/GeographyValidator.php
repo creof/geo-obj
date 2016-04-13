@@ -55,7 +55,7 @@ class GeographyValidator extends AbstractValidator
     }
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */

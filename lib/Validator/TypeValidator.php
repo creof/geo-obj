@@ -50,7 +50,7 @@ class TypeValidator implements ValidatorInterface
     }
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws UnexpectedValueException
      */

@@ -46,7 +46,7 @@ abstract class AbstractValidator implements ValidatorInterface
     private $expectedDimension;
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */

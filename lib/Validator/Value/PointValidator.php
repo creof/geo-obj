@@ -46,7 +46,7 @@ class PointValidator extends AbstractValidator
     }
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */
