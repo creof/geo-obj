@@ -52,9 +52,9 @@ class SimpleArray implements ValueGeneratorInterface
         }
 
         $data = [
-            'value'     => array_key_exists('value', $value) ? $value['value'] : $value,
-            'type'      => array_key_exists('type', $value) ? $value['type'] : $object->getType(),
-            'srid'      => array_key_exists('srid', $value) ? $value['srid'] : null
+            'value' => array_key_exists('value', $value) ? $value['value'] : $value,
+            'type'  => array_key_exists('type', $value) ? $value['type'] : $object->getType(),
+            'srid'  => array_key_exists('srid', $value) ? $value['srid'] : null
         ];
 
         $data['dimension'] = array_key_exists('dimension', $value) ? $value['dimension'] : $this->getDimensionFromValue($data['value']);
