@@ -56,7 +56,7 @@ class SimpleArray implements ValueGeneratorInterface
             'srid'  => array_key_exists('srid', $value) ? $value['srid'] : null
         ];
 
-        $data['dimension'] = array_key_exists('dimension', $value) ? $value['dimension'] : $this->getDimensionFromValue($data['value']);
+        $data['dimension'] = array_key_exists('dimension', $value) ? strtoupper($value['dimension']) : $this->getDimensionFromValue($data['value']);
 
         return $data;
     }
