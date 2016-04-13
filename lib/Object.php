@@ -188,14 +188,14 @@ abstract class Object implements ObjectInterface, \Countable
      * Generate value array from input
      *
      * @param mixed       $value
-     * @param null|string $typeHint
+     * @param null|string $formatHint
      *
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function generate($value, $typeHint = null)
+    protected function generate($value, $formatHint = null)
     {
-        $value = self::$valueFactory->generate($value, $typeHint, static::T_TYPE);
+        $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
 
         //TODO is this necessary? yes, wkb and wkt don't included properties currently
         return [
