@@ -95,7 +95,7 @@ abstract class Object implements ObjectInterface, \Countable
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
-            return $this->getProperty(substr($name, 3));
+            return $this->getProperty(strtolower(substr($name, 3)));
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
