@@ -65,11 +65,12 @@ class ValueFactory
      *
      * @return array
      * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     public function generate($value, $formatHint = null, ObjectInterface $object = null)
     {
         if (null !== $formatHint) {
-            return $this->generators[$formatHint]->generate($value, $object);
+            return $this->getGenerator($formatHint)->generate($value, $object);
         }
 
         foreach ($this->generators as $type => $generator) {
@@ -115,6 +116,21 @@ class ValueFactory
     public function addConverter(Converter\ValueConverterInterface $converter, $format)
     {
         $this->converters[$format] = $converter;
+    }
+
+    /**
+     * @param $format
+     *
+     * @return Generator\ValueGeneratorInterface
+     * @throws UnsupportedFormatException
+     */
+    private function getGenerator($format)
+    {
+        if (array_key_exists($format, $this->generators)) {
+            return $this->generators[$format];
+        }
+
+        throw new UnsupportedFormatException('message'); //TODO
     }
 
     private function addDefaultGenerators()
