@@ -197,12 +197,13 @@ abstract class Object implements ObjectInterface, \Countable
     {
         $value = self::$valueFactory->generate($value, $typeHint, $this);
 
-        //TODO is this necessary?
+        //TODO is this necessary? yes, wkb and wkt don't included properties currently
         return [
-            'type'      => $value['type'],
-            'value'     => $value['value'],
-            'srid'      => array_key_exists('srid', $value) ? $value['srid'] : null,
-            'dimension' => array_key_exists('dimension', $value) ? $value['dimension'] : null
+            'type'       => $value['type'],
+            'value'      => $value['value'],
+            'srid'       => array_key_exists('srid', $value) ? $value['srid'] : null,
+            'dimension'  => array_key_exists('dimension', $value) ? $value['dimension'] : null,
+            'properties' => array_key_exists('properties', $value) ? $value['properties'] : null
         ];
     }
 }

@@ -37,7 +37,7 @@ use CrEOF\Geo\Obj\ObjectInterface;
  *      $value      array        Array of numbers (for points) or array(s) of point arrays
  *      $srid       null|integer SRID for object
  *      $dimension  null|string  Object dimension, uppercase "Z", "M", "ZM" or null for 2D objects
- *      $properties array        Array with string keys and mixed values containing additional object properties TODO is this needed since object is passed?
+ *      $properties array        Array with string keys and mixed values containing additional object properties
  * }
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
