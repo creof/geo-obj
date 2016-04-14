@@ -49,7 +49,7 @@ class ValueFactory
     private $generators;
 
     /**
-     * @var Converter\ValueConverterInterface[]
+     * @var Converter\ObjectDataConverterInterface[]
      */
     private $converters;
 
@@ -111,10 +111,10 @@ class ValueFactory
     }
 
     /**
-     * @param Converter\ValueConverterInterface $converter ValueGeneratorInterface
-     * @param string                            $format    Format supported by generator
+     * @param Converter\ObjectDataConverterInterface $converter ValueGeneratorInterface
+     * @param string                                 $format    Format supported by generator
      */
-    public function addConverter(Converter\ValueConverterInterface $converter, $format)
+    public function addConverter(Converter\ObjectDataConverterInterface $converter, $format)
     {
         $this->converters[$format] = $converter;
     }

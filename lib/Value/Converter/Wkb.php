@@ -29,7 +29,7 @@ namespace CrEOF\Geo\Obj\Value\Converter;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements ValueConverterInterface
+class Wkb implements ObjectDataConverterInterface
 {
     /**
      * @param array $value
