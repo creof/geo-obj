@@ -49,13 +49,13 @@ class FeatureValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$value
+     * @param array &$objectData
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$value)
+    public function validate(array &$objectData)
     {
-        parent::validate($value);
+        parent::validate($objectData);
 
         //TODO implement
     }

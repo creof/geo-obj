@@ -47,15 +47,15 @@ class GeometryCollectionValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$value
+     * @param array &$objectData
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$value)
+    public function validate(array &$objectData)
     {
-        parent::validate($value);
+        parent::validate($objectData);
 
-        foreach ($value['value'] as $geometry) {
+        foreach ($objectData['value'] as $geometry) {
             $this->validateGeometry($geometry);
         }
     }

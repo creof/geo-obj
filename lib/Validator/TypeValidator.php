@@ -50,16 +50,16 @@ class TypeValidator implements ValidatorInterface
     }
 
     /**
-     * @param array &$value
+     * @param array &$objectData
      *
      * @throws UnexpectedValueException
      */
-    public function validate(array &$value)
+    public function validate(array &$objectData)
     {
-        $type = ObjectFactory::getTypeClass($value['type']);
+        $type = ObjectFactory::getTypeClass($objectData['type']);
 
         if ($type !== $this->type) {
-            throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . constant($this->type . '::T_TYPE'));
+            throw new UnexpectedValueException('Unsupported value of type "' . $objectData['type'] . '" for ' . constant($this->type . '::T_TYPE'));
         }
     }
 }
