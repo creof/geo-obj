@@ -42,16 +42,16 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 class ValidatorStack extends \SplDoublyLinkedList
 {
     /**
-     * @param array &$value
+     * @param array &$data
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$value)
+    public function validate(array &$data)
     {
         $this->rewind();
 
         while ($this->valid()) {
-            $this->current()->validate($value);
+            $this->current()->validate($data);
             $this->next();
         }
     }

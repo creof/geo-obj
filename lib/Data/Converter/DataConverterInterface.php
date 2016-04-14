@@ -35,9 +35,9 @@ namespace CrEOF\Geo\Obj\Data\Converter;
 interface DataConverterInterface
 {
     /**
-     * @param array $objectData
+     * @param array $data
      *
      * @return mixed
      */
-    public function convert(array $objectData);
+    public function convert(array $data);
 }

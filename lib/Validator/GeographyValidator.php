@@ -55,16 +55,16 @@ class GeographyValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$objectData
+     * @param array &$data
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$objectData)
+    public function validate(array &$data)
     {
-        parent::validate($objectData);
+        parent::validate($data);
 
-        $this->validateLongitude($objectData['value'][$this->order]);
-        $this->validateLatitude($objectData['value'][$this->order ? 0 : 1]);
+        $this->validateLongitude($data['value'][$this->order]);
+        $this->validateLatitude($data['value'][$this->order ? 0 : 1]);
     }
 
     /**

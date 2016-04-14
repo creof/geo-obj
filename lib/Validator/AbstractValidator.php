@@ -46,25 +46,25 @@ abstract class AbstractValidator implements ValidatorInterface
     private $expectedDimension;
 
     /**
-     * @param array &$objectData
+     * @param array &$data
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$objectData)
+    public function validate(array &$data)
     {
-        if (! array_key_exists('type', $objectData)) {
+        if (! array_key_exists('type', $data)) {
             throw new InvalidArgumentException('Missing "type" in value');
         }
 
-        if (0 !== strcasecmp($this->expectedType, $objectData['type'])) {
-            throw new UnexpectedValueException('Unsupported type "' . $objectData['type'] . '" for validator, expected "' . $this->expectedType . '"');
+        if (0 !== strcasecmp($this->expectedType, $data['type'])) {
+            throw new UnexpectedValueException('Unsupported type "' . $data['type'] . '" for validator, expected "' . $this->expectedType . '"');
         }
 
-        if (! array_key_exists('dimension', $objectData)) {
+        if (! array_key_exists('dimension', $data)) {
             throw new InvalidArgumentException('Missing "dimension" in value');
         }
 
-        $this->expectedDimension = $objectData['dimension'];
+        $this->expectedDimension = $data['dimension'];
     }
 
     /**

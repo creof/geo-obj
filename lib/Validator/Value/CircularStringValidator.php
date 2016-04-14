@@ -49,15 +49,15 @@ class CircularStringValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$objectData
+     * @param array &$data
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$objectData)
+    public function validate(array &$data)
     {
-        parent::validate($objectData);
+        parent::validate($data);
 
-        foreach ($objectData['value'] as $point) {
+        foreach ($data['value'] as $point) {
             $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
         }
     }

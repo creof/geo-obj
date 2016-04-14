@@ -49,15 +49,15 @@ class MultiLineStringValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$objectData
+     * @param array &$data
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$objectData)
+    public function validate(array &$data)
     {
-        parent::validate($objectData);
+        parent::validate($data);
 
-        foreach ($objectData['value'] as $lineString) {
+        foreach ($data['value'] as $lineString) {
             $this->validateLineString($lineString);
         }
     }

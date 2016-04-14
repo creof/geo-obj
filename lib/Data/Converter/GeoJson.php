@@ -32,13 +32,13 @@ namespace CrEOF\Geo\Obj\Data\Converter;
 class GeoJson implements DataConverterInterface
 {
     /**
-     * @param array $objectData
+     * @param array $data
      *
      * @return mixed
      */
-    public function convert(array $objectData)
+    public function convert(array $data)
     {
         // Convert value to format
-        return $objectData;
+        return $data;
     }
 }
