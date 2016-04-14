@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class ValidatorStack
@@ -36,8 +37,6 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
  * @method ValidatorInterface pop()
  * @method ValidatorInterface shift()
  * @method ValidatorInterface top()
- * @method void               add(int $index, ValidatorInterface $validator)
- * @method void               push(ValidatorInterface $validator)
  */
 
 class ValidatorStack extends \SplDoublyLinkedList
@@ -54,6 +53,45 @@ class ValidatorStack extends \SplDoublyLinkedList
         while ($this->valid()) {
             $this->current()->validate($value);
             $this->next();
+        }
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     *
+     * @throws UnexpectedValueException
+     */
+    public function push($validator)
+    {
+        $this->validateValidator($validator);
+
+        parent::push($validator);
+    }
+
+    /**
+     * @param int                $index
+     * @param ValidatorInterface $validator
+     *
+     * @throws UnexpectedValueException
+     */
+    public function add($index, $validator)
+    {
+        $this->validateValidator($validator);
+
+        parent::add($index, $validator);
+    }
+
+    /**
+     * @param mixed $validator
+     *
+     * @throws UnexpectedValueException
+     */
+    private function validateValidator($validator)
+    {
+        if (! ($validator instanceof ValidatorInterface)) {
+            $parameterType = (is_object($validator) ? 'class "' . get_class($validator) : 'of type "' . gettype($validator)) . '"';
+
+            throw new UnexpectedValueException('Invalid validator ' . $parameterType . '. Validators must implement ValidatorInterface.');
         }
     }
 }
