@@ -32,14 +32,14 @@ namespace CrEOF\Geo\Obj\Value\Converter;
 class Wkt implements ObjectDataConverterInterface
 {
     /**
-     * @param array $value
+     * @param array $objectData
      *
      * @return mixed
      */
-    public function convert(array $value)
+    public function convert(array $objectData)
     {
         // TODO: MultiGeometry case
-        $result = strtoupper($value['type']) . '(' . $this->getValueString($value['value']) . ')';
+        $result = strtoupper($objectData['type']) . '(' . $this->getValueString($objectData['value']) . ')';
 
         return $result;
     }
