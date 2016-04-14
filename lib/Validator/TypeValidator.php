@@ -59,7 +59,7 @@ class TypeValidator implements ValidatorInterface
         $type = ObjectFactory::getTypeClass($value['type']);
 
         if ($type !== $this->type) {
-            throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . $this->type);
+            throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . constant($this->type . '::T_TYPE'));
         }
     }
 }
