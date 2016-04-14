@@ -149,14 +149,6 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
-     * @return array
-     */
-    public function getValue()
-    {
-        return $this->data['value'];
-    }
-
-    /**
      * @return string|null
      */
     public function getDimension()
