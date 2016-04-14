@@ -24,12 +24,12 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Class MultiPoint
+ * Interface FeatureInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPoint extends Object
+interface FeatureInterface
 {
-    const T_TYPE = self::T_MULTIPOINT;
+
 }

@@ -21,12 +21,13 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Polygon;
+use CrEOF\Geo\Obj\Geometry\Polygon;
 use CrEOF\Geo\Obj\Object;
 
 /**
@@ -59,14 +60,20 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new Polygon($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $polygon = new Polygon($value);
+
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $polygon->getCoordinates());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $polygon->$function());
+            }
         }
     }
 
@@ -94,7 +101,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
             'testBadPolygonWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Polygon')
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Polygon')
             ],
             'testBadArrayPolygon' => [
                 'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],

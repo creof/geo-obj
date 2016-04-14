@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Value;
 
+use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Value\Converter;
@@ -61,19 +62,21 @@ class ValueFactory
     /**
      * @param mixed       $value
      * @param null|string $formatHint
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
-    public function generate($value, $formatHint = null)
+    public function generate($value, $formatHint = null, $typeHint = null)
     {
         if (null !== $formatHint) {
-            return $this->generators[$formatHint]->generate($value);
+            return $this->getGenerator($formatHint)->generate($value, $typeHint);
         }
 
         foreach ($this->generators as $type => $generator) {
             try {
-                return $generator->generate($value);
+                return $generator->generate($value, $typeHint);
             } catch (UnsupportedFormatException $e) {
                 // Try next generator
             }
@@ -116,13 +119,29 @@ class ValueFactory
         $this->converters[$format] = $converter;
     }
 
+    /**
+     * @param $format
+     *
+     * @return Generator\ValueGeneratorInterface
+     * @throws UnsupportedFormatException
+     */
+    private function getGenerator($format)
+    {
+        if (array_key_exists($format, $this->generators)) {
+            return $this->generators[$format];
+        }
+
+        throw new UnsupportedFormatException('message'); //TODO
+    }
+
     private function addDefaultGenerators()
     {
         $this->generators = [
-            'wkt'       => new Generator\Wkt(),
-            'wkb'       => new Generator\Wkb(),
-            'geojson'   => new Generator\GeoJson(),
-            'geostring' => new Generator\GeoString()
+            'wkt'         => new Generator\Wkt(),
+            'wkb'         => new Generator\Wkb(),
+            'geojson'     => new Generator\GeoJson(),
+            'geostring'   => new Generator\GeoString(),
+            'simplearray' => new Generator\SimpleArray()
         ];
     }
 

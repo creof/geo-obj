@@ -1,3 +1,5 @@
-- Write Objects
-- Write Tests
-- Write Docs
+- Standardize exception messages
+- Documentation
+- Converters
+- GeoJson generator
+- Consistent letter case handling for type names and dimension

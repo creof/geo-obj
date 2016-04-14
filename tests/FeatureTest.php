@@ -24,32 +24,26 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\MultiPoint;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Feature;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class MultiPointTest
+ * Class FeatureTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPointTest extends \PHPUnit_Framework_TestCase
+class FeatureTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCountPoints()
-    {
-        $polygon = new MultiPoint([[0,0],[10,0],[10,10],[0,10]]);
-
-        static::assertCount(4, $polygon);
-    }
-
     /**
      * @param $value
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiPointTestData
+     * @dataProvider featureTestData
      */
-    public function testMultiPoint($value, $validators, $expected)
+    public function testFeature($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -57,29 +51,40 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new MultiPoint($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $feature = new Feature($value);
+
+        if (! array_key_exists('geometry', $expected)) {
+            self::assertEquals($expected, $feature->getGeometry());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $feature->$function());
+            }
         }
     }
 
     /**
      * @return array[]
      */
-    public function multiPointTestData()
+    public function featureTestData()
     {
         return [
-            'testGoodArrayMultiPoint' => [
-                'value'      => [[0,0],[10,0],[10,10],[0,10]],
+            'testFeaturePoint' => [
+                'value'      => '{"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"name":"null spot"}}',
                 'validators' => null,
-                'expected'   => [[0,0],[10,0],[10,10],[0,10]]
+                'expected'   => [
+                    'geometry' => [
+                        'type'  => 'point',
+                        'value' => [0,0]
+                    ],
+                    'name'  => 'null spot'
+                ]
             ],
         ];
     }
-
 }

@@ -21,10 +21,11 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\CircularString;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Geometry\CircularString;
 use CrEOF\Geo\Obj\Object;
 
 /**
@@ -57,14 +58,20 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new CircularString($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $circularString = new CircularString($value);
+
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $circularString->getCoordinates());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $circularString->$function());
+            }
         }
     }
 
@@ -75,9 +82,9 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'testGoodWkbCircularString' => [
-                'value'      => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
-                'validators' => null,
-                'expected'   => [[0,0],[1,1],[2,0]]
+                'coordinates' => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
+                'validators'  => null,
+                'expected'    => [[0,0],[1,1],[2,0]]
             ],
         ];
     }

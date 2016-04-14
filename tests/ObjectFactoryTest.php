@@ -24,7 +24,7 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\ObjectFactory;
-use CrEOF\Geo\Obj\Point;
+use CrEOF\Geo\Obj\Geometry\Point;
 
 /**
  * Class ObjectFactoryTest

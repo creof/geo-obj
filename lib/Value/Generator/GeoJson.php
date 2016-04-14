@@ -24,6 +24,8 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\ObjectInterface;
 
 /**
  * Class GeoJson
@@ -34,20 +36,99 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 class GeoJson implements ValueGeneratorInterface
 {
     /**
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value)
+    public function generate($value, $typeHint = null)
     {
-        // Check if supported type
-        if ('{' !== $value[0]) {
+        if (! is_string($value) || '{' !== $value[0]) {
             throw new UnsupportedFormatException();
         }
 
-        // Generate value from format
-        return $value;
+        $data = json_decode($value, true);
+
+        if (null === $data) {
+            throw new UnexpectedValueException($this->getJsonError());
+        }
+
+        switch ($data['type']) {
+            case ObjectInterface::T_POINT:
+                // no break
+            case ObjectInterface::T_LINESTRING:
+                //no break
+            case ObjectInterface::T_POLYGON:
+                //no break
+            case ObjectInterface::T_MULTIPOINT:
+                //no break
+            case ObjectInterface::T_MULTILINESTRING:
+                // no break
+            case ObjectInterface::T_MULTIPOLYGON:
+                $key = 'coordinates';
+                break;
+            case ObjectInterface::T_FEATURE:
+                $key = 'geometry';
+                break;
+            default:
+                throw new UnexpectedValueException();
+        }
+
+        return [
+            'type'       => strtolower($data['type']),
+            'value'      => 'geometry' === $key ? $this->getValueFromGeometry($data[$key]) : $data[$key],
+            'properties' => array_key_exists('properties', $data) ? $data['properties'] : null
+        ];
     }
 
+    private function getValueFromGeometry($geometry)
+    {
+        return [
+            'type'  => strtolower($geometry['type']),
+            'value' => $geometry['coordinates']
+        ];
+    }
+
+    private function getJsonError()
+    {
+        $error = json_last_error();
+
+        switch ($error) {
+            case JSON_ERROR_NONE:
+                return 'No errors';
+                break;
+            case JSON_ERROR_DEPTH:
+                return 'Maximum stack depth exceeded';
+                break;
+            case JSON_ERROR_STATE_MISMATCH:
+                return 'Underflow or the modes mismatch';
+                break;
+            case JSON_ERROR_CTRL_CHAR:
+                return 'Unexpected control character found';
+                break;
+            case JSON_ERROR_SYNTAX:
+                return 'Syntax error, malformed JSON';
+                break;
+            case JSON_ERROR_UTF8:
+                return 'Malformed UTF-8 characters, possibly incorrectly encoded';
+                break;
+        }
+
+        if (version_compare(PHP_VERSION, '5.5.0-dev', '>=')) {
+            switch ($error) {
+                case JSON_ERROR_RECURSION:
+                    return 'Recursive references found';
+                    break;
+                case JSON_ERROR_INF_OR_NAN:
+                    return 'Value includes Inf or NaN';
+                    break;
+                case JSON_ERROR_UNSUPPORTED_TYPE:
+                    return 'Unsupported type';
+                    break;
+            }
+        }
+
+        return 'Unknown error';
+    }
 }

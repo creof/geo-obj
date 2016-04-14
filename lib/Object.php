@@ -54,25 +54,24 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @var ValueFactory
      */
-    protected static $valueFactory;
+    private static $valueFactory;
 
     /**
      * Object constructor
      *
-     * @param       $value
-     * @param array $properties
+     * @param             $value
+     * @param null|string $typeHint
      *
      * @throws UnexpectedValueException
      * @throws ExceptionInterface
      */
-    public function __construct($value, array $properties = [])
+    public function __construct($value, $typeHint = null)
     {
         if (null === self::$valueFactory) {
             self::$valueFactory = ValueFactory::getInstance();
         }
 
-        $data               = $this->generate($value);
-        $data['properties'] = $properties;
+        $data = $this->generate($value, $typeHint);
 
         $this->validate($data);
 
@@ -96,7 +95,7 @@ abstract class Object implements ObjectInterface, \Countable
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
-            return $this->getProperty(substr($name, 3));
+            return $this->getProperty(strtolower(substr($name, 3)));
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
@@ -150,11 +149,19 @@ abstract class Object implements ObjectInterface, \Countable
     }
 
     /**
-     * @return array
+     * @return string|null
      */
-    public function getValue()
+    public function getDimension()
     {
-        return $this->data['value'];
+        return $this->data['dimension'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return static::T_TYPE;
     }
 
     /**
@@ -164,7 +171,7 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @throws ExceptionInterface
      */
-    protected function validate(array $value)
+    private function validate(array &$value)
     {
         Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
     }
@@ -172,21 +179,23 @@ abstract class Object implements ObjectInterface, \Countable
     /**
      * Generate value array from input
      *
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $formatHint
      *
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function generate($value)
+    private function generate($value, $formatHint = null)
     {
-        if (! is_array($value)) {
-            return self::$valueFactory->generate($value);
-        }
+        $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
 
+        //TODO is this necessary? yes, wkb and wkt don't included properties currently
         return [
-            'value' => array_key_exists('value', $value) ? $value['value'] : $value,
-            'type'  => array_key_exists('type', $value) ? $value['type'] : static::T_TYPE,
-            'srid'  => array_key_exists('srid', $value) ? $value['type'] : null
+            'type'       => $value['type'],
+            'value'      => $value['value'],
+            'srid'       => array_key_exists('srid', $value) ? $value['srid'] : null,
+            'dimension'  => array_key_exists('dimension', $value) ? $value['dimension'] : null,
+            'properties' => array_key_exists('properties', $value) ? $value['properties'] : null
         ];
     }
 }

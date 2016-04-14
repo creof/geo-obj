@@ -21,25 +21,26 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\MultiPolygon;
+use CrEOF\Geo\Obj\Geometry\MultiLineString;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class MultiPolygonTest
+ * Class MultiLineStringTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPolygonTest extends \PHPUnit_Framework_TestCase
+class MultiLineStringTest extends \PHPUnit_Framework_TestCase
 {
     public function testCountRings()
     {
-        $polygon = new MultiPolygon([[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]);
+        $multiLineString = new MultiLineString([[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]);
 
-        static::assertCount(2, $polygon);
+        static::assertCount(2, $multiLineString);
     }
 
     /**
@@ -47,9 +48,9 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiPolygonTestData
+     * @dataProvider multiLineStringTestData
      */
-    public function testMultiPolygon($value, $validators, $expected)
+    public function testMultiLineString($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -57,28 +58,35 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new MultiPolygon($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $multiLineString = new MultiLineString($value);
+
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $multiLineString->getCoordinates());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $multiLineString->$function());
+            }
         }
     }
 
     /**
      * @return array[]
      */
-    public function multiPolygonTestData()
+    public function multiLineStringTestData()
     {
         return [
-            'testGoodArrayMultiPolygon' => [
-                'value'      => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]],
+            'testGoodArrayMultiLineString' => [
+                'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]],
                 'validators' => null,
-                'expected'   => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]
+                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
             ],
         ];
     }
+
 }

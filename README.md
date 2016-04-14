@@ -21,3 +21,24 @@ Things
 ## Return
 
 Objects
+
+## Configuration
+
+## The ObjectFactory
+
+## The ValueFactory
+
+## Generators
+
+## Validators
+
+## Converters
+
+## Exceptions
+
+### ExceptionInterface
+### InvalidArgumentException
+### RangeException
+### RuntimeException
+### UnexpectedValueException
+### UnsupportedFormatException

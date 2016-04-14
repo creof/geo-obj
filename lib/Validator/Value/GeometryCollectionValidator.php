@@ -47,11 +47,11 @@ class GeometryCollectionValidator extends AbstractValidator
     }
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         parent::validate($value);
 
@@ -70,6 +70,8 @@ class GeometryCollectionValidator extends AbstractValidator
         if (! is_array($geometry)) {
             throw new UnexpectedValueException('Geometry value must be array of "array", "' . gettype($geometry) . '" found');
         }
+
+        $geometry['dimension'] = $this->getExpectedDimension();
 
         try {
             Configuration::getInstance()->getValidators($geometry['type'])->validate($geometry);

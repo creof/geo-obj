@@ -21,15 +21,42 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Validator\Value;
+
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class MultiLineString
+ * Class FeatureValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineString extends Object
+class FeatureValidator extends AbstractValidator
 {
-    const T_TYPE = self::T_MULTILINESTRING;
+    use Traits\ValidatePointTrait;
+
+    /**
+     * FeatureValidator constructor
+     */
+    public function __construct()
+    {
+        $this->setExpectedType(Object::T_FEATURE);
+    }
+
+    /**
+     * @param array &$value
+     *
+     * @throws ExceptionInterface
+     */
+    public function validate(array &$value)
+    {
+        parent::validate($value);
+
+        //TODO implement
+    }
 }

@@ -21,44 +21,15 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
-
-use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Object;
-use CrEOF\Geo\Obj\Validator\AbstractValidator;
+namespace CrEOF\Geo\Obj\Exception;
 
 /**
- * Class LineStringValidator
+ * RuntimeException
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineStringValidator extends AbstractValidator
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
-    use Traits\ValidatePointTrait;
 
-    /**
-     * LineStringValidator constructor
-     */
-    public function __construct()
-    {
-        $this->setExpectedType(Object::T_LINESTRING);
-    }
-
-    /**
-     * @param array &$value
-     *
-     * @throws ExceptionInterface
-     */
-    public function validate(array &$value)
-    {
-        parent::validate($value);
-
-        foreach ($value['value'] as $point) {
-            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
-        }
-    }
 }

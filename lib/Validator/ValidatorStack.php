@@ -43,11 +43,11 @@ use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 class ValidatorStack extends \SplDoublyLinkedList
 {
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         $this->rewind();
 

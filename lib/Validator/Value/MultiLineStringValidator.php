@@ -38,6 +38,8 @@ use CrEOF\Geo\Obj\Validator\AbstractValidator;
  */
 class MultiLineStringValidator extends AbstractValidator
 {
+    use Traits\ValidatePointTrait;
+
     /**
      * MultiLineStringValidator constructor
      */
@@ -47,11 +49,11 @@ class MultiLineStringValidator extends AbstractValidator
     }
 
     /**
-     * @param array $value
+     * @param array &$value
      *
      * @throws ExceptionInterface
      */
-    public function validate(array $value)
+    public function validate(array &$value)
     {
         parent::validate($value);
 
@@ -73,31 +75,10 @@ class MultiLineStringValidator extends AbstractValidator
 
         try {
             foreach ($lineString as $point) {
-                $this->validatePoint($point);
+                $this->validatePoint($point, $this->getExpectedDimension(), 'LineString');
             }
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @param mixed $point
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validatePoint($point)
-    {
-        if (! is_array($point)) {
-            throw new UnexpectedValueException('LineString value must be array of "array", "' . gettype($point) . '" found');
-        }
-
-        try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate([
-                'type' => 'point',
-                'value' => $point
-            ]);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad point value in LineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

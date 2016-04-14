@@ -26,8 +26,6 @@ namespace CrEOF\Geo\Obj;
 /**
  * Interface ObjectInterface
  *
- * TODO IS THIS NEEDED?????
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
@@ -42,4 +40,10 @@ interface ObjectInterface
     const T_MULTIPOLYGON       = 'MultiPolygon';
     const T_GEOMETRYCOLLECTION = 'GeometryCollection';
     const T_CIRCULARSTRING     = 'CircularString';
+    const T_FEATURE            = 'Feature';
+
+    /**
+     * @return string Object type name, should also be value of a interface constant TODO lowercase?
+     */
+    public function getType();
 }

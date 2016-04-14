@@ -21,15 +21,17 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Geometry;
+
+use CrEOF\Geo\Obj\Geometry;
 
 /**
- * Class LineString
+ * Class MultiPoint
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineString extends Object
+class MultiPoint extends Geometry
 {
-    const T_TYPE = self::T_LINESTRING;
+    const T_TYPE = self::T_MULTIPOINT;
 }

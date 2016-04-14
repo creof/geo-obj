@@ -21,53 +21,21 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
-
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Object;
-use CrEOF\Geo\Obj\Validator\AbstractValidator;
+namespace CrEOF\Geo\Obj;
 
 /**
- * Class PointValidator
+ * Abstract class Geometry
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PointValidator extends AbstractValidator
+abstract class Geometry extends Object implements GeometryInterface
 {
     /**
-     * PointValidator constructor
+     * @return array
      */
-    public function __construct()
+    public function getCoordinates()
     {
-        $this->setExpectedType(Object::T_POINT);
-    }
-
-    /**
-     * @param array &$value
-     *
-     * @throws ExceptionInterface
-     */
-    public function validate(array &$value)
-    {
-        parent::validate($value);
-
-        $count = count($value['value']);
-
-        if ($count < 2 || $count > 4) {
-            throw new RangeException('Point value count must be between 2 and 4.');
-        }
-
-        if ($count !== 2 + strlen($this->getExpectedDimension())) {
-            throw new RangeException('Dimension mismatch'); //TODO fix message
-        }
-
-        foreach ($value['value'] as $num) {
-            if (! is_int($num) && ! is_float($num)) {
-                throw new UnexpectedValueException('Point value must be array containing "integer" or "float", "' . gettype($num) . '" found');
-            }
-        }
+        return $this->data['value'];
     }
 }

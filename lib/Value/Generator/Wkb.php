@@ -50,19 +50,18 @@ class Wkb implements ValueGeneratorInterface
     }
 
     /**
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value)
+    public function generate($value, $typeHint = null)
     {
-        // Check if supported type
-        if (ord($value[0]) > 1) {
+        if (! is_string($value) || ord($value[0]) > 1) {
             throw new UnsupportedFormatException();
         }
 
-        // Generate value from format
         return self::$parser->parse($value);
     }
 }

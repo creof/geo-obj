@@ -50,15 +50,15 @@ class Wkt implements ValueGeneratorInterface
     }
 
     /**
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value)
+    public function generate($value, $typeHint = null)
     {
-        // Check if supported type
-        if (! ctype_alpha($value[0])) {
+        if (! is_string($value) || ! ctype_alpha($value[0])) {
             throw new UnsupportedFormatException();
         }
 

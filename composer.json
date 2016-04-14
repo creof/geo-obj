@@ -16,9 +16,9 @@
     "license": "MIT",
     "require": {
         "php": ">=5.4",
-        "creof/geo-parser": "~2.0",
-        "creof/wkt-parser": "~2.1",
-        "creof/wkb-parser": "~2.1"
+        "creof/geo-parser": "dev-develop",
+        "creof/wkt-parser": "dev-develop",
+        "creof/wkb-parser": "dev-develop"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8",

@@ -21,30 +21,26 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
-use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\GeometryCollection;
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Geometry\MultiPolygon;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class GeometryCollectionTest
+ * Class MultiPolygonTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
+class MultiPolygonTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCountGeometry()
+    public function testCountRings()
     {
-        $polygon = new GeometryCollection([
-            ['type'  => 'POINT', 'value' => [10,10]],
-            ['type'  => 'POINT', 'value' => [30,30]],
-            ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
-        ]);
+        $polygon = new MultiPolygon([[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]);
 
-        static::assertCount(3, $polygon);
+        static::assertCount(2, $polygon);
     }
 
     /**
@@ -52,9 +48,9 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider geometryCollectionTestData
+     * @dataProvider multiPolygonTestData
      */
-    public function testGeometryCollection($value, $validators, $expected)
+    public function testMultiPolygon($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -66,15 +62,15 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException(get_class($expected), $expected->getMessage());
         }
 
-        $geometryCollection = new GeometryCollection($value);
+        $multiPolygon = new MultiPolygon($value);
 
-        if (! array_key_exists('geometries', $expected)) {
-            self::assertEquals($expected, $geometryCollection->getGeometries());
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $multiPolygon->getCoordinates());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $geometryCollection->$function());
+                self::assertEquals($expectedValue, $multiPolygon->$function());
             }
         }
     }
@@ -82,21 +78,13 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
-    public function geometryCollectionTestData()
+    public function multiPolygonTestData()
     {
         return [
             'testGoodArrayMultiPolygon' => [
-                'value'      => [
-                    ['type'  => 'POINT', 'value' => [10,10]],
-                    ['type'  => 'POINT', 'value' => [30,30]],
-                    ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
-                ],
+                'value'      => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]],
                 'validators' => null,
-                'expected'   => [
-                    ['type'  => 'POINT', 'value' => [10,10]],
-                    ['type'  => 'POINT', 'value' => [30,30]],
-                    ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
-                ]
+                'expected'   => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]
             ],
         ];
     }

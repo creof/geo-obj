@@ -41,6 +41,33 @@ abstract class AbstractValidator implements ValidatorInterface
     private $expectedType;
 
     /**
+     * @var null|string
+     */
+    private $expectedDimension;
+
+    /**
+     * @param array &$value
+     *
+     * @throws ExceptionInterface
+     */
+    public function validate(array &$value)
+    {
+        if (! array_key_exists('type', $value)) {
+            throw new InvalidArgumentException('Missing "type" in value');
+        }
+
+        if (0 !== strcasecmp($this->expectedType, $value['type'])) {
+            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "' . $this->expectedType . '"');
+        }
+
+        if (! array_key_exists('dimension', $value)) {
+            throw new InvalidArgumentException('Missing "dimension" in value');
+        }
+
+        $this->expectedDimension = $value['dimension'];
+    }
+
+    /**
      * @return string
      */
     protected function getExpectedType()
@@ -57,18 +84,10 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-     * @param array $value
-     *
-     * @throws ExceptionInterface
+     * @return null|string
      */
-    public function validate(array $value)
+    protected function getExpectedDimension()
     {
-        if (! array_key_exists('type', $value)) {
-            throw new InvalidArgumentException('Missing "type" in value');
-        }
-
-        if (0 !== strcasecmp($this->expectedType, $value['type'])) {
-            throw new UnexpectedValueException('Unsupported type "' . $value['type'] . '" for validator, expected "' . $this->expectedType . '"');
-        }
+        return $this->expectedDimension;
     }
 }

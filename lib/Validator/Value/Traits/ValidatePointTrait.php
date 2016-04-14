@@ -21,15 +21,45 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Validator\Value\Traits;
+
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Object;
 
 /**
- * Class Point
+ * Class ValidatePointTrait
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Point extends Object
+trait ValidatePointTrait
 {
-    const T_TYPE = self::T_POINT;
+    /**
+     * @param mixed  $point
+     * @param string $dimension
+     * @param string $parentType Name of object containing points used in exception messages
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePoint($point, $dimension, $parentType)
+    {
+        if (! is_array($point)) {
+            throw new UnexpectedValueException($parentType . ' value must be array of "array", "' . gettype($point) . '" found');
+        }
+
+        $point = [
+            'type'      => 'point',
+            'value'     => $point,
+            'dimension' => $dimension
+        ];
+
+        try {
+            Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad point value in ' . $parentType . '. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

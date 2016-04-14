@@ -23,7 +23,9 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
@@ -39,14 +41,15 @@ class ObjectFactory implements ObjectFactoryInterface
 
     //TODO: add remaining types
     const C_OBJECT             = 'CrEOF\Geo\Obj\Object';
-    const C_POINT              = 'CrEOF\Geo\Obj\Point';
-    const C_LINESTRING         = 'CrEOF\Geo\Obj\LineString';
-    const C_POLYGON            = 'CrEOF\Geo\Obj\Polygon';
-    const C_MULTIPOINT         = 'CrEOF\Geo\Obj\MultiPoint';
-    const C_MULTILINESTRING    = 'CrEOF\Geo\Obj\MultiLineString';
-    const C_MULTIPOLYGON       = 'CrEOF\Geo\Obj\MultiPolygon';
+    const C_POINT              = 'CrEOF\Geo\Obj\Geometry\Point';
+    const C_LINESTRING         = 'CrEOF\Geo\Obj\Geometry\LineString';
+    const C_POLYGON            = 'CrEOF\Geo\Obj\Geometry\Polygon';
+    const C_MULTIPOINT         = 'CrEOF\Geo\Obj\Geometry\MultiPoint';
+    const C_MULTILINESTRING    = 'CrEOF\Geo\Obj\Geometry\MultiLineString';
+    const C_MULTIPOLYGON       = 'CrEOF\Geo\Obj\Geometry\MultiPolygon';
+    const C_CIRCULARSTRING     = 'CrEOF\Geo\Obj\Geometry\CircularString';
     const C_GEOMETRYCOLLECTION = 'CrEOF\Geo\Obj\GeometryCollection';
-    const C_CIRCULARSTRING     = 'CrEOF\Geo\Obj\CircularString';
+    const C_FEATURE            = 'CrEOF\Geo\Obj\Feature';
 
     /**
      * @var ValueFactory
@@ -73,13 +76,20 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param null|string $formatHint
      *
      * @return Object
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
+     * @throws RuntimeException
      */
     public function create($value, $formatHint = null)
     {
         $data        = $this->valueFactory->generate($value, $formatHint);
         $objectClass = self::getTypeClass($data['type']);
 
-        return new $objectClass($data['value']);
+        try {
+            return new $objectClass($data['value'], 'simplearray');
+        } catch (UnsupportedFormatException $e) {
+            throw new RuntimeException('ObjectFactory requires "simplearray" generator'); //TODO better message
+        }
     }
 
     /**

@@ -63,47 +63,51 @@ class WktTest extends \PHPUnit_Framework_TestCase
         return [
             'testGoodPoint' => [
                 'value' => [
-                    'type'  => 'point',
-                    'value' => [0, 0],
-                    'srid'  => null
+                    'type'      => 'point',
+                    'value'     => [0, 0],
+                    'srid'      => null,
+                    'dimension' => null
                 ],
                 'expected'   => 'POINT(0 0)'
             ],
             'testGoodLineString' => [
                 'value' => [
-                    'type'  => 'linestring',
-                    'value' => [[34.23, -87], [45.3, -92]],
-                    'srid'  => null
+                    'type'      => 'linestring',
+                    'value'     => [[34.23, -87], [45.3, -92]],
+                    'srid'      => null,
+                    'dimension' => null
                 ],
                 'expected' => 'LINESTRING(34.23 -87,45.3 -92)'
             ] ,
             'testGoodPolygon' => [
                 'value' => [
-                    'type' => 'polygon',
-                    'value' => [
+                    'type'      => 'polygon',
+                    'value'     => [
                         [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]],
                         [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]]
                     ],
-                    'srid' => null
+                    'srid'      => null,
+                    'dimension' => null
                 ],
                 'expected' => 'POLYGON((0 0,10 0,10 10,0 10,0 0),(0 0,10 0,10 10,0 10,0 0))'
             ],
             'testGoodMultiLineString' => [
                 'value' => [
-                    'srid'  => null,
-                    'type'  => 'MULTILINESTRING',
-                    'value' => [
+                    'srid'      => null,
+                    'type'      => 'MULTILINESTRING',
+                    'value'     => [
                         [[0, 0], [10, 0], [10, 10], [0, 10]],
                         [[5, 5], [7, 5], [7, 7], [5, 7]]
-                    ]
+                    ],
+                    'dimension' => null
                 ],
                 'expected' => 'MULTILINESTRING((0 0,10 0,10 10,0 10),(5 5,7 5,7 7,5 7))'
             ],
             'testGoodMultiPolygon' => [
                 'value' => [
-                    'srid'  => null,
-                    'type'  => 'MULTIPOLYGON',
-                    'value' => [
+                    'srid'       => null,
+                    'type'       => 'MULTIPOLYGON',
+                    'value'      => [
                         [
                             [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]],
                             [[5, 5], [7, 5], [7, 7], [5, 7], [5, 5]]
@@ -111,7 +115,8 @@ class WktTest extends \PHPUnit_Framework_TestCase
                         [
                             [[1, 1], [3, 1], [3, 3], [1, 3], [1, 1]]
                         ]
-                    ]
+                    ],
+                    'dimension' => null
                 ],
                 'expected' => 'MULTIPOLYGON(((0 0,10 0,10 10,0 10,0 0),(5 5,7 5,7 7,5 7,5 5)),((1 1,3 1,3 3,1 3,1 1)))'
             ]

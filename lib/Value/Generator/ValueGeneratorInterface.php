@@ -35,6 +35,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  *      $type       string       Type of object
  *      $value      array        Array of numbers (for points) or array(s) of point arrays
  *      $srid       null|integer SRID for object
+ *      $dimension  null|string  Object dimension, uppercase "Z", "M", "ZM" or null for 2D objects
  *      $properties array        Array with string keys and mixed values containing additional object properties
  * }
  *
@@ -44,10 +45,11 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 interface ValueGeneratorInterface
 {
     /**
-     * @param mixed $value
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
      * @return array
      * @throws UnsupportedFormatException
      */
-    public function generate($value);
+    public function generate($value, $typeHint = null);
 }

@@ -29,7 +29,15 @@ namespace CrEOF\Geo\Obj;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeometryCollection extends Object
+class GeometryCollection extends Object implements GeometryInterface
 {
     const T_TYPE = self::T_GEOMETRYCOLLECTION;
+
+    /**
+     * @return array
+     */
+    public function getGeometries()
+    {
+        return $this->data['value'];
+    }
 }

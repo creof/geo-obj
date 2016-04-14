@@ -21,25 +21,26 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
+use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\MultiLineString;
+use CrEOF\Geo\Obj\Geometry\MultiPoint;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class MultiLineStringTest
+ * Class MultiPointTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineStringTest extends \PHPUnit_Framework_TestCase
+class MultiPointTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCountRings()
+    public function testCountPoints()
     {
-        $multiLineString = new MultiLineString([[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]);
+        $polygon = new MultiPoint([[0,0],[10,0],[10,10],[0,10]]);
 
-        static::assertCount(2, $multiLineString);
+        static::assertCount(4, $polygon);
     }
 
     /**
@@ -47,9 +48,9 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiLineStringTestData
+     * @dataProvider multiPointTestData
      */
-    public function testMultiLineString($value, $validators, $expected)
+    public function testMultiPoint($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -57,27 +58,33 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        try {
-            $actual = (new MultiLineString($value))->getValue();
+        if ($expected instanceof ExceptionInterface) {
+            $this->setExpectedException(get_class($expected), $expected->getMessage());
+        }
 
-            self::assertEquals($expected, $actual);
-        } catch (\Exception $e) {
-            /** @var \Exception $expected */
-            self::assertInstanceOf(get_class($expected), $e);
-            self::assertEquals($expected->getMessage(), $e->getMessage());
+        $multiPoint = new MultiPoint($value);
+
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $multiPoint->getCoordinates());
+        } else {
+            foreach ($expected as $property => $expectedValue) {
+                $function = 'get' . ucfirst($property);
+
+                self::assertEquals($expectedValue, $multiPoint->$function());
+            }
         }
     }
 
     /**
      * @return array[]
      */
-    public function multiLineStringTestData()
+    public function multiPointTestData()
     {
         return [
-            'testGoodArrayMultiLineString' => [
-                'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]],
+            'testGoodArrayMultiPoint' => [
+                'value'      => [[0,0],[10,0],[10,10],[0,10]],
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
+                'expected'   => [[0,0],[10,0],[10,10],[0,10]]
             ],
         ];
     }

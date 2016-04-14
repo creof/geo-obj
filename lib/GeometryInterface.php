@@ -24,12 +24,12 @@
 namespace CrEOF\Geo\Obj;
 
 /**
- * Class CircularString
+ * Interface GeometryInterface
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class CircularString extends Object
+interface GeometryInterface
 {
-    const T_TYPE = self::T_CIRCULARSTRING;
+
 }
