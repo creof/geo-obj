@@ -21,24 +21,47 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Converter;
+namespace CrEOF\Geo\Obj\Data\Generator;
+
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\WKT\Parser;
 
 /**
- * Class GeoJson
+ * Class Wkt
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoJson implements ObjectDataConverterInterface
+class Wkt implements ObjectDataGeneratorInterface
 {
     /**
-     * @param array $objectData
-     *
-     * @return mixed
+     * @var Parser
      */
-    public function convert(array $objectData)
+    private static $parser;
+
+    /**
+     * Wkt constructor
+     */
+    public function __construct()
     {
-        // Convert value to format
-        return $objectData;
+        if (null === self::$parser) {
+            self::$parser = new Parser();
+        }
+    }
+
+    /**
+     * @param mixed       $value
+     * @param null|string $typeHint
+     *
+     * @return array
+     * @throws UnsupportedFormatException
+     */
+    public function generate($value, $typeHint = null)
+    {
+        if (! is_string($value) || ! ctype_alpha($value[0])) {
+            throw new UnsupportedFormatException();
+        }
+
+        return self::$parser->parse($value);
     }
 }

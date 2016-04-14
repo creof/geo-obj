@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
+namespace CrEOF\Geo\Obj\Data\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 

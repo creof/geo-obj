@@ -21,10 +21,10 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests\Value;
+namespace CrEOF\Geo\Obj\Tests\Data\Converter;
 
-use CrEOF\Geo\Obj\Value\Converter\Wkt;
-use CrEOF\Geo\Obj\Value\ValueFactory;
+use CrEOF\Geo\Obj\Data\Converter\Wkt;
+use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
  * Class WktTest
@@ -53,7 +53,7 @@ class WktTest extends \PHPUnit_Framework_TestCase
      */
     public function testWkbValueFactoryConvert($value, $expected)
     {
-        $actual = ValueFactory::getInstance()->convert($value, 'wkt');
+        $actual = DataFactory::getInstance()->convert($value, 'wkt');
 
         self::assertEquals($expected, $actual);
     }

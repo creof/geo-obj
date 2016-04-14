@@ -21,22 +21,35 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Converter;
+namespace CrEOF\Geo\Obj\Data\Generator;
+
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
- * Interface ValueConverterInterface
- * A class implementing ValueConverterInterface takes a value in the structure used internally
- * and converters it to a standard value (WKB, WKB, etc.)
+ * Interface ObjectDataGeneratorInterface
+ *
+ * A class implementing ObjectDataGeneratorInterface takes a standard value (WKB, WKB, etc.)
+ * and generates the Object Data Array used internally
+ *
+ * array {
+ *      $type       string       Type of object
+ *      $value      array        Array representing the contents/value of the object
+ *      $srid       null|integer SRID for object
+ *      $dimension  null|string  Object dimension, uppercase "Z", "M", "ZM" or null for 2D objects
+ *      $properties array        Array with string keys and mixed values containing additional object properties
+ * }
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectDataConverterInterface
+interface ObjectDataGeneratorInterface
 {
     /**
-     * @param array $objectData
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
-     * @return mixed
+     * @return array
+     * @throws UnsupportedFormatException
      */
-    public function convert(array $objectData);
+    public function generate($value, $typeHint = null);
 }

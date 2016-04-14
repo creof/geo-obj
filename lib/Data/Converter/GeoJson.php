@@ -21,53 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\String\Parser;
+namespace CrEOF\Geo\Obj\Data\Converter;
 
 /**
- * Class GeoString
+ * Class GeoJson
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoString implements ObjectDataGeneratorInterface
+class GeoJson implements ObjectDataConverterInterface
 {
     /**
-     * @var Parser
-     */
-    private static $parser;
-
-    /**
-     * Wkb constructor
-     */
-    public function __construct()
-    {
-        if (null === self::$parser) {
-            self::$parser = new Parser();
-        }
-    }
-
-    /**
-     * @param mixed       $value
-     * @param null|string $typeHint
+     * @param array $objectData
      *
-     * @return array
-     * @throws UnsupportedFormatException
+     * @return mixed
      */
-    public function generate($value, $typeHint = null)
+    public function convert(array $objectData)
     {
-        if (! is_string($value) || ! is_numeric($value[0])) {
-            throw new UnsupportedFormatException();
-        }
-
-        return [
-            'value'      => self::$parser->parse($value),
-            'type'       => 'point',
-            'srid'       => null,
-            'dimension'  => null,
-            'properties' => null
-        ];
+        // Convert value to format
+        return $objectData;
     }
 }

@@ -21,31 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests\Value;
-
-use CrEOF\Geo\Obj\Value\ValueFactory;
+namespace CrEOF\Geo\Obj\Data\Converter;
 
 /**
- * Class ValueFactoryTest
- *
- * @backupStaticAttributes
+ * Class Wkb
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class ValueFactoryTest extends \PHPUnit_Framework_TestCase
+class Wkb implements ObjectDataConverterInterface
 {
-    public function testDefaultWkbGenerator()
+    /**
+     * @param array $objectData
+     *
+     * @return mixed
+     */
+    public function convert(array $objectData)
     {
-        $expected = [
-            'srid'      => null,
-            'type'      => 'POINT',
-            'value'     => array(34.23, -87),
-            'dimension' => null
-        ];
-
-        $actual = ValueFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
-
-        self::assertEquals($expected, $actual);
+        // Convert value to format
+        return $objectData;
     }
 }

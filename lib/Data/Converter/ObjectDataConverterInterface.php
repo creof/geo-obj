@@ -21,47 +21,22 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\WKB\Parser;
+namespace CrEOF\Geo\Obj\Data\Converter;
 
 /**
- * Class Wkb
+ * Interface ValueConverterInterface
+ * A class implementing ValueConverterInterface takes a value in the structure used internally
+ * and converters it to a standard value (WKB, WKB, etc.)
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements ObjectDataGeneratorInterface
+interface ObjectDataConverterInterface
 {
     /**
-     * @var Parser
-     */
-    private static $parser;
-
-    /**
-     * Wkb constructor
-     */
-    public function __construct()
-    {
-        if (null === self::$parser) {
-            self::$parser = new Parser();
-        }
-    }
-
-    /**
-     * @param mixed       $value
-     * @param null|string $typeHint
+     * @param array $objectData
      *
-     * @return array
-     * @throws UnsupportedFormatException
+     * @return mixed
      */
-    public function generate($value, $typeHint = null)
-    {
-        if (! is_string($value) || ord($value[0]) > 1) {
-            throw new UnsupportedFormatException();
-        }
-
-        return self::$parser->parse($value);
-    }
+    public function convert(array $objectData);
 }

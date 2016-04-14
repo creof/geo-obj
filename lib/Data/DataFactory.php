@@ -21,25 +21,25 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value;
+namespace CrEOF\Geo\Obj\Data;
 
 use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\Obj\Traits\Singleton;
-use CrEOF\Geo\Obj\Value\Generator;
-use CrEOF\Geo\Obj\Value\Converter;
+use CrEOF\Geo\Obj\Data\Generator;
+use CrEOF\Geo\Obj\Data\Converter;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
- * Class ValueFactory
+ * Class DataFactory
  *
- * The ValueFactory class converts from/to standard values in various formats
- * to/from internally used structure using converter and generator classes.
+ * The DataFactory class converts from/to standard values in various formats
+ * to/from Object Data Array structure using converter and generator classes.
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class ValueFactory
+class DataFactory
 {
     use Singleton;
 

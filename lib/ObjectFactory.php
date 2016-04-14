@@ -28,7 +28,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Exception\UnknownTypeException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\Obj\Traits\Singleton;
-use CrEOF\Geo\Obj\Value\ValueFactory;
+use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
  * Class ObjectFactory
@@ -53,7 +53,7 @@ class ObjectFactory implements ObjectFactoryInterface
     const C_FEATURE            = 'CrEOF\Geo\Obj\Feature';
 
     /**
-     * @var ValueFactory
+     * @var DataFactory
      */
     private $valueFactory;
 
@@ -67,7 +67,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     private function __construct()
     {
-        $this->valueFactory = ValueFactory::getInstance();
+        $this->valueFactory = DataFactory::getInstance();
     }
 
     /**

@@ -21,47 +21,31 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
+namespace CrEOF\Geo\Obj\Tests\Data;
 
-use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\WKT\Parser;
+use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
- * Class Wkt
+ * Class DataFactoryTest
+ *
+ * @backupStaticAttributes
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements ObjectDataGeneratorInterface
+class DataFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Parser
-     */
-    private static $parser;
-
-    /**
-     * Wkt constructor
-     */
-    public function __construct()
+    public function testDefaultWkbGenerator()
     {
-        if (null === self::$parser) {
-            self::$parser = new Parser();
-        }
-    }
+        $expected = [
+            'srid'      => null,
+            'type'      => 'POINT',
+            'value'     => array(34.23, -87),
+            'dimension' => null
+        ];
 
-    /**
-     * @param mixed       $value
-     * @param null|string $typeHint
-     *
-     * @return array
-     * @throws UnsupportedFormatException
-     */
-    public function generate($value, $typeHint = null)
-    {
-        if (! is_string($value) || ! ctype_alpha($value[0])) {
-            throw new UnsupportedFormatException();
-        }
+        $actual = DataFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
-        return self::$parser->parse($value);
+        self::assertEquals($expected, $actual);
     }
 }

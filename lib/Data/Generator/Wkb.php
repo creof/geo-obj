@@ -21,54 +21,47 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Converter;
+namespace CrEOF\Geo\Obj\Data\Generator;
+
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\WKB\Parser;
 
 /**
- * Class Wkt
+ * Class Wkb
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements ObjectDataConverterInterface
+class Wkb implements ObjectDataGeneratorInterface
 {
     /**
-     * @param array $objectData
-     *
-     * @return mixed
+     * @var Parser
      */
-    public function convert(array $objectData)
-    {
-        // TODO: MultiGeometry case
-        $result = strtoupper($objectData['type']) . '(' . $this->getValueString($objectData['value']) . ')';
+    private static $parser;
 
-        return $result;
+    /**
+     * Wkb constructor
+     */
+    public function __construct()
+    {
+        if (null === self::$parser) {
+            self::$parser = new Parser();
+        }
     }
 
     /**
-     * @param array $value
-     * @param int   $depth
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
-     * @return string
+     * @return array
+     * @throws UnsupportedFormatException
      */
-    private function getValueString(array $value, $depth = 0)
+    public function generate($value, $typeHint = null)
     {
-        if (! is_array($value[0])) {
-            return implode(' ', $value);
+        if (! is_string($value) || ord($value[0]) > 1) {
+            throw new UnsupportedFormatException();
         }
 
-        $results = [];
-        $depth++;
-
-        foreach ($value as $item) {
-            $results[] = $this->getValueString($item, $depth);
-        }
-
-        $result = implode(',', $results);
-
-        if (2 > $depth) {
-            return $result;
-        }
-
-        return '(' . $result . ')';
+        return self::$parser->parse($value);
     }
 }

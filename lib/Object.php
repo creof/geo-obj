@@ -26,7 +26,7 @@ namespace CrEOF\Geo\Obj;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Value\ValueFactory;
+use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
  * Abstract object
@@ -52,7 +52,7 @@ abstract class Object implements ObjectInterface, \Countable
     /**
      * ValueFactory instance
      *
-     * @var ValueFactory
+     * @var DataFactory
      */
     private static $valueFactory;
 
@@ -68,7 +68,7 @@ abstract class Object implements ObjectInterface, \Countable
     public function __construct($value, $typeHint = null)
     {
         if (null === self::$valueFactory) {
-            self::$valueFactory = ValueFactory::getInstance();
+            self::$valueFactory = DataFactory::getInstance();
         }
 
         $data = $this->generate($value, $typeHint);

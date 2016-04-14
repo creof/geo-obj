@@ -21,35 +21,54 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Value\Generator;
-
-use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+namespace CrEOF\Geo\Obj\Data\Converter;
 
 /**
- * Interface ObjectDataGeneratorInterface
- *
- * A class implementing ObjectDataGeneratorInterface takes a standard value (WKB, WKB, etc.)
- * and generates the Object Data Array used internally
- *
- * array {
- *      $type       string       Type of object
- *      $value      array        Array representing the contents/value of the object
- *      $srid       null|integer SRID for object
- *      $dimension  null|string  Object dimension, uppercase "Z", "M", "ZM" or null for 2D objects
- *      $properties array        Array with string keys and mixed values containing additional object properties
- * }
+ * Class Wkt
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectDataGeneratorInterface
+class Wkt implements ObjectDataConverterInterface
 {
     /**
-     * @param mixed       $value
-     * @param null|string $typeHint
+     * @param array $objectData
      *
-     * @return array
-     * @throws UnsupportedFormatException
+     * @return mixed
      */
-    public function generate($value, $typeHint = null);
+    public function convert(array $objectData)
+    {
+        // TODO: MultiGeometry case
+        $result = strtoupper($objectData['type']) . '(' . $this->getValueString($objectData['value']) . ')';
+
+        return $result;
+    }
+
+    /**
+     * @param array $value
+     * @param int   $depth
+     *
+     * @return string
+     */
+    private function getValueString(array $value, $depth = 0)
+    {
+        if (! is_array($value[0])) {
+            return implode(' ', $value);
+        }
+
+        $results = [];
+        $depth++;
+
+        foreach ($value as $item) {
+            $results[] = $this->getValueString($item, $depth);
+        }
+
+        $result = implode(',', $results);
+
+        if (2 > $depth) {
+            return $result;
+        }
+
+        return '(' . $result . ')';
+    }
 }
