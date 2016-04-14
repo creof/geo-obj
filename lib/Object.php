@@ -29,7 +29,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Value\ValueFactory;
 
 /**
- * Abstract geo object
+ * Abstract object
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT

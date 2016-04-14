@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Value\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\Obj\ObjectInterface;
 use CrEOF\Geo\String\Parser;
 
 /**
