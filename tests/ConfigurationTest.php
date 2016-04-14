@@ -39,7 +39,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDefaultValidators()
     {
-        $validators = Configuration::getInstance()->getValidators(Object::T_POINT);
+        $validators = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
 
         static::assertInstanceOf('CrEOF\Geo\Obj\Validator\ValidatorStack', $validators);
         static::assertCount(2, $validators);
@@ -51,7 +51,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
 
-        $actual = Configuration::getInstance()->getValidators(Object::T_POINT);
+        $actual = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
 
         static::assertCount(3, $actual);
         static::assertEquals($validator, $actual->pop());

@@ -173,7 +173,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     private function validate(array &$value)
     {
-        Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
+        Configuration::getInstance()->getValidatorStack(static::T_TYPE)->validate($value);
     }
 
     /**

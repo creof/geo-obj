@@ -57,7 +57,7 @@ trait ValidatePointTrait
         ];
 
         try {
-            Configuration::getInstance()->getValidators(Object::T_POINT)->validate($point);
+            Configuration::getInstance()->getValidatorStack(Object::T_POINT)->validate($point);
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad point value in ' . $parentType . '. ' . $e->getMessage(), $e->getCode(), $e);
         }

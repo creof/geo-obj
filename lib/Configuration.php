@@ -93,7 +93,7 @@ final class Configuration
      *
      * @throws UnknownTypeException
      */
-    public function getValidators($type)
+    public function getValidatorStack($type)
     {
         //TODO does this really need clone, or let people do stupid things?
         return clone $this->validators[ObjectFactory::getTypeClass($type)];

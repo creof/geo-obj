@@ -74,7 +74,7 @@ class GeometryCollectionValidator extends AbstractValidator
         $geometry['dimension'] = $this->getExpectedDimension();
 
         try {
-            Configuration::getInstance()->getValidators($geometry['type'])->validate($geometry);
+            Configuration::getInstance()->getValidatorStack($geometry['type'])->validate($geometry);
         } catch (ExceptionInterface $e) {
             throw new RangeException('Bad geometry value in GeometryCollection. ' . $e->getMessage(), $e->getCode(), $e);
         }
