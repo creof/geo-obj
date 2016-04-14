@@ -57,8 +57,8 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
 
         $feature = new Feature($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $feature->getValue());
+        if (! array_key_exists('geometry', $expected)) {
+            self::assertEquals($expected, $feature->getGeometry());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
@@ -78,7 +78,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
                 'value'      => '{"type":"Feature","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"name":"null spot"}}',
                 'validators' => null,
                 'expected'   => [
-                    'value' => [
+                    'geometry' => [
                         'type'  => 'point',
                         'value' => [0,0]
                     ],

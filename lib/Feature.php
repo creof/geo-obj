@@ -32,4 +32,12 @@ namespace CrEOF\Geo\Obj;
 class Feature extends Object implements FeatureInterface
 {
     const T_TYPE = self::T_FEATURE;
+
+    /**
+     * @return array
+     */
+    public function getGeometry()
+    {
+        return $this->data['value'];
+    }
 }
