@@ -21,14 +21,14 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\LineString;
 use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Geometry\LineString;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
 use CrEOF\Geo\Obj\Validator\DValidator;
 
@@ -68,8 +68,8 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
 
         $lineString = new LineString($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $lineString->getValue());
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $lineString->getCoordinates());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
@@ -89,16 +89,16 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => [[0,0],[1,1]],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [[0,0],[1,1]],
-                    'dimension' => null
+                    'coordinates' => [[0,0],[1,1]],
+                    'dimension'   => null
                 ]
             ],
             'testGoodArrayLineStringZM' => [
                 'value'      => [[0,0,0,0],[1,1,1,1]],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [[0,0,0,0],[1,1,1,1]],
-                    'dimension' => 'ZM'
+                    'coordinates' => [[0,0,0,0],[1,1,1,1]],
+                    'dimension'   => 'ZM'
                 ]
             ],
             'testGoodArrayLineStringM' => [
@@ -108,8 +108,8 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [[0,0,0],[1,1,1]],
-                    'dimension' => 'M'
+                    'coordinates' => [[0,0,0],[1,1,1]],
+                    'dimension'   => 'M'
                 ]
             ],
             'testGoodWkbLineString' => [
@@ -125,12 +125,12 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
             'testBadLineStringWktType' => [
                 'value'      => 'POLYGON((0 0),(1 1))',
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for CrEOF\Geo\Obj\LineString')
+                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for LineString')
             ],
             'testBadLineStringWkbType' => [
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for CrEOF\Geo\Obj\LineString')
+                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for LineString')
             ],
             'testBadShortPointInLineString' => [
                 'value'      => [[0,0],[1,1],[0]],

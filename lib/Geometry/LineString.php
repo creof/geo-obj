@@ -21,15 +21,17 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Geometry;
+
+use CrEOF\Geo\Obj\Geometry;
 
 /**
- * Class CircularString
+ * Class LineString
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class CircularString extends Object implements GeometryInterface
+class LineString extends Geometry
 {
-    const T_TYPE = self::T_CIRCULARSTRING;
+    const T_TYPE = self::T_LINESTRING;
 }

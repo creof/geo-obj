@@ -21,28 +21,26 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
-use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Polygon;
+use CrEOF\Geo\Obj\Configuration;
+use CrEOF\Geo\Obj\Geometry\MultiLineString;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class PolygonTest
+ * Class MultiLineStringTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PolygonTest extends \PHPUnit_Framework_TestCase
+class MultiLineStringTest extends \PHPUnit_Framework_TestCase
 {
     public function testCountRings()
     {
-        $polygon = new Polygon([[[0,0],[10,0],[10,10],[0,10],[0,0]]]);
+        $multiLineString = new MultiLineString([[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]);
 
-        static::assertCount(1, $polygon);
+        static::assertCount(2, $multiLineString);
     }
 
     /**
@@ -50,9 +48,9 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider polygonTestData
+     * @dataProvider multiLineStringTestData
      */
-    public function testPolygon($value, $validators, $expected)
+    public function testMultiLineString($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -64,15 +62,15 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException(get_class($expected), $expected->getMessage());
         }
 
-        $polygon = new Polygon($value);
+        $multiLineString = new MultiLineString($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $polygon->getValue());
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $multiLineString->getCoordinates());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $polygon->$function());
+                self::assertEquals($expectedValue, $multiLineString->$function());
             }
         }
     }
@@ -80,34 +78,15 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
-    public function polygonTestData()
+    public function multiLineStringTestData()
     {
         return [
-            'testGoodArrayPolygon' => [
-                'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]]],
+            'testGoodArrayMultiLineString' => [
+                'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]],
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
-            ],
-            'testGoodWktPolygon' => [
-                'value'      => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
-                'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
-            ],
-            'testGoodWkbPolygon' => [
-                'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
-                'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
-            ],
-            'testBadPolygonWktType' => [
-                'value'      => 'LINESTRING(0 0,1 1)',
-                'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Polygon')
-            ],
-            'testBadArrayPolygon' => [
-                'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
-                'validators' => null,
-                'expected'   => new RangeException('Bad ring value in Polygon. Ring value must be array of "array", "integer" found')
+                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
             ],
         ];
     }
+
 }

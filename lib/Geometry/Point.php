@@ -21,15 +21,17 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Geometry;
+
+use CrEOF\Geo\Obj\Geometry;
 
 /**
- * Class MultiLineString
+ * Class Point
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineString extends Object implements GeometryInterface
+class Point extends Geometry
 {
-    const T_TYPE = self::T_MULTILINESTRING;
+    const T_TYPE = self::T_POINT;
 }

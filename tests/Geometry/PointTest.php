@@ -21,13 +21,13 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Point;
+use CrEOF\Geo\Obj\Geometry\Point;
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
 use CrEOF\Geo\Obj\Validator\DValidator;
@@ -68,8 +68,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $point = new Point($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $point->getValue());
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $point->getCoordinates());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
@@ -97,8 +97,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => [0,0],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0],
-                    'dimension' => null
+                    'coordinates' => [0,0],
+                    'dimension'   => null
                 ]
             ],
             'testGoodValueArrayLowercasePoint' => [
@@ -124,8 +124,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0,0],
-                    'dimension' => 'Z'
+                    'coordinates' => [0,0,0],
+                    'dimension'   => 'Z'
                 ]
             ],
             'testGoodValueArrayPointM' => [
@@ -135,8 +135,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0,0],
-                    'dimension' => 'M'
+                    'coordinates' => [0,0,0],
+                    'dimension'   => 'M'
                 ]
             ],
             'testGoodValueArrayPointSpaceM' => [
@@ -146,8 +146,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0,0],
-                    'dimension' => 'M'
+                    'coordinates' => [0,0,0],
+                    'dimension'   => 'M'
                 ]
             ],
             'testGoodValueArrayPointSpaceZM' => [
@@ -157,8 +157,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0,0,0],
-                    'dimension' => 'ZM'
+                    'coordinates' => [0,0,0,0],
+                    'dimension'   => 'ZM'
                 ]
             ],
             'testGoodValueArrayPointWithDimensionM' => [
@@ -169,8 +169,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [0,0,0],
-                    'dimension' => 'M'
+                    'coordinates' => [0,0,0],
+                    'dimension'   => 'M'
                 ]
             ],
             'testGoodWkbPoint' => [
@@ -182,8 +182,8 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
                 'validators' => null,
                 'expected'   => [
-                    'value'     => [1,2,3],
-                    'dimension' => 'Z'
+                    'coordinates' => [1,2,3],
+                    'dimension'   => 'Z'
                 ]
             ],
             'testGoodStringCoordArrayLongitudeFirst' => [
@@ -210,19 +210,19 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST)
                 ],
                 'expected'   => [
-                    'value'     => [20, 120, 10],
-                    'dimension' => 'Z'
+                    'coordinates' => [20, 120, 10],
+                    'dimension'   => 'Z'
                 ]
             ],
             'testBadPointWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point')
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Point')
             ],
             'testBadPointWkbType' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for CrEOF\Geo\Obj\Point')
+                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Point')
             ],
             'testBadShortPoint' => [
                 'value'      => [0],

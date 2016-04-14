@@ -21,26 +21,26 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests;
+namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\MultiPoint;
+use CrEOF\Geo\Obj\Geometry\MultiPolygon;
 use CrEOF\Geo\Obj\Object;
 
 /**
- * Class MultiPointTest
+ * Class MultiPolygonTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPointTest extends \PHPUnit_Framework_TestCase
+class MultiPolygonTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCountPoints()
+    public function testCountRings()
     {
-        $polygon = new MultiPoint([[0,0],[10,0],[10,10],[0,10]]);
+        $polygon = new MultiPolygon([[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]);
 
-        static::assertCount(4, $polygon);
+        static::assertCount(2, $polygon);
     }
 
     /**
@@ -48,9 +48,9 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiPointTestData
+     * @dataProvider multiPolygonTestData
      */
-    public function testMultiPoint($value, $validators, $expected)
+    public function testMultiPolygon($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -62,15 +62,15 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException(get_class($expected), $expected->getMessage());
         }
 
-        $multiPoint = new MultiPoint($value);
+        $multiPolygon = new MultiPolygon($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $multiPoint->getValue());
+        if (! array_key_exists('coordinates', $expected)) {
+            self::assertEquals($expected, $multiPolygon->getCoordinates());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $multiPoint->$function());
+                self::assertEquals($expectedValue, $multiPolygon->$function());
             }
         }
     }
@@ -78,15 +78,14 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
-    public function multiPointTestData()
+    public function multiPolygonTestData()
     {
         return [
-            'testGoodArrayMultiPoint' => [
-                'value'      => [[0,0],[10,0],[10,10],[0,10]],
+            'testGoodArrayMultiPolygon' => [
+                'value'      => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]],
                 'validators' => null,
-                'expected'   => [[0,0],[10,0],[10,10],[0,10]]
+                'expected'   => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]
             ],
         ];
     }
-
 }

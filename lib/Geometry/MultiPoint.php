@@ -21,15 +21,17 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Geometry;
+
+use CrEOF\Geo\Obj\Geometry;
 
 /**
- * Class Point
+ * Class MultiPoint
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Point extends Object implements GeometryInterface
+class MultiPoint extends Geometry
 {
-    const T_TYPE = self::T_POINT;
+    const T_TYPE = self::T_MULTIPOINT;
 }
