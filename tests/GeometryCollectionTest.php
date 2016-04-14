@@ -68,8 +68,8 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
 
         $geometryCollection = new GeometryCollection($value);
 
-        if (! array_key_exists('value', $expected)) {
-            self::assertEquals($expected, $geometryCollection->getValue());
+        if (! array_key_exists('geometries', $expected)) {
+            self::assertEquals($expected, $geometryCollection->getGeometries());
         } else {
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);

@@ -32,4 +32,12 @@ namespace CrEOF\Geo\Obj;
 class GeometryCollection extends Object implements GeometryInterface
 {
     const T_TYPE = self::T_GEOMETRYCOLLECTION;
+
+    /**
+     * @return array
+     */
+    public function getGeometries()
+    {
+        return $this->data['value'];
+    }
 }
