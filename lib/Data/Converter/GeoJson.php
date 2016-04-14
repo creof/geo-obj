@@ -29,7 +29,7 @@ namespace CrEOF\Geo\Obj\Data\Converter;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoJson implements ObjectDataConverterInterface
+class GeoJson implements DataConverterInterface
 {
     /**
      * @param array $objectData

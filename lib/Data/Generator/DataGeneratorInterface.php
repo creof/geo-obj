@@ -26,7 +26,7 @@ namespace CrEOF\Geo\Obj\Data\Generator;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
- * Interface ObjectDataGeneratorInterface
+ * Interface DataGeneratorInterface
  *
  * A class implementing ObjectDataGeneratorInterface takes a standard value (WKB, WKB, etc.)
  * and generates the Object Data Array used internally
@@ -42,7 +42,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectDataGeneratorInterface
+interface DataGeneratorInterface
 {
     /**
      * @param mixed       $value

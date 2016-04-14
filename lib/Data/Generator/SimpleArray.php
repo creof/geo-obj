@@ -31,7 +31,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class SimpleArray implements ObjectDataGeneratorInterface
+class SimpleArray implements DataGeneratorInterface
 {
     /**
      * @param mixed       $value

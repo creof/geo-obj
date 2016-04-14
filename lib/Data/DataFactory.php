@@ -44,12 +44,12 @@ class DataFactory
     use Singleton;
 
     /**
-     * @var Generator\ObjectDataGeneratorInterface[]
+     * @var Generator\DataGeneratorInterface[]
      */
     private $generators;
 
     /**
-     * @var Converter\ObjectDataConverterInterface[]
+     * @var Converter\DataConverterInterface[]
      */
     private $converters;
 
@@ -102,19 +102,19 @@ class DataFactory
     }
 
     /**
-     * @param Generator\ObjectDataGeneratorInterface $generator ValueGeneratorInterface instance
-     * @param string                                 $format    Format supported by adapter
+     * @param Generator\DataGeneratorInterface $generator ValueGeneratorInterface instance
+     * @param string                           $format    Format supported by adapter
      */
-    public function addGenerator(Generator\ObjectDataGeneratorInterface $generator, $format)
+    public function addGenerator(Generator\DataGeneratorInterface $generator, $format)
     {
         $this->generators[$format] = $generator;
     }
 
     /**
-     * @param Converter\ObjectDataConverterInterface $converter ValueGeneratorInterface
-     * @param string                                 $format    Format supported by generator
+     * @param Converter\DataConverterInterface $converter ValueGeneratorInterface
+     * @param string                           $format    Format supported by generator
      */
-    public function addConverter(Converter\ObjectDataConverterInterface $converter, $format)
+    public function addConverter(Converter\DataConverterInterface $converter, $format)
     {
         $this->converters[$format] = $converter;
     }
@@ -122,7 +122,7 @@ class DataFactory
     /**
      * @param $format
      *
-     * @return Generator\ObjectDataGeneratorInterface
+     * @return Generator\DataGeneratorInterface
      * @throws UnsupportedFormatException
      */
     private function getGenerator($format)

@@ -32,7 +32,7 @@ use CrEOF\Geo\String\Parser;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoString implements ObjectDataGeneratorInterface
+class GeoString implements DataGeneratorInterface
 {
     /**
      * @var Parser

@@ -24,14 +24,15 @@
 namespace CrEOF\Geo\Obj\Data\Converter;
 
 /**
- * Interface ValueConverterInterface
- * A class implementing ValueConverterInterface takes a value in the structure used internally
- * and converters it to a standard value (WKB, WKB, etc.)
+ * Interface DataConverterInterface
+ *
+ * A class implementing DataConverterInterface takes a value in the Object Data Array structure used internally
+ * and converters it to a standard format (WKB, WKB, etc.)
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectDataConverterInterface
+interface DataConverterInterface
 {
     /**
      * @param array $objectData
