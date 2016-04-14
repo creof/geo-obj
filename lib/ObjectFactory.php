@@ -25,6 +25,7 @@ namespace CrEOF\Geo\Obj;
 
 use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Value\ValueFactory;
@@ -110,7 +111,7 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param string $type
      *
      * @return string
-     * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public static function getTypeClass($type)
     {
@@ -136,6 +137,6 @@ class ObjectFactory implements ObjectFactoryInterface
 
         }
 
-        throw new UnexpectedValueException('Unknown type "' . $type . '"');
+        throw new UnknownTypeException('Unknown type "' . $type . '"');
     }
 }

@@ -23,8 +23,9 @@
 
 namespace CrEOF\Geo\Obj;
 
-use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
+use CrEOF\Geo\Obj\Traits\Singleton;
 use CrEOF\Geo\Obj\Validator\TypeValidator;
 use CrEOF\Geo\Obj\Validator\ValidatorInterface;
 use CrEOF\Geo\Obj\Validator\ValidatorStack;
@@ -65,6 +66,7 @@ final class Configuration
      * @param ValidatorInterface $validator
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function pushValidator($type, ValidatorInterface $validator)
     {
@@ -77,6 +79,7 @@ final class Configuration
      * @param ValidatorInterface $validator
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function addValidator($type, $index, ValidatorInterface $validator)
     {
@@ -88,7 +91,7 @@ final class Configuration
      *
      * @return ValidatorStack
      *
-     * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function getValidators($type)
     {
