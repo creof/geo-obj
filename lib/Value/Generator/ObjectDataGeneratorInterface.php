@@ -26,14 +26,14 @@ namespace CrEOF\Geo\Obj\Value\Generator;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
- * Interface ValueGeneratorInterface
+ * Interface ObjectDataGeneratorInterface
  *
- * A class implementing ValueGeneratorInterface takes a standard value (WKB, WKB, etc.)
- * and generates the value array used internally
+ * A class implementing ObjectDataGeneratorInterface takes a standard value (WKB, WKB, etc.)
+ * and generates the Object Data Array used internally
  *
  * array {
  *      $type       string       Type of object
- *      $value      array        Array of numbers (for points) or array(s) of point arrays
+ *      $value      array        Array representing the contents/value of the object
  *      $srid       null|integer SRID for object
  *      $dimension  null|string  Object dimension, uppercase "Z", "M", "ZM" or null for 2D objects
  *      $properties array        Array with string keys and mixed values containing additional object properties
@@ -42,7 +42,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ValueGeneratorInterface
+interface ObjectDataGeneratorInterface
 {
     /**
      * @param mixed       $value

@@ -32,7 +32,7 @@ use CrEOF\Geo\WKB\Parser;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements ValueGeneratorInterface
+class Wkb implements ObjectDataGeneratorInterface
 {
     /**
      * @var Parser

@@ -33,7 +33,7 @@ use CrEOF\Geo\Obj\ObjectInterface;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeoJson implements ValueGeneratorInterface
+class GeoJson implements ObjectDataGeneratorInterface
 {
     /**
      * @param mixed       $value

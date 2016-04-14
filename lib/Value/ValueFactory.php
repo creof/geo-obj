@@ -44,7 +44,7 @@ class ValueFactory
     use Singleton;
 
     /**
-     * @var Generator\ValueGeneratorInterface[]
+     * @var Generator\ObjectDataGeneratorInterface[]
      */
     private $generators;
 
@@ -102,10 +102,10 @@ class ValueFactory
     }
 
     /**
-     * @param Generator\ValueGeneratorInterface $generator ValueGeneratorInterface instance
-     * @param string                            $format    Format supported by adapter
+     * @param Generator\ObjectDataGeneratorInterface $generator ValueGeneratorInterface instance
+     * @param string                                 $format    Format supported by adapter
      */
-    public function addGenerator(Generator\ValueGeneratorInterface $generator, $format)
+    public function addGenerator(Generator\ObjectDataGeneratorInterface $generator, $format)
     {
         $this->generators[$format] = $generator;
     }
@@ -122,7 +122,7 @@ class ValueFactory
     /**
      * @param $format
      *
-     * @return Generator\ValueGeneratorInterface
+     * @return Generator\ObjectDataGeneratorInterface
      * @throws UnsupportedFormatException
      */
     private function getGenerator($format)
