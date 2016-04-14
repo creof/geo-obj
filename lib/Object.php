@@ -99,7 +99,7 @@ abstract class Object implements ObjectInterface, \Countable
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
-            return $this->setProperty(substr($name, 3), $arguments[0]);
+            return $this->setProperty(strtolower(substr($name, 3)), $arguments[0]);
         }
 
         // TODO use better exception
