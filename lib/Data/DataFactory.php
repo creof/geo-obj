@@ -23,12 +23,12 @@
 
 namespace CrEOF\Geo\Obj\Data;
 
-use CrEOF\Geo\Obj\ObjectInterface;
-use CrEOF\Geo\Obj\Traits\Singleton;
-use CrEOF\Geo\Obj\Data\Generator;
 use CrEOF\Geo\Obj\Data\Converter;
+use CrEOF\Geo\Obj\Data\Generator;
+use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Traits\Singleton;
 
 /**
  * Class DataFactory
@@ -104,18 +104,30 @@ class DataFactory
     /**
      * @param Generator\DataGeneratorInterface $generator ValueGeneratorInterface instance
      * @param string                           $format    Format supported by adapter
+     *
+     * @throws RuntimeException
      */
     public function addGenerator(Generator\DataGeneratorInterface $generator, $format)
     {
+        if (array_key_exists($format, $this->generators)) {
+            throw new RuntimeException();
+        }
+
         $this->generators[$format] = $generator;
     }
 
     /**
      * @param Converter\DataConverterInterface $converter ValueGeneratorInterface
      * @param string                           $format    Format supported by generator
+     *
+     * @throws RuntimeException
      */
     public function addConverter(Converter\DataConverterInterface $converter, $format)
     {
+        if (array_key_exists($format, $this->converters)) {
+            throw new RuntimeException();
+        }
+
         $this->converters[$format] = $converter;
     }
 
