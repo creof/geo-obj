@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
 use CrEOF\Geo\Obj\ObjectFactory;
 
 /**
@@ -43,6 +44,7 @@ class TypeValidator implements ValidatorInterface
      * @param string $type
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function __construct($type)
     {
@@ -53,6 +55,7 @@ class TypeValidator implements ValidatorInterface
      * @param array &$data
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function validate(array &$data)
     {

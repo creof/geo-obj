@@ -58,6 +58,7 @@ class GeographyValidator extends AbstractValidator
      * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws RangeException
      */
     public function validate(array &$data)
     {
