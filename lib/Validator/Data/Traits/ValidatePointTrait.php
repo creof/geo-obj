@@ -21,64 +21,45 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data\Traits;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
-use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class MultiLineStringValidator
+ * Class ValidatePointTrait
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiLineStringValidator extends AbstractValidator
+trait ValidatePointTrait
 {
-    use Traits\ValidatePointTrait;
-
     /**
-     * MultiLineStringValidator constructor
-     */
-    public function __construct()
-    {
-        $this->setExpectedType(Object::T_MULTILINESTRING);
-    }
-
-    /**
-     * @param array &$data
+     * @param mixed  $point
+     * @param string $dimension
+     * @param string $parentType Name of object containing points used in exception messages
      *
      * @throws ExceptionInterface
      */
-    public function validate(array &$data)
+    protected function validatePoint($point, $dimension, $parentType)
     {
-        parent::validate($data);
-
-        foreach ($data['value'] as $lineString) {
-            $this->validateLineString($lineString);
+        if (! is_array($point)) {
+            throw new UnexpectedValueException($parentType . ' value must be array of "array", "' . gettype($point) . '" found');
         }
-    }
 
-    /**
-     * @param mixed $lineString
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validateLineString($lineString)
-    {
-        if (! is_array($lineString)) {
-            throw new UnexpectedValueException('MultiLineString value must be array of "array", "' . gettype($lineString) . '" found');
-        }
+        $point = [
+            'type'      => 'point',
+            'value'     => $point,
+            'dimension' => $dimension
+        ];
 
         try {
-            foreach ($lineString as $point) {
-                $this->validatePoint($point, $this->getExpectedDimension(), 'LineString');
-            }
+            Configuration::getInstance()->getValidatorStack(Object::T_POINT)->validate($point);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad point value in ' . $parentType . '. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

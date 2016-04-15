@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
@@ -31,21 +31,21 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class MultiPointValidator
+ * Class MultiLineStringValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPointValidator extends AbstractValidator
+class MultiLineStringValidator extends AbstractValidator
 {
     use Traits\ValidatePointTrait;
 
     /**
-     * MultiPointValidator constructor
+     * MultiLineStringValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_MULTIPOINT);
+        $this->setExpectedType(Object::T_MULTILINESTRING);
     }
 
     /**
@@ -57,8 +57,28 @@ class MultiPointValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        foreach ($data['value'] as $point) {
-            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
+        foreach ($data['value'] as $lineString) {
+            $this->validateLineString($lineString);
+        }
+    }
+
+    /**
+     * @param mixed $lineString
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validateLineString($lineString)
+    {
+        if (! is_array($lineString)) {
+            throw new UnexpectedValueException('MultiLineString value must be array of "array", "' . gettype($lineString) . '" found');
+        }
+
+        try {
+            foreach ($lineString as $point) {
+                $this->validatePoint($point, $this->getExpectedDimension(), 'LineString');
+            }
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad linestring value in MultiLineString. ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

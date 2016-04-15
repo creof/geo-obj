@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
@@ -31,21 +31,21 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class LineStringValidator
+ * Class MultiPolygonValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class LineStringValidator extends AbstractValidator
+class MultiPolygonValidator extends AbstractValidator
 {
     use Traits\ValidatePointTrait;
 
     /**
-     * LineStringValidator constructor
+     * MultiPolygonValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_LINESTRING);
+        $this->setExpectedType(Object::T_MULTIPOLYGON);
     }
 
     /**
@@ -57,8 +57,50 @@ class LineStringValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        foreach ($data['value'] as $point) {
-            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
+        foreach ($data['value'] as $polygon) {
+            $this->validatePolygon($polygon);
         }
+    }
+
+    /**
+     * @param mixed $polygon
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validatePolygon($polygon)
+    {
+        if (! is_array($polygon)) {
+            throw new UnexpectedValueException('MultiPolygon value must be array of "array", "' . gettype($polygon) . '" found');
+        }
+
+        try {
+            foreach ($polygon as $ring) {
+                $this->validateRing($ring);
+            }
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad polygon value in MultiPolygon. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param mixed $ring
+     *
+     * @throws ExceptionInterface
+     */
+    protected function validateRing($ring)
+    {
+        if (! is_array($ring)) {
+            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
+        }
+
+        try {
+            foreach ($ring as $point) {
+                $this->validatePoint($point, $this->getExpectedDimension(), 'Ring');
+            }
+        } catch (ExceptionInterface $e) {
+            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        //TODO rings must be closed
     }
 }

@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
@@ -31,19 +31,21 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class GeometryCollectionValidator
+ * Class FeatureValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class GeometryCollectionValidator extends AbstractValidator
+class FeatureValidator extends AbstractValidator
 {
+    use Traits\ValidatePointTrait;
+
     /**
-     * GeometryCollectionValidator constructor
+     * FeatureValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_GEOMETRYCOLLECTION);
+        $this->setExpectedType(Object::T_FEATURE);
     }
 
     /**
@@ -55,28 +57,6 @@ class GeometryCollectionValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        foreach ($data['value'] as $geometry) {
-            $this->validateGeometry($geometry);
-        }
-    }
-
-    /**
-     * @param mixed $geometry
-     *
-     * @throws ExceptionInterface
-     */
-    protected function validateGeometry($geometry)
-    {
-        if (! is_array($geometry)) {
-            throw new UnexpectedValueException('Geometry value must be array of "array", "' . gettype($geometry) . '" found');
-        }
-
-        $geometry['dimension'] = $this->getExpectedDimension();
-
-        try {
-            Configuration::getInstance()->getValidatorStack($geometry['type'])->validate($geometry);
-        } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad geometry value in GeometryCollection. ' . $e->getMessage(), $e->getCode(), $e);
-        }
+        //TODO implement
     }
 }

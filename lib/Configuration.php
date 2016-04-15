@@ -52,7 +52,7 @@ final class Configuration
 
         foreach ($reflectionClass->getConstants() as $const => $value) {
             $validatorStack      = new ValidatorStack();
-            $valueValidatorClass = 'CrEOF\Geo\Obj\Validator\Value\\' . $value . 'Validator';
+            $valueValidatorClass = 'CrEOF\Geo\Obj\Validator\Data\\' . $value . 'Validator';
 
             $validatorStack->push(new TypeValidator($value));
             $validatorStack->push(new $valueValidatorClass());

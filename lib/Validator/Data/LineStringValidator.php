@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
@@ -31,21 +31,21 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class FeatureValidator
+ * Class LineStringValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class FeatureValidator extends AbstractValidator
+class LineStringValidator extends AbstractValidator
 {
     use Traits\ValidatePointTrait;
 
     /**
-     * FeatureValidator constructor
+     * LineStringValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_FEATURE);
+        $this->setExpectedType(Object::T_LINESTRING);
     }
 
     /**
@@ -57,6 +57,8 @@ class FeatureValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        //TODO implement
+        foreach ($data['value'] as $point) {
+            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
+        }
     }
 }

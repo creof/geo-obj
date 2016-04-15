@@ -21,9 +21,8 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
-use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
@@ -31,21 +30,19 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class CircularStringValidator
+ * Class PointValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class CircularStringValidator extends AbstractValidator
+class PointValidator extends AbstractValidator
 {
-    use Traits\ValidatePointTrait;
-
     /**
-     * CircularStringValidator constructor
+     * PointValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_CIRCULARSTRING);
+        $this->setExpectedType(Object::T_POINT);
     }
 
     /**
@@ -57,8 +54,20 @@ class CircularStringValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        foreach ($data['value'] as $point) {
-            $this->validatePoint($point, $this->getExpectedDimension(), $this->getExpectedType());
+        $count = count($data['value']);
+
+        if ($count < 2 || $count > 4) {
+            throw new RangeException('Point value count must be between 2 and 4.');
+        }
+
+        if ($count !== 2 + strlen($this->getExpectedDimension())) {
+            throw new RangeException('Dimension mismatch'); //TODO fix message
+        }
+
+        foreach ($data['value'] as $num) {
+            if (! is_int($num) && ! is_float($num)) {
+                throw new UnexpectedValueException('Point value must be array containing "integer" or "float", "' . gettype($num) . '" found');
+            }
         }
     }
 }

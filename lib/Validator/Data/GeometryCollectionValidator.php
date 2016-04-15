@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator\Value;
+namespace CrEOF\Geo\Obj\Validator\Data;
 
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
@@ -31,21 +31,19 @@ use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class PolygonValidator
+ * Class GeometryCollectionValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PolygonValidator extends AbstractValidator
+class GeometryCollectionValidator extends AbstractValidator
 {
-    use Traits\ValidatePointTrait;
-
     /**
-     * PolygonValidator constructor
+     * GeometryCollectionValidator constructor
      */
     public function __construct()
     {
-        $this->setExpectedType(Object::T_POLYGON);
+        $this->setExpectedType(Object::T_GEOMETRYCOLLECTION);
     }
 
     /**
@@ -57,30 +55,28 @@ class PolygonValidator extends AbstractValidator
     {
         parent::validate($data);
 
-        foreach ($data['value'] as $ring) {
-            $this->validateRing($ring);
+        foreach ($data['value'] as $geometry) {
+            $this->validateGeometry($geometry);
         }
     }
 
     /**
-     * @param mixed $ring
+     * @param mixed $geometry
      *
      * @throws ExceptionInterface
      */
-    protected function validateRing($ring)
+    protected function validateGeometry($geometry)
     {
-        if (! is_array($ring)) {
-            throw new UnexpectedValueException('Polygon value must be array of "array", "' . gettype($ring) . '" found');
+        if (! is_array($geometry)) {
+            throw new UnexpectedValueException('Geometry value must be array of "array", "' . gettype($geometry) . '" found');
         }
+
+        $geometry['dimension'] = $this->getExpectedDimension();
 
         try {
-            foreach ($ring as $point) {
-                $this->validatePoint($point, $this->getExpectedDimension(), 'Ring');
-            }
+            Configuration::getInstance()->getValidatorStack($geometry['type'])->validate($geometry);
         } catch (ExceptionInterface $e) {
-            throw new RangeException('Bad ring value in Polygon. ' . $e->getMessage(), $e->getCode(), $e);
+            throw new RangeException('Bad geometry value in GeometryCollection. ' . $e->getMessage(), $e->getCode(), $e);
         }
-
-        //TODO rings must be closed
     }
 }
