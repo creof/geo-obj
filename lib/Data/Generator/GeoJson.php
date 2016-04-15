@@ -82,7 +82,7 @@ class GeoJson implements DataGeneratorInterface
         ];
     }
 
-    private function getValueFromGeometry($geometry)
+    private function getValueFromGeometry(array $geometry)
     {
         return [
             'type'  => strtolower($geometry['type']),
