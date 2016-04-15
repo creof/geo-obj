@@ -31,6 +31,24 @@ namespace CrEOF\Geo\Obj\Data\Converter;
  */
 class Wkb implements DataConverterInterface
 {
+    const WKB_XDR = 0;
+    const WKB_NDR = 1;
+
+    /**
+     * @var int
+     */
+    private $byteOrder;
+
+    /**
+     * Wkb constructor
+     *
+     * @param int $byteOrder
+     */
+    public function __construct($byteOrder = 0)
+    {
+        $this->byteOrder = $byteOrder;
+    }
+
     /**
      * @param array $data
      *
