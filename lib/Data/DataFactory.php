@@ -53,6 +53,9 @@ class DataFactory
      */
     private $converters;
 
+    /**
+     * DataFactory constructor
+     */
     private function __construct()
     {
         $this->addDefaultGenerators();
