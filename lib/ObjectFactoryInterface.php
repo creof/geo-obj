@@ -44,12 +44,12 @@ interface ObjectFactoryInterface
     /**
      * Convert object to standard data format value
      *
-     * @param mixed  $value
+     * @param mixed  $object
      * @param string $format
      *
      * @return mixed
      */
-    public function convert($value, $format);
+    public function convert($object, $format);
 
     /**
      * Get ObjectFactory instance

@@ -96,15 +96,15 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * Convert object to standard format
      *
-     * @param        $value
+     * @param mixed  $object
      * @param string $format
      *
      * @return mixed
      * @throws UnexpectedValueException
      */
-    public function convert($value, $format)
+    public function convert($object, $format)
     {
-        return $this->valueFactory->convert($value, $format);
+        return $this->valueFactory->convert($object, $format);
     }
 
     /**
