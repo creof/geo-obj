@@ -97,35 +97,26 @@ class GeoJson implements DataGeneratorInterface
         switch ($error) {
             case JSON_ERROR_NONE:
                 return 'No errors';
-                break;
             case JSON_ERROR_DEPTH:
                 return 'Maximum stack depth exceeded';
-                break;
             case JSON_ERROR_STATE_MISMATCH:
                 return 'Underflow or the modes mismatch';
-                break;
             case JSON_ERROR_CTRL_CHAR:
                 return 'Unexpected control character found';
-                break;
             case JSON_ERROR_SYNTAX:
                 return 'Syntax error, malformed JSON';
-                break;
             case JSON_ERROR_UTF8:
                 return 'Malformed UTF-8 characters, possibly incorrectly encoded';
-                break;
         }
 
         if (version_compare(PHP_VERSION, '5.5.0-dev', '>=')) {
             switch ($error) {
                 case JSON_ERROR_RECURSION:
                     return 'Recursive references found';
-                    break;
                 case JSON_ERROR_INF_OR_NAN:
                     return 'Value includes Inf or NaN';
-                    break;
                 case JSON_ERROR_UNSUPPORTED_TYPE:
                     return 'Unsupported type';
-                    break;
             }
         }
 
