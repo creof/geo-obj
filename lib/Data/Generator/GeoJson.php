@@ -40,6 +40,7 @@ class GeoJson implements DataGeneratorInterface
      * @param null|string $typeHint
      *
      * @return array
+     * @throws UnexpectedValueException
      * @throws UnsupportedFormatException
      */
     public function generate($value, $typeHint = null)
@@ -82,6 +83,11 @@ class GeoJson implements DataGeneratorInterface
         ];
     }
 
+    /**
+     * @param array $geometry
+     *
+     * @return array
+     */
     private function getValueFromGeometry(array $geometry)
     {
         return [
@@ -90,6 +96,9 @@ class GeoJson implements DataGeneratorInterface
         ];
     }
 
+    /**
+     * @return string
+     */
     private function getJsonError()
     {
         $error = json_last_error();
