@@ -90,12 +90,12 @@ class DataFactory
      * @param string $type
      *
      * @return mixed
-     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     public function convert(array $value, $type)
     {
         if (! array_key_exists($type, $this->converters)) {
-            throw new UnexpectedValueException();
+            throw new UnsupportedFormatException('message'); //TODO
         }
 
         return $this->converters[$type]->convert($value);
