@@ -49,6 +49,8 @@ abstract class AbstractValidator implements ValidatorInterface
      * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws UnexpectedValueException
      */
     public function validate(array &$data)
     {

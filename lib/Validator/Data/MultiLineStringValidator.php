@@ -23,8 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Validator\Data;
 
-use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
@@ -52,6 +52,9 @@ class MultiLineStringValidator extends AbstractValidator
      * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws RangeException
+     * @throws UnexpectedValueException
      */
     public function validate(array &$data)
     {
@@ -66,6 +69,8 @@ class MultiLineStringValidator extends AbstractValidator
      * @param mixed $lineString
      *
      * @throws ExceptionInterface
+     * @throws RangeException
+     * @throws UnexpectedValueException
      */
     protected function validateLineString($lineString)
     {

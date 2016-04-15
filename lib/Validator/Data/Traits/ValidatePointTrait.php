@@ -43,6 +43,8 @@ trait ValidatePointTrait
      * @param string $parentType Name of object containing points used in exception messages
      *
      * @throws ExceptionInterface
+     * @throws RangeException
+     * @throws UnexpectedValueException
      */
     protected function validatePoint($point, $dimension, $parentType)
     {
