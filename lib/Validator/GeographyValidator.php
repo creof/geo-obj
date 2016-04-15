@@ -51,7 +51,8 @@ class GeographyValidator extends AbstractValidator
     public function __construct($order)
     {
         $this->setExpectedType(Object::T_POINT);
-        $this->order        = $order;
+
+        $this->order = $order;
     }
 
     /**
