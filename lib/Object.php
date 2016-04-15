@@ -23,10 +23,12 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Data\DataFactory;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Data\DataFactory;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
  * Abstract object
@@ -43,7 +45,7 @@ abstract class Object implements ObjectInterface, \Countable
     const T_TYPE = null;
 
     /**
-     * Array containing object's value and properties
+     * Object Data Array containing object's value and properties
      *
      * @var array
      */
@@ -62,8 +64,10 @@ abstract class Object implements ObjectInterface, \Countable
      * @param             $value
      * @param null|string $typeHint
      *
-     * @throws UnexpectedValueException
      * @throws ExceptionInterface
+     * @throws UnexpectedValueException
+     * @throws UnknownTypeException
+     * @throws UnsupportedFormatException
      */
     public function __construct($value, $typeHint = null)
     {
@@ -170,6 +174,7 @@ abstract class Object implements ObjectInterface, \Countable
      * @param array $value
      *
      * @throws ExceptionInterface
+     * @throws UnknownTypeException
      */
     private function validate(array &$value)
     {
@@ -184,12 +189,13 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @return array
      * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     private function generate($value, $formatHint = null)
     {
         $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
 
-        //TODO is this necessary? yes, wkb and wkt don't included properties currently
+        //TODO is this necessary? yes? wkb and wkt don't included properties currently
         return [
             'type'       => $value['type'],
             'value'      => $value['value'],

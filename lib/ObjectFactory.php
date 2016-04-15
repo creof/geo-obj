@@ -76,8 +76,9 @@ class ObjectFactory implements ObjectFactoryInterface
      * @param mixed       $value
      * @param null|string $formatHint
      *
-     * @return Object
+     * @return mixed
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      * @throws UnsupportedFormatException
      * @throws RuntimeException
      */
