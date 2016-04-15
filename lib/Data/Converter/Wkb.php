@@ -31,8 +31,31 @@ namespace CrEOF\Geo\Obj\Data\Converter;
  */
 class Wkb implements DataConverterInterface
 {
-    const WKB_XDR = 0;
-    const WKB_NDR = 1;
+    const WKB_XDR                     = 0;
+    const WKB_NDR                     = 1;
+
+    const WKB_TYPE_GEOMETRY           = 0;
+    const WKB_TYPE_POINT              = 1;
+    const WKB_TYPE_LINESTRING         = 2;
+    const WKB_TYPE_POLYGON            = 3;
+    const WKB_TYPE_MULTIPOINT         = 4;
+    const WKB_TYPE_MULTILINESTRING    = 5;
+    const WKB_TYPE_MULTIPOLYGON       = 6;
+    const WKB_TYPE_GEOMETRYCOLLECTION = 7;
+    const WKB_TYPE_CIRCULARSTRING     = 8;
+    const WKB_TYPE_COMPOUNDCURVE      = 9;
+    const WKB_TYPE_CURVEPOLYGON       = 10;
+    const WKB_TYPE_MULTICURVE         = 11;
+    const WKB_TYPE_MULTISURFACE       = 12;
+    const WKB_TYPE_CURVE              = 13;
+    const WKB_TYPE_SURFACE            = 14;
+    const WKB_TYPE_POLYHEDRALSURFACE  = 15;
+    const WKB_TYPE_TIN                = 16;
+    const WKB_TYPE_TRIANGLE           = 17;
+
+    const WKB_FLAG_SRID               = 0x20000000;
+    const WKB_FLAG_M                  = 0x40000000;
+    const WKB_FLAG_Z                  = 0x80000000;
 
     /**
      * @var int
