@@ -40,7 +40,7 @@ class WktTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider wktTestData
      */
-    public function testWkbConvertor($value, $expected)
+    public function testWktConverter($value, $expected)
     {
         $converter = new Wkt();
         $actual    = $converter->convert($value);
@@ -51,13 +51,16 @@ class WktTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider wktTestData
      */
-    public function testWkbValueFactoryConvert($value, $expected)
+    public function testWktDataFactoryConvert($value, $expected)
     {
         $actual = DataFactory::getInstance()->convert($value, 'wkt');
 
         self::assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     public function wktTestData()
     {
         return [
