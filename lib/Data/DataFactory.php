@@ -90,18 +90,18 @@ class DataFactory
 
     /**
      * @param array  $value
-     * @param string $type
+     * @param string $format
      *
      * @return mixed
      * @throws UnsupportedFormatException
      */
-    public function convert(array $value, $type)
+    public function convert(array $value, $format)
     {
-        if (! array_key_exists($type, $this->converters)) {
+        if (! array_key_exists($format, $this->converters)) {
             throw new UnsupportedFormatException('message'); //TODO
         }
 
-        return $this->converters[$type]->convert($value);
+        return $this->converters[$format]->convert($value);
     }
 
     /**
