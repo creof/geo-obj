@@ -52,11 +52,11 @@ abstract class Object implements ObjectInterface, \Countable
     protected $data;
 
     /**
-     * ValueFactory instance
+     * DataFactory instance
      *
      * @var DataFactory
      */
-    private static $valueFactory;
+    private static $dataFactory;
 
     /**
      * Object constructor
@@ -71,8 +71,8 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function __construct($value, $typeHint = null)
     {
-        if (null === self::$valueFactory) {
-            self::$valueFactory = DataFactory::getInstance();
+        if (null === self::$dataFactory) {
+            self::$dataFactory = DataFactory::getInstance();
         }
 
         $data = $this->generate($value, $typeHint);
@@ -95,7 +95,7 @@ abstract class Object implements ObjectInterface, \Countable
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 0 === count($arguments)) {
-            return self::$valueFactory->convert($this->data, strtolower(substr($name, 2)));
+            return self::$dataFactory->convert($this->data, strtolower(substr($name, 2)));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
@@ -193,7 +193,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     private function generate($value, $formatHint = null)
     {
-        $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
+        $value = self::$dataFactory->generate($value, $formatHint, static::T_TYPE);
 
         //TODO is this necessary? yes? wkb and wkt don't included properties currently
         return [
