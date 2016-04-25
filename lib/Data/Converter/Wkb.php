@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo\Obj\Data\Converter;
 
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+
 /**
  * Class Wkb
  *
@@ -53,9 +55,13 @@ class Wkb implements DataConverterInterface
     const WKB_TYPE_TIN                = 16;
     const WKB_TYPE_TRIANGLE           = 17;
 
+    const WKB_FLAG_NONE               = 0x00000000;
     const WKB_FLAG_SRID               = 0x20000000;
     const WKB_FLAG_M                  = 0x40000000;
     const WKB_FLAG_Z                  = 0x80000000;
+
+    const WKB_UNSUPPORTED_DROP        = 0;
+    const WKB_UNSUPPORTED_FAIL        = 1;
 
     /**
      * @var int
@@ -63,13 +69,43 @@ class Wkb implements DataConverterInterface
     private $byteOrder;
 
     /**
+     * @var int
+     */
+    private $flags;
+
+    /**
+     * @var int
+     */
+    private $unsupportedAction;
+
+    private $value;
+
+    /**
      * Wkb constructor
      *
      * @param int $byteOrder
+     * @param int $flags
+     * @param int $unsupportedAction
+     *
+     * @throws UnexpectedValueException
      */
-    public function __construct($byteOrder = 0)
+    public function __construct($byteOrder = self::WKB_XDR, $flags = self::WKB_FLAG_NONE, $unsupportedAction = self::WKB_UNSUPPORTED_DROP)
     {
-        $this->byteOrder = $byteOrder;
+        if ($byteOrder !== self::WKB_XDR && $byteOrder !== self::WKB_NDR) {
+            throw new UnexpectedValueException();
+        }
+
+        if (0 !== (self::WKB_FLAG_SRID & self::WKB_FLAG_M & self::WKB_FLAG_Z) ^ $flags) {
+            throw new UnexpectedValueException();
+        }
+
+        if ($unsupportedAction !== self::WKB_UNSUPPORTED_DROP && $unsupportedAction !== self::WKB_UNSUPPORTED_FAIL) {
+            throw new UnexpectedValueException();
+        }
+
+        $this->byteOrder         = $byteOrder;
+        $this->flags             = $flags;
+        $this->unsupportedAction = $unsupportedAction;
     }
 
     /**
@@ -79,6 +115,10 @@ class Wkb implements DataConverterInterface
      */
     public function convert(array $data)
     {
+        $this->value = pack('C', $this->byteOrder);
+
+        $type = constant('self::WKB_TYPE_' . strtoupper($data['type']));
+
         // Convert value to format
         return $data;
     }
