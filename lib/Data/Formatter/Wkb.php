@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Data\Converter;
+namespace CrEOF\Geo\Obj\Data\Formatter;
 
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
@@ -31,7 +31,7 @@ use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements DataConverterInterface
+class Wkb implements FormatterInterface
 {
     const WKB_XDR                     = 0;
     const WKB_NDR                     = 1;
@@ -113,7 +113,7 @@ class Wkb implements DataConverterInterface
      *
      * @return mixed
      */
-    public function convert(array $data)
+    public function format(array $data)
     {
         $this->value = pack('C', $this->byteOrder);
 

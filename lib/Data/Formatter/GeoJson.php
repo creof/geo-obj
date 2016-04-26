@@ -21,54 +21,24 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Data\Converter;
+namespace CrEOF\Geo\Obj\Data\Formatter;
 
 /**
- * Class Wkt
+ * Class GeoJson
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements DataConverterInterface
+class GeoJson implements FormatterInterface
 {
     /**
      * @param array $data
      *
      * @return mixed
      */
-    public function convert(array $data)
+    public function format(array $data)
     {
-        // TODO: MultiGeometry case
-        $result = strtoupper($data['type']) . '(' . $this->getValueString($data['value']) . ')';
-
-        return $result;
-    }
-
-    /**
-     * @param array $value
-     * @param int   $depth
-     *
-     * @return string
-     */
-    private function getValueString(array $value, $depth = 0)
-    {
-        if (! is_array($value[0])) {
-            return implode(' ', $value);
-        }
-
-        $results = [];
-        $depth++;
-
-        foreach ($value as $item) {
-            $results[] = $this->getValueString($item, $depth);
-        }
-
-        $result = implode(',', $results);
-
-        if (2 > $depth) {
-            return $result;
-        }
-
-        return '(' . $result . ')';
+        // Convert value to format
+        return $data;
     }
 }

@@ -95,7 +95,7 @@ class ObjectFactory implements ObjectFactoryInterface
     }
 
     /**
-     * Convert object to standard format
+     * Format object in standard format
      *
      * @param mixed  $object
      * @param string $format
@@ -103,7 +103,7 @@ class ObjectFactory implements ObjectFactoryInterface
      * @return mixed
      * @throws UnexpectedValueException
      */
-    public function convert($object, $format)
+    public function format($object, $format)
     {
         return $object->format($format);
     }

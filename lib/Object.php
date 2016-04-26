@@ -119,7 +119,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function format($format)
     {
-        return self::$dataFactory->convert($this->data, $format);
+        return self::$dataFactory->format($this->data, $format);
     }
 
     /**

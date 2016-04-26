@@ -21,23 +21,48 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Data\Converter;
+namespace CrEOF\Geo\Obj\Tests\Data\Formatter;
+
+use CrEOF\Geo\Obj\Data\Formatter\Wkb;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
- * Interface DataConverterInterface
- *
- * A class implementing DataConverterInterface takes a value in the Object Data Array structure used internally
- * and converters it to a standard format (WKB, WKB, etc.)
+ * Class WkbTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface DataConverterInterface
+class WkbTest extends \PHPUnit_Framework_TestCase
 {
+    public function testDefaultConstructor()
+    {
+        new Wkb();
+    }
+
     /**
-     * @param array $data
-     *
-     * @return mixed
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage
      */
-    public function convert(array $data);
+    public function testBadByteOrder()
+    {
+        new Wkb(5);
+    }
+
+    /**
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage
+     */
+    public function testBadFlags()
+    {
+        new Wkb(Wkb::WKB_XDR, 56);
+    }
+
+    /**
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage
+     */
+    public function testBadUnsupportedActions()
+    {
+        new Wkb(Wkb::WKB_XDR, Wkb::WKB_FLAG_NONE, 45);
+    }
 }

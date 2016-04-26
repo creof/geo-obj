@@ -32,7 +32,7 @@ Objects
 
 ## Validators
 
-## Converters
+## Formatters
 
 ## Exceptions
 

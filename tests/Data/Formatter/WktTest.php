@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests\Data\Converter;
+namespace CrEOF\Geo\Obj\Tests\Data\Formatter;
 
-use CrEOF\Geo\Obj\Data\Converter\Wkt;
+use CrEOF\Geo\Obj\Data\Formatter\Wkt;
 use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
@@ -40,10 +40,10 @@ class WktTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider wktTestData
      */
-    public function testWktConverter($value, $expected)
+    public function testWktFormatter($value, $expected)
     {
-        $converter = new Wkt();
-        $actual    = $converter->convert($value);
+        $formatter = new Wkt();
+        $actual    = $formatter->format($value);
 
         self::assertEquals($expected, $actual);
     }
@@ -51,9 +51,9 @@ class WktTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider wktTestData
      */
-    public function testWktDataFactoryConvert($value, $expected)
+    public function testWktDataFactoryFormat($value, $expected)
     {
-        $actual = DataFactory::getInstance()->convert($value, 'wkt');
+        $actual = DataFactory::getInstance()->format($value, 'wkt');
 
         self::assertEquals($expected, $actual);
     }

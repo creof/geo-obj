@@ -23,7 +23,7 @@
 
 namespace CrEOF\Geo\Obj\Data;
 
-use CrEOF\Geo\Obj\Data\Converter;
+use CrEOF\Geo\Obj\Data\Formatter;
 use CrEOF\Geo\Obj\Data\Generator;
 use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
@@ -34,7 +34,7 @@ use CrEOF\Geo\Obj\Traits\Singleton;
  * Class DataFactory
  *
  * The DataFactory class converts from/to standard values in various formats
- * to/from Object Data Array structure using converter and generator classes.
+ * to/from Object Data Array structure using DataGeneratorInterface and FormatterInterface instances.
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
@@ -49,9 +49,9 @@ class DataFactory
     private $generators;
 
     /**
-     * @var Converter\DataConverterInterface[]
+     * @var Formatter\FormatterInterface[]
      */
-    private $converters;
+    private $formatters;
 
     /**
      * DataFactory constructor
@@ -59,7 +59,7 @@ class DataFactory
     private function __construct()
     {
         $this->addDefaultGenerators();
-        $this->addDefaultConverters();
+        $this->addDefaultFormatters();
     }
 
     /**
@@ -95,13 +95,13 @@ class DataFactory
      * @return mixed
      * @throws UnsupportedFormatException
      */
-    public function convert(array $value, $format)
+    public function format(array $value, $format)
     {
-        if (! array_key_exists($format, $this->converters)) {
+        if (! array_key_exists($format, $this->formatters)) {
             throw new UnsupportedFormatException('message'); //TODO
         }
 
-        return $this->converters[$format]->convert($value);
+        return $this->formatters[$format]->format($value);
     }
 
     /**
@@ -120,18 +120,18 @@ class DataFactory
     }
 
     /**
-     * @param Converter\DataConverterInterface $converter ValueGeneratorInterface
-     * @param string                           $format    Format supported by generator
+     * @param Formatter\FormatterInterface $formatter ValueGeneratorInterface
+     * @param string                       $format    Format supported by generator
      *
      * @throws RuntimeException
      */
-    public function addConverter(Converter\DataConverterInterface $converter, $format)
+    public function addFormatter(Formatter\FormatterInterface $formatter, $format)
     {
-        if (array_key_exists($format, $this->converters)) {
+        if (array_key_exists($format, $this->formatters)) {
             throw new RuntimeException();
         }
 
-        $this->converters[$format] = $converter;
+        $this->formatters[$format] = $formatter;
     }
 
     /**
@@ -160,12 +160,12 @@ class DataFactory
         ];
     }
 
-    private function addDefaultConverters()
+    private function addDefaultFormatters()
     {
-        $this->converters = [
-            'wkt'     => new Converter\Wkt(),
-            'wkb'     => new Converter\Wkb(),
-            'geojson' => new Converter\GeoJson()
+        $this->formatters = [
+            'wkt'     => new Formatter\Wkt(),
+            'wkb'     => new Formatter\Wkb(),
+            'geojson' => new Formatter\GeoJson()
         ];
     }
 }
