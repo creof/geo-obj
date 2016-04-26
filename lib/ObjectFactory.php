@@ -105,7 +105,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     public function convert($object, $format)
     {
-        return $this->valueFactory->convert($object, $format);
+        return $object->format($format);
     }
 
     /**
