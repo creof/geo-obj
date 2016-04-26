@@ -28,7 +28,7 @@ Objects
 
 ## The DataFactory
 
-## Generators and the DataGeneratorInterface
+## Generators and the GeneratorInterface
 
 ## Validators
 

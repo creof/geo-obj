@@ -34,7 +34,7 @@ use CrEOF\Geo\Obj\Traits\Singleton;
  * Class DataFactory
  *
  * The DataFactory class converts from/to standard values in various formats
- * to/from Object Data Array structure using DataGeneratorInterface and FormatterInterface instances.
+ * to/from Object Data Array structure using GeneratorInterface and FormatterInterface instances.
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
@@ -44,7 +44,7 @@ class DataFactory
     use Singleton;
 
     /**
-     * @var Generator\DataGeneratorInterface[]
+     * @var Generator\GeneratorInterface[]
      */
     private $generators;
 
@@ -105,12 +105,12 @@ class DataFactory
     }
 
     /**
-     * @param Generator\DataGeneratorInterface $generator ValueGeneratorInterface instance
-     * @param string                           $format    Format supported by adapter
+     * @param Generator\GeneratorInterface $generator ValueGeneratorInterface instance
+     * @param string                       $format    Format supported by adapter
      *
      * @throws RuntimeException
      */
-    public function addGenerator(Generator\DataGeneratorInterface $generator, $format)
+    public function addGenerator(Generator\GeneratorInterface $generator, $format)
     {
         if (array_key_exists($format, $this->generators)) {
             throw new RuntimeException();
@@ -137,7 +137,7 @@ class DataFactory
     /**
      * @param $format
      *
-     * @return Generator\DataGeneratorInterface
+     * @return Generator\GeneratorInterface
      * @throws UnsupportedFormatException
      */
     private function getGenerator($format)
