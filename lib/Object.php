@@ -88,14 +88,15 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @return mixed
      *
-     * @throws UnexpectedValueException
      * @throws RangeException
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 0 === count($arguments)) {
-            return self::$dataFactory->convert($this->data, strtolower(substr($name, 2)));
+            return $this->format(strtolower(substr($name, 2)));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
@@ -108,6 +109,17 @@ abstract class Object implements ObjectInterface, \Countable
 
         // TODO use better exception
         throw new RangeException();
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return mixed
+     * @throws UnsupportedFormatException
+     */
+    public function format($format)
+    {
+        return self::$dataFactory->convert($this->data, $format);
     }
 
     /**
