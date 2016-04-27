@@ -40,7 +40,7 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @method string toWkb()
  * @method string toGeoJson()
  */
-abstract class Object implements ObjectInterface, \Countable
+abstract class Object implements ObjectInterface, \Countable, \Iterator
 {
     const T_TYPE = null;
 
@@ -50,6 +50,11 @@ abstract class Object implements ObjectInterface, \Countable
      * @var array
      */
     protected $data;
+
+    /**
+     * @var int
+     */
+    private $position;
 
     /**
      * DataFactory instance
@@ -75,11 +80,47 @@ abstract class Object implements ObjectInterface, \Countable
             self::$dataFactory = DataFactory::getInstance();
         }
 
+        $this->position = 0;
+
         $data = $this->generate($value, $typeHint);
 
         $this->validate($data);
 
         $this->data = $data;
+    }
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function current()
+    {
+        return $this->data['value'][$this->position];
+    }
+
+    /**
+     * @return int
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    /**
+     * @return bool
+     */
+    public function valid()
+    {
+        return isset($this->data['value'][$this->position]);
     }
 
     /**
