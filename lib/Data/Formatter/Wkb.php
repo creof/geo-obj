@@ -60,8 +60,8 @@ class Wkb implements FormatterInterface
     const WKB_FLAG_M                  = 0x40000000;
     const WKB_FLAG_Z                  = 0x80000000;
 
-    const WKB_UNSUPPORTED_DROP        = 0;
-    const WKB_UNSUPPORTED_FAIL        = 1;
+    const WKB_MISMATCH_DROP           = 0;
+    const WKB_MISMATCH_FAIL           = 1;
 
     /**
      * @var int
@@ -76,36 +76,49 @@ class Wkb implements FormatterInterface
     /**
      * @var int
      */
-    private $unsupportedAction;
+    private $mismatchAction;
 
+    /**
+     * @var string
+     */
     private $value;
+
+    /**
+     * @var array[]
+     */
+    private $data;
+
+    /**
+     * @var int
+     */
+    private static $machineByteOrder;
 
     /**
      * Wkb constructor
      *
      * @param int $byteOrder
      * @param int $flags
-     * @param int $unsupportedAction
+     * @param int $mismatchAction
      *
      * @throws UnexpectedValueException
      */
-    public function __construct($byteOrder = self::WKB_XDR, $flags = self::WKB_FLAG_NONE, $unsupportedAction = self::WKB_UNSUPPORTED_DROP)
+    public function __construct($byteOrder = self::WKB_XDR, $flags = self::WKB_FLAG_NONE, $mismatchAction = self::WKB_MISMATCH_DROP)
     {
         if ($byteOrder !== self::WKB_XDR && $byteOrder !== self::WKB_NDR) {
             throw new UnexpectedValueException();
         }
 
-        if (0 !== (self::WKB_FLAG_SRID & self::WKB_FLAG_M & self::WKB_FLAG_Z) ^ $flags) {
+        if (0 !== (~ (self::WKB_FLAG_SRID | self::WKB_FLAG_M | self::WKB_FLAG_Z) & $flags)) {
             throw new UnexpectedValueException();
         }
 
-        if ($unsupportedAction !== self::WKB_UNSUPPORTED_DROP && $unsupportedAction !== self::WKB_UNSUPPORTED_FAIL) {
+        if ($mismatchAction !== self::WKB_MISMATCH_DROP && $mismatchAction !== self::WKB_MISMATCH_FAIL) {
             throw new UnexpectedValueException();
         }
 
-        $this->byteOrder         = $byteOrder;
-        $this->flags             = $flags;
-        $this->unsupportedAction = $unsupportedAction;
+        $this->byteOrder      = $byteOrder;
+        $this->flags          = $flags;
+        $this->mismatchAction = $mismatchAction;
     }
 
     /**
@@ -115,11 +128,211 @@ class Wkb implements FormatterInterface
      */
     public function format(array $data)
     {
-        $this->value = pack('C', $this->byteOrder);
+        $this->data  = $data;
+        $this->value = null;
+        $typeName    = $this->data['type'];
+        $flags       = $this->getFlags();
 
-        $type = constant('self::WKB_TYPE_' . strtoupper($data['type']));
+        $this->byteOrder();
 
-        // Convert value to format
-        return $data;
+        if (($flags & self::WKB_FLAG_SRID) === self::WKB_FLAG_SRID) {
+            $this->appendLong($this->data['srid']);
+        }
+
+        $this->$typeName($this->data['value'], $flags);
+
+        return $this->value;
+    }
+
+    private function byteOrder()
+    {
+        $this->value .= pack('C', $this->byteOrder);
+    }
+
+    /**
+     * @param array $point
+     * @param int   $flags
+     */
+    private function point(array $point, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_POINT | $flags);
+
+        $this->appendFloats($point);
+    }
+
+    /**
+     * @param array $points
+     * @param int   $flags
+     */
+    private function lineString(array $points, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_LINESTRING | $flags);
+        $this->appendCount($points);
+
+        foreach ($points as $point) {
+            $this->appendFloats($point);
+        }
+    }
+
+    /**
+     * @param array $rings
+     * @param int   $flags
+     */
+    private function polygon(array $rings, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_POLYGON | $flags);
+        $this->appendCount($rings);
+
+        foreach ($rings as $ring) {
+            $this->appendCount($ring);
+
+            foreach ($ring as $point) {
+                $this->appendFloats($point);
+            }
+        }
+    }
+
+    /**
+     * @param array $points
+     * @param int   $flags
+     */
+    private function multiPoint(array $points, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_MULTIPOINT | $flags);
+        $this->appendCount($points);
+
+        foreach ($points as $point) {
+            $this->byteOrder();
+            $this->point($point, $flags);
+        }
+    }
+
+    /**
+     * @param array $lineStrings
+     * @param int   $flags
+     */
+    private function multiLineString(array $lineStrings, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_MULTILINESTRING | $flags);
+        $this->appendCount($lineStrings);
+
+        foreach ($lineStrings as $lineString) {
+            $this->byteOrder();
+            $this->lineString($lineString, $flags);
+        }
+    }
+
+    /**
+     * @param array $polygons
+     * @param int   $flags
+     */
+    private function multiPolygon(array $polygons, $flags)
+    {
+        $this->appendLong(self::WKB_TYPE_MULTIPOLYGON | $flags);
+        $this->appendCount($polygons);
+
+        foreach ($polygons as $polygon) {
+            $this->byteOrder();
+            $this->polygon($polygon, $flags);
+        }
+    }
+
+    /**
+     * @return int
+     */
+    private function getFlags()
+    {
+        $flags = 0;
+
+        if (null !== $this->data['dimension']) {
+            $flags = $this->getDimensionFlags();
+        }
+
+        if (null !== $this->data['srid']) {
+            $flags |= self::WKB_FLAG_SRID;
+        }
+
+        if (($flags & $this->flags) !== $flags) {
+            throw new UnexpectedValueException(); //TODO mismatchAction?
+//            if (self::WKB_MISMATCH_DROP === $this->mismatchAction && size($this->data['dimension'] > size($expected))) {
+//            }
+
+        }
+
+        return $flags;
+    }
+
+    /**
+     * @return int
+     */
+    private function getDimensionFlags()
+    {
+        $flags = 0;
+
+        foreach (str_split($this->data['dimension']) as $dimension) {
+            $flags |= constant('self::WKB_FLAG_' . strtoupper($dimension));
+        }
+
+        return $flags;
+    }
+
+    /**
+     * @return bool
+     */
+    private function getMachineByteOrder()
+    {
+        if (null !== self::$machineByteOrder) {
+            return self::$machineByteOrder;
+        }
+
+        self::$machineByteOrder = unpack('S', "\x01\x00")[1] === 1 ? self::WKB_NDR : self::WKB_XDR;
+
+        return self::$machineByteOrder;
+    }
+
+    /**
+     * @param float $float
+     */
+    private function appendFloat($float)
+    {
+        if ($this->getMachineByteOrder() === $this->byteOrder) {
+            $this->value .= pack('d', $float);
+
+            return;
+        }
+
+        $this->value .= strrev(pack('d', $float));
+    }
+
+    /**
+     * @param float[] $floats
+     */
+    private function appendFloats(array $floats)
+    {
+        foreach ($floats as $float) {
+            $this->appendFloat($float);
+        }
+    }
+
+    /**
+     * @param int $long
+     */
+    private function appendLong($long)
+    {
+        if (self::WKB_NDR === $this->byteOrder) {
+            $this->value .= pack('V', $long);
+
+            return;
+        }
+
+        $this->value .= pack('N', $long);
+    }
+
+    /**
+     * @param array $array
+     */
+    private function appendCount(array $array)
+    {
+        $this->appendLong(count($array));
     }
 }
