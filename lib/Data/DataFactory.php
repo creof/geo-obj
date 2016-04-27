@@ -105,6 +105,18 @@ class DataFactory
     }
 
     /**
+     * @param string      $value
+     * @param string      $outFormat
+     * @param null|string $inFormatHint
+     *
+     * @return mixed
+     */
+    public function convert($value, $outFormat, $inFormatHint = null)
+    {
+        return $this->format($this->generate($value, $inFormatHint), $outFormat);
+    }
+
+    /**
      * @param Generator\GeneratorInterface $generator ValueGeneratorInterface instance
      * @param string                       $format    Format supported by adapter
      *

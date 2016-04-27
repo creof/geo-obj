@@ -48,4 +48,34 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
 
         self::assertEquals($expected, $actual);
     }
+
+    /**
+     * @param string      $value
+     * @param string      $outFormat
+     * @param null|string $inFormatHint
+     * @param string      $expected
+     *
+     * @dataProvider goodConvertData
+     */
+    public function testGoodConvert($value, $outFormat, $inFormatHint, $expected)
+    {
+        $actual = DataFactory::getInstance()->convert($value, $outFormat, $inFormatHint);
+
+        self::assertEquals(pack('H*', $expected), $actual);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function goodConvertData()
+    {
+        return [
+            'testWktPointToWkb'      => [
+                'value'        => 'POINT(0 0)',
+                'outFormat'    => 'wkb',
+                'inFormatHint' => null,
+                'expected'     => '000000000100000000000000000000000000000000'
+            ]
+        ];
+    }
 }
