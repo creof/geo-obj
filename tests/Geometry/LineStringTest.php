@@ -44,6 +44,26 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
         static::assertCount(2, $lineString);
     }
 
+    public function testIterator()
+    {
+        $points = [
+            [2,2],
+            [0,0],
+            [1,1],
+            [9,3],
+            [10, -20]
+        ];
+
+        $lineString = new LineString($points);
+        $index      = 0;
+
+        foreach ($lineString as $point) {
+            self::assertEquals($points[$index++], $point);
+        }
+
+        self::assertEquals(count($points), $index);
+    }
+
     /**
      * @param $value
      * @param $validators

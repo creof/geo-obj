@@ -45,6 +45,23 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
         static::assertCount(1, $polygon);
     }
 
+    public function testIterator()
+    {
+        $rings = [
+            [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]],
+            [[5, 5], [7, 5], [7, 7], [5, 7], [5, 5]]
+        ];
+
+        $polygon = new Polygon($rings);
+        $index   = 0;
+
+        foreach ($polygon as $ring) {
+            self::assertEquals($rings[$index++], $ring);
+        }
+
+        self::assertEquals(count($rings), $index);
+    }
+
     /**
      * @param $value
      * @param $validators
