@@ -61,7 +61,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $actual = DataFactory::getInstance()->convert($value, $outFormat, $inFormatHint);
 
-        self::assertEquals(pack('H*', $expected), $actual);
+        self::assertEquals($expected, $actual);
     }
 
     /**
@@ -74,7 +74,13 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
                 'value'        => 'POINT(0 0)',
                 'outFormat'    => 'wkb',
                 'inFormatHint' => null,
-                'expected'     => '000000000100000000000000000000000000000000'
+                'expected'     => pack('H*', '000000000100000000000000000000000000000000')
+            ],
+            'testWkbPointToWkt'      => [
+                'value'        => pack('H*', '000000000100000000000000000000000000000000'),
+                'outFormat'    => 'wkt',
+                'inFormatHint' => null,
+                'expected'     => 'POINT(0 0)'
             ]
         ];
     }
