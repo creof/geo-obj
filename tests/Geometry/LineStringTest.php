@@ -24,9 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Geometry\LineString;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
@@ -52,9 +49,9 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider lineStringTestData
+     * @dataProvider goodLineStringTestData
      */
-    public function testLineString($value, $validators, $expected)
+    public function testGoodLineString($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -62,27 +59,44 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $lineString = new LineString($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $lineString->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $lineString->$function());
+            self::assertEquals($expectedValue, $lineString->$function());
+        }
+    }
+
+    /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badLineStringTestData
+     */
+    public function testBadLineString($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
             }
         }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new LineString($value);
     }
 
     /**
      * @return array[]
      */
-    public function lineStringTestData()
+    public function goodLineStringTestData()
     {
         return [
             'testGoodArrayLineString' => [
@@ -115,27 +129,16 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
             'testGoodWkbLineString' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
-                'expected'   => [[34.23, -87], [45.3, -92]]
+                'expected'   => [
+                    'coordinates' => [[34.23, -87], [45.3, -92]]
+                ]
             ],
             'testGoodWktLineString' => [
                 'value'      => 'LINESTRING(34.23 -87, 45.3 -92)',
                 'validators' => null,
-                'expected'   => [[34.23,-87],[45.3,-92]]
-            ],
-            'testBadLineStringWktType' => [
-                'value'      => 'POLYGON((0 0),(1 1))',
-                'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for LineString')
-            ],
-            'testBadLineStringWkbType' => [
-                'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
-                'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "POLYGON" for LineString')
-            ],
-            'testBadShortPointInLineString' => [
-                'value'      => [[0,0],[1,1],[0]],
-                'validators' => null,
-                'expected'   => new RangeException('Bad point value in LineString. Point value count must be between 2 and 4.')
+                'expected'   => [
+                    'coordinates' => [[34.23,-87],[45.3,-92]]
+                ]
             ],
             'testGoodGeometryLineString' => [
                 'value'      => [[37.235142, -115.800834],[37.236620, -115.801573],[37.239059, -115.802904]],
@@ -143,7 +146,42 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(2)
                 ],
-                'expected'   => [[37.235142, -115.800834],[37.236620, -115.801573],[37.239059, -115.802904]]
+                'expected'   => [
+                    'coordinates' => [[37.235142, -115.800834],[37.236620, -115.801573],[37.239059, -115.802904]]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badLineStringTestData()
+    {
+        return [
+            'testBadLineStringWktType' => [
+                'value'      => 'POLYGON((0 0),(1 1))',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "POLYGON" for LineString'
+                ]
+            ],
+            'testBadLineStringWkbType' => [
+                'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "POLYGON" for LineString'
+                ]
+            ],
+            'testBadShortPointInLineString' => [
+                'value'      => [[0,0],[1,1],[0]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Bad point value in LineString. Point value count must be between 2 and 4.'
+                ]
             ],
             'testBadPointInGeometryLineString' => [
                 'value'      => [[37.235142, -115.800834],[37.236620, -115.801573],[137.239059, -115.802904]],
@@ -151,8 +189,11 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(2)
                 ],
-                'expected'   => new RangeException('Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.')
-            ],
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.'
+                ]
+            ]
         ];
     }
 }
