@@ -48,9 +48,9 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiLineStringTestData
+     * @dataProvider goodMultiLineStringTestData
      */
-    public function testMultiLineString($value, $validators, $expected)
+    public function testGoodMultiLineString($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -58,33 +58,27 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $multiLineString = new MultiLineString($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $multiLineString->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
             self::assertSame($expectedValue, $multiLineString->$function());
-            }
         }
     }
 
     /**
      * @return array[]
      */
-    public function multiLineStringTestData()
+    public function goodMultiLineStringTestData()
     {
         return [
             'testGoodArrayMultiLineString' => [
                 'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]],
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
+                'expected'   => [
+                    'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
+                ]
             ],
         ];
     }

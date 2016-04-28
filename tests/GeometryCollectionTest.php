@@ -62,20 +62,12 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $geometryCollection = new GeometryCollection($value);
 
-        if (! array_key_exists('geometries', $expected)) {
-            self::assertEquals($expected, $geometryCollection->getGeometries());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
             self::assertSame($expectedValue, $geometryCollection->$function());
-            }
         }
     }
 
@@ -93,9 +85,11 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
                 ],
                 'validators' => null,
                 'expected'   => [
-                    ['type'  => 'POINT', 'value' => [10,10]],
-                    ['type'  => 'POINT', 'value' => [30,30]],
-                    ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
+                    'geometries' => [
+                        ['type'  => 'POINT', 'value' => [10,10]],
+                        ['type'  => 'POINT', 'value' => [30,30]],
+                        ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
+                    ]
                 ]
             ],
         ];

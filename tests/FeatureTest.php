@@ -41,9 +41,9 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider featureTestData
+     * @dataProvider goodFeatureTestData
      */
-    public function testFeature($value, $validators, $expected)
+    public function testGoodFeature($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -51,27 +51,19 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $feature = new Feature($value);
 
-        if (! array_key_exists('geometry', $expected)) {
-            self::assertEquals($expected, $feature->getGeometry());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
             self::assertSame($expectedValue, $feature->$function());
-            }
         }
     }
 
     /**
      * @return array[]
      */
-    public function featureTestData()
+    public function goodFeatureTestData()
     {
         return [
             'testFeaturePoint' => [
