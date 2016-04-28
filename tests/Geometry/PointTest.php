@@ -126,6 +126,18 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => null
                 ]
             ],
+            'testGoodValueArrayLowercasePointWithNullDimension' => [
+                'value'      => [
+                    'value'     => [0,0],
+                    'type'      => 'point',
+                    'dimension' => null
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [0,0],
+                    'dimension'   => null
+                ]
+            ],
             'testGoodValueArrayUppercasePoint' => [
                 'value'      => [
                     'value' => [0,0],
