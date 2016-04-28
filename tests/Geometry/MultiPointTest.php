@@ -82,5 +82,4 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
 }

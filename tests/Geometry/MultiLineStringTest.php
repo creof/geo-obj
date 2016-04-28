@@ -82,5 +82,4 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
 }

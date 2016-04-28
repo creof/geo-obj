@@ -157,7 +157,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => 'LINESTRING(34.23 -87, 45.3 -92)',
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [[34.23,-87],[45.3,-92]]
+                    'coordinates' => [[34.23, -87],[45.3, -92]]
                 ]
             ],
             'testGoodGeometryLineString' => [
