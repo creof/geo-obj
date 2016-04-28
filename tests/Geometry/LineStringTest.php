@@ -58,10 +58,10 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
         $index      = 0;
 
         foreach ($lineString as $point) {
-            self::assertEquals($points[$index++], $point);
+            self::assertSame($points[$index++], $point);
         }
 
-        self::assertEquals(count($points), $index);
+        self::assertSame(count($points), $index);
     }
 
     /**
@@ -84,7 +84,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $property => $expectedValue) {
             $function = 'get' . ucfirst($property);
 
-            self::assertEquals($expectedValue, $lineString->$function());
+            self::assertSame($expectedValue, $lineString->$function());
         }
     }
 
@@ -150,7 +150,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [[34.23, -87], [45.3, -92]]
+                    'coordinates' => [[34.23, -87.0], [45.3, -92.0]]
                 ]
             ],
             'testGoodWktLineString' => [

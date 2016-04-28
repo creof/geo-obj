@@ -70,7 +70,7 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $multiPoint->$function());
+            self::assertSame($expectedValue, $multiPoint->$function());
             }
         }
     }

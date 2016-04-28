@@ -54,6 +54,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $actual = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
 
         static::assertCount(3, $actual);
-        static::assertEquals($validator, $actual->pop());
+        static::assertSame($validator, $actual->pop());
     }
 }

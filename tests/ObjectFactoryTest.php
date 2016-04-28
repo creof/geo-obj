@@ -38,7 +38,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateWktHintWkt()
     {
-        $expected = new Point([34.23, -87]);
+        $expected = new Point([34.23, -87.0]);
 
         $actual = ObjectFactory::getInstance()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
@@ -47,7 +47,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWktNoHint()
     {
-        $expected = new Point([34.23, -87]);
+        $expected = new Point([34.23, -87.0]);
 
         $actual = ObjectFactory::getInstance()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
 

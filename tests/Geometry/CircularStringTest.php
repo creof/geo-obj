@@ -70,7 +70,7 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $circularString->$function());
+            self::assertSame($expectedValue, $circularString->$function());
             }
         }
     }
@@ -84,7 +84,9 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
             'testGoodWkbCircularString' => [
                 'coordinates' => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
                 'validators'  => null,
-                'expected'    => [[0,0],[1,1],[2,0]]
+                'expected'    => [
+                    'coordinates' => [[0.0, 0.0], [1.0, 1.0], [2.0, 0.0]]
+                ]
             ],
         ];
     }

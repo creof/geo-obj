@@ -56,10 +56,10 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
         $index   = 0;
 
         foreach ($polygon as $ring) {
-            self::assertEquals($rings[$index++], $ring);
+            self::assertSame($rings[$index++], $ring);
         }
 
-        self::assertEquals(count($rings), $index);
+        self::assertSame(count($rings), $index);
     }
 
     /**
@@ -82,7 +82,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $property => $expectedValue) {
             $function = 'get' . ucfirst($property);
 
-            self::assertEquals($expectedValue, $polygon->$function());
+            self::assertSame($expectedValue, $polygon->$function());
         }
     }
 
@@ -135,7 +135,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+                    'coordinates' => [[[0.0, 0.0], [10.0 ,0.0], [10.0 ,10.0], [0.0, 10.0], [0.0 ,0.0]]]
                 ]
             ]
         ];

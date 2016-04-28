@@ -64,7 +64,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $property => $expectedValue) {
             $function = 'get' . ucfirst($property);
 
-            self::assertEquals($expectedValue, $point->$function());
+            self::assertSame($expectedValue, $point->$function());
         }
     }
 
@@ -98,7 +98,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $point    = new Point(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
         $expected = 'POINT(34.23 -87)';
 
-        self::assertEquals($expected, $point->toWkt());
+        self::assertSame($expected, $point->toWkt());
     }
 
     /**
@@ -197,7 +197,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [34.23, -87],
+                    'coordinates' => [34.23, -87.0],
                     'dimension'   => null
                 ]
             ],
@@ -205,7 +205,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [1,2,3],
+                    'coordinates' => [1.0, 2.0, 3.0],
                     'dimension'   => 'Z'
                 ]
             ],
@@ -213,7 +213,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => '79:56:55W 40:26:46N',
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [-79.948611111111, 40.446111111111],
+                    'coordinates' => [-79.948611111111106, 40.446111111111108],
                     'dimension'   => null
                 ]
             ],
@@ -221,7 +221,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => '40:26:46N 79:56:55W',
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [40.446111111111, -79.948611111111],
+                    'coordinates' => [40.446111111111108, -79.948611111111106],
                     'dimension'   => null
                 ]
             ],

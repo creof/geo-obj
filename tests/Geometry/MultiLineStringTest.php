@@ -70,7 +70,7 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $multiLineString->$function());
+            self::assertSame($expectedValue, $multiLineString->$function());
             }
         }
     }

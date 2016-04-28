@@ -70,7 +70,7 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
             foreach ($expected as $property => $expectedValue) {
                 $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $multiPolygon->$function());
+            self::assertSame($expectedValue, $multiPolygon->$function());
             }
         }
     }
