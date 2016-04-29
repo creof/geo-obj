@@ -182,7 +182,7 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
      */
     public function getProperty($name)
     {
-        if (! array_key_exists($name, $this->data['properties'])) {
+        if (! array_key_exists($name, $this->data['properties'])) { //TODO check for null
             // TODO more specific exception
             throw new RangeException();
         }
