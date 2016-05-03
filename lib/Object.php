@@ -75,6 +75,11 @@ abstract class Object implements \Countable, \Iterator
     private static $dataFactory;
 
     /**
+     * @var string[]
+     */
+    private static $typeNameCache;
+
+    /**
      * Object constructor
      *
      * @param             $value
@@ -230,6 +235,29 @@ abstract class Object implements \Countable, \Iterator
     public function getType()
     {
         return static::T_TYPE;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     * @throws UnknownTypeException
+     */
+    public static function getProperTypeName($type)
+    {
+        if (isset(self::$typeNameCache[$type])) {
+            return self::$typeNameCache[$type];
+        }
+
+        try {
+            self::$typeNameCache[$type] = constant('self::T_' . strtoupper($type));
+
+            return self::$typeNameCache[$type];
+        } catch (\Exception $e) {
+
+        }
+
+        throw new UnknownTypeException('Unknown type "' . $type . '"');
     }
 
     /**
