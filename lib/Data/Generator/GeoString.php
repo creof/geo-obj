@@ -40,7 +40,7 @@ class GeoString implements GeneratorInterface
     private static $parser;
 
     /**
-     * Wkb constructor
+     * GeoString constructor
      */
     public function __construct()
     {
