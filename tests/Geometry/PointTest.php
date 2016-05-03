@@ -93,12 +93,12 @@ class PointTest extends \PHPUnit_Framework_TestCase
         new Point($value);
     }
 
-    public function testPointToWkt()
+    public function testPointToWKT()
     {
         $point    = new Point(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
         $expected = 'POINT(34.23 -87)';
 
-        self::assertSame($expected, $point->toWkt());
+        self::assertSame($expected, $point->toWKT());
     }
 
     /**
@@ -205,7 +205,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => 'M'
                 ]
             ],
-            'testGoodWkbPoint' => [
+            'testGoodWKBPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
                 'expected'   => [
@@ -213,7 +213,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => null
                 ]
             ],
-            'testGoodWkbPointZ' => [
+            'testGoodWKBPointZ' => [
                 'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
                 'validators' => null,
                 'expected'   => [
@@ -267,7 +267,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
     public function badPointTestData()
     {
         return [
-            'testBadPointWktType' => [
+            'testBadPointWKTType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [
@@ -275,7 +275,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'message'   => 'Unsupported value of type "LINESTRING" for Point'
                 ]
             ],
-            'testBadPointWkbType' => [
+            'testBadPointWKBType' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
                 'expected'   => [

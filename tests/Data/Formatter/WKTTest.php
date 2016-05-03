@@ -23,26 +23,26 @@
 
 namespace CrEOF\Geo\Obj\Tests\Data\Formatter;
 
-use CrEOF\Geo\Obj\Data\Formatter\Wkt;
+use CrEOF\Geo\Obj\Data\Formatter\WKT;
 use CrEOF\Geo\Obj\Data\DataFactory;
 
 /**
- * Class WktTest
+ * Class WKTTest
  *
  * TODO: need tests for bad values
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class WktTest extends \PHPUnit_Framework_TestCase
+class WKTTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * @dataProvider wktTestData
      */
-    public function testWktFormatter($value, $expected)
+    public function testWKTFormatter($value, $expected)
     {
-        $formatter = new Wkt();
+        $formatter = new WKT();
         $actual    = $formatter->format($value);
 
         self::assertEquals($expected, $actual);
@@ -51,7 +51,7 @@ class WktTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider wktTestData
      */
-    public function testWktDataFactoryFormat($value, $expected)
+    public function testWKTDataFactoryFormat($value, $expected)
     {
         $actual = DataFactory::getInstance()->format($value, 'wkt');
 

@@ -73,7 +73,7 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
     public function goodCircularStringTestData()
     {
         return [
-            'testGoodWkbCircularString' => [
+            'testGoodWKBCircularString' => [
                 'coordinates' => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
                 'validators'  => null,
                 'expected'    => [

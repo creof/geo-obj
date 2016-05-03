@@ -124,14 +124,14 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                     'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
                 ]
             ],
-            'testGoodWktPolygon' => [
+            'testGoodWKTPolygon' => [
                 'value'      => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
                 'validators' => null,
                 'expected'   => [
                     'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
                 ]
             ],
-            'testGoodWkbPolygon' => [
+            'testGoodWKBPolygon' => [
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
                 'expected'   => [
@@ -147,7 +147,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     public function badPolygonTestData()
     {
         return [
-            'testBadPolygonWktType' => [
+            'testBadPolygonWKTType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [

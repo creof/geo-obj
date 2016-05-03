@@ -146,14 +146,14 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => 'M'
                 ]
             ],
-            'testGoodWkbLineString' => [
+            'testGoodWKBLineString' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
                 'expected'   => [
                     'coordinates' => [[34.23, -87.0], [45.3, -92.0]]
                 ]
             ],
-            'testGoodWktLineString' => [
+            'testGoodWKTLineString' => [
                 'value'      => 'LINESTRING(34.23 -87, 45.3 -92)',
                 'validators' => null,
                 'expected'   => [
@@ -179,7 +179,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
     public function badLineStringTestData()
     {
         return [
-            'testBadLineStringWktType' => [
+            'testBadLineStringWKTType' => [
                 'value'      => 'POLYGON((0 0),(1 1))',
                 'validators' => null,
                 'expected'   => [
@@ -187,7 +187,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     'message'   => 'Unsupported value of type "POLYGON" for LineString'
                 ]
             ],
-            'testBadLineStringWkbType' => [
+            'testBadLineStringWKBType' => [
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
                 'expected'   => [

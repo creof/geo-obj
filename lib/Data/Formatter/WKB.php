@@ -26,12 +26,12 @@ namespace CrEOF\Geo\Obj\Data\Formatter;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
- * Class Wkb
+ * Class WKB
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements FormatterInterface
+class WKB implements FormatterInterface
 {
     const WKB_XDR                     = 0;
     const WKB_NDR                     = 1;
@@ -94,7 +94,7 @@ class Wkb implements FormatterInterface
     private static $machineByteOrder;
 
     /**
-     * Wkb constructor
+     * WKB constructor
      *
      * @param int $byteOrder
      * @param int $flags

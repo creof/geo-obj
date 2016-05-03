@@ -23,16 +23,17 @@
 
 namespace CrEOF\Geo\Obj\Data\Generator;
 
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
-use CrEOF\Geo\WKT\Parser;
+use CrEOF\Geo\WKB\Parser;
 
 /**
- * Class Wkt
+ * Class WKB
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements GeneratorInterface
+class WKB implements GeneratorInterface
 {
     /**
      * @var Parser
@@ -40,7 +41,7 @@ class Wkt implements GeneratorInterface
     private static $parser;
 
     /**
-     * Wkt constructor
+     * WKB constructor
      */
     public function __construct()
     {
@@ -54,14 +55,19 @@ class Wkt implements GeneratorInterface
      * @param null|string $typeHint
      *
      * @return array
+     * @throws UnexpectedValueException
      * @throws UnsupportedFormatException
      */
     public function generate($value, $typeHint = null)
     {
-        if (! is_string($value) || ! ctype_alpha($value[0])) {
+        if (! is_string($value) || ord($value[0]) > 1) {
             throw new UnsupportedFormatException();
         }
 
-        return self::$parser->parse($value);
+        try {
+            return self::$parser->parse($value);
+        } catch (\CrEOF\Geo\WKB\Exception\UnexpectedValueException $e) {
+            throw new UnexpectedValueException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

@@ -24,12 +24,12 @@
 namespace CrEOF\Geo\Obj\Data\Formatter;
 
 /**
- * Class Wkt
+ * Class WKT
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements FormatterInterface
+class WKT implements FormatterInterface
 {
     /**
      * @param array $data

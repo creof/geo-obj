@@ -164,8 +164,8 @@ class DataFactory
     private function addDefaultGenerators()
     {
         $this->generators = [
-            'wkt'         => new Generator\Wkt(),
-            'wkb'         => new Generator\Wkb(),
+            'wkt'         => new Generator\WKT(),
+            'wkb'         => new Generator\WKB(),
             'geojson'     => new Generator\GeoJson(),
             'geostring'   => new Generator\GeoString(),
             'simplearray' => new Generator\SimpleArray()
@@ -175,8 +175,8 @@ class DataFactory
     private function addDefaultFormatters()
     {
         $this->formatters = [
-            'wkt'     => new Formatter\Wkt(),
-            'wkb'     => new Formatter\Wkb(),
+            'wkt'     => new Formatter\WKT(),
+            'wkb'     => new Formatter\WKB(),
             'geojson' => new Formatter\GeoJson()
         ];
     }

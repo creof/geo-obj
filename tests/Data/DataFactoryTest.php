@@ -35,7 +35,7 @@ use CrEOF\Geo\Obj\Data\DataFactory;
  */
 class DataFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefaultWkbGenerator()
+    public function testDefaultWKBGenerator()
     {
         $expected = [
             'type'      => 'POINT',
@@ -70,13 +70,13 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     public function goodConvertData()
     {
         return [
-            'testWktPointToWkb'      => [
+            'testWKTPointToWKB'      => [
                 'value'        => 'POINT(0 0)',
                 'outFormat'    => 'wkb',
                 'inFormatHint' => null,
                 'expected'     => pack('H*', '000000000100000000000000000000000000000000')
             ],
-            'testWkbPointToWkt'      => [
+            'testWKBPointToWKT'      => [
                 'value'        => pack('H*', '000000000100000000000000000000000000000000'),
                 'outFormat'    => 'wkt',
                 'inFormatHint' => null,
