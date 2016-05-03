@@ -36,8 +36,8 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  *
- * @method string toWkt()
- * @method string toWkb()
+ * @method string toWKT()
+ * @method string toWKB()
  * @method string toGeoJson()
  */
 abstract class Object implements \Countable, \Iterator
