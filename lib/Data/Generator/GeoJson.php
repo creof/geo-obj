@@ -25,7 +25,7 @@ namespace CrEOF\Geo\Obj\Data\Generator;
 
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\ObjectInterface;
+use CrEOF\Geo\Obj\Object;
 
 /**
  * Class GeoJson
@@ -56,23 +56,23 @@ class GeoJson implements GeneratorInterface
         }
 
         switch ($data['type']) {
-            case ObjectInterface::T_POINT:
+            case Object::T_POINT:
                 // no break
-            case ObjectInterface::T_LINESTRING:
+            case Object::T_LINESTRING:
                 //no break
-            case ObjectInterface::T_POLYGON:
+            case Object::T_POLYGON:
                 //no break
-            case ObjectInterface::T_MULTIPOINT:
+            case Object::T_MULTIPOINT:
                 //no break
-            case ObjectInterface::T_MULTILINESTRING:
+            case Object::T_MULTILINESTRING:
                 // no break
-            case ObjectInterface::T_MULTIPOLYGON:
+            case Object::T_MULTIPOLYGON:
                 $key = 'coordinates';
                 break;
-            case ObjectInterface::T_FEATURE:
+            case Object::T_FEATURE:
                 $key = 'geometry';
                 break;
-            case ObjectInterface::T_FEATURECOLLECTION:
+            case Object::T_FEATURECOLLECTION:
                 $key = 'features';
                 break;
             default:

@@ -40,8 +40,19 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @method string toWkb()
  * @method string toGeoJson()
  */
-abstract class Object implements ObjectInterface, \Countable, \Iterator
+abstract class Object implements \Countable, \Iterator
 {
+    const T_POINT              = 'Point';
+    const T_LINESTRING         = 'LineString';
+    const T_POLYGON            = 'Polygon';
+    const T_MULTIPOINT         = 'MultiPoint';
+    const T_MULTILINESTRING    = 'MultiLineString';
+    const T_MULTIPOLYGON       = 'MultiPolygon';
+    const T_GEOMETRYCOLLECTION = 'GeometryCollection';
+    const T_CIRCULARSTRING     = 'CircularString';
+    const T_FEATURE            = 'Feature';
+    const T_FEATURECOLLECTION  = 'FeatureCollection';
+
     const T_TYPE = null;
 
     /**
