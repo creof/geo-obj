@@ -77,7 +77,7 @@ class GeometryCollectionValidator extends AbstractValidator
             throw new UnexpectedValueException('Geometry value must be array of "array", "' . gettype($geometry) . '" found');
         }
 
-        $geometry['dimension'] = $this->getExpectedDimension();
+        $geometry['dimension'] = $this->getExpectedDimension(); //TODO ???
 
         try {
             Configuration::getInstance()->getValidatorStack($geometry['type'])->validate($geometry);
