@@ -51,6 +51,7 @@ class ObjectFactory implements ObjectFactoryInterface
     const C_CIRCULARSTRING     = 'CrEOF\Geo\Obj\Geometry\CircularString';
     const C_GEOMETRYCOLLECTION = 'CrEOF\Geo\Obj\GeometryCollection';
     const C_FEATURE            = 'CrEOF\Geo\Obj\Feature';
+    const C_FEATURECOLLECTION  = 'CrEOF\Geo\Obj\FeatureCollection';
 
     /**
      * @var DataFactory

@@ -72,6 +72,9 @@ class GeoJson implements GeneratorInterface
             case ObjectInterface::T_FEATURE:
                 $key = 'geometry';
                 break;
+            case ObjectInterface::T_FEATURECOLLECTION:
+                $key = 'features';
+                break;
             default:
                 throw new UnexpectedValueException();
         }
