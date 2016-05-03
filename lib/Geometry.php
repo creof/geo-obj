@@ -38,4 +38,12 @@ abstract class Geometry extends Object implements GeometryInterface
     {
         return $this->data['value'];
     }
+
+    /**
+     * @return null|int
+     */
+    public function getSRID()
+    {
+        return $this->data['srid'];
+    }
 }
