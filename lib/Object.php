@@ -96,13 +96,15 @@ abstract class Object implements \Countable, \Iterator
             self::$dataFactory = DataFactory::getInstance();
         }
 
-        $this->position = 0;
+        if (null !== $value) {
+            $this->position = 0;
 
-        $data = $this->generate($value, $typeHint);
+            $data = $this->generate($value, $typeHint);
 
-        $this->validate($data);
+            $this->validate($data);
 
-        $this->data = $data;
+            $this->data = $data;
+        }
     }
 
     public function rewind()
