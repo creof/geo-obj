@@ -69,19 +69,6 @@ class ValidatorStack extends \SplDoublyLinkedList
     }
 
     /**
-     * @param int                $index
-     * @param ValidatorInterface $validator
-     *
-     * @throws UnexpectedValueException
-     */
-    public function add($index, $validator)
-    {
-        $this->validateValidator($validator);
-
-        parent::add($index, $validator);
-    }
-
-    /**
      * @param mixed $validator
      *
      * @throws UnexpectedValueException

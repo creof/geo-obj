@@ -47,21 +47,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Configuration::addValidator
-     */
-    public function testAddValidator()
-    {
-        $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
-
-        Configuration::getInstance()->addValidator(Object::T_POINT, 0, $validator);
-
-        $actual = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
-
-        static::assertCount(3, $actual);
-        static::assertSame($validator, $actual[0]);
-    }
-
-    /**
      * @covers Configuration::pushValidator
      */
     public function testPushValidator()

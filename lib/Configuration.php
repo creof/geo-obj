@@ -78,19 +78,6 @@ final class Configuration
     }
 
     /**
-     * @param string             $type
-     * @param int                $index
-     * @param ValidatorInterface $validator
-     *
-     * @throws UnexpectedValueException
-     * @throws UnknownTypeException
-     */
-    public function addValidator($type, $index, ValidatorInterface $validator)
-    {
-        $this->validators[ObjectFactory::getTypeClass($type)]->add($index, $validator);
-    }
-
-    /**
      * @param string $type
      *
      * @return ValidatorStack

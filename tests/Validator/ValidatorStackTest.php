@@ -56,28 +56,4 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
 
         $validatorStack->push(new ValidatorStack());
     }
-
-    /**
-     * @covers                   ValidatorStack::validateValidator
-     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
-     * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
-     */
-    public function testAddBadValidatorType()
-    {
-        $validatorStack = new ValidatorStack();
-
-        $validatorStack->add(0, 'validator');
-    }
-
-    /**
-     * @covers                   ValidatorStack::validateValidator
-     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
-     * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
-     */
-    public function testAddBadValidatorClass()
-    {
-        $validatorStack = new ValidatorStack();
-
-        $validatorStack->add(0, new ValidatorStack());
-    }
 }
