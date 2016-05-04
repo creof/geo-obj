@@ -36,6 +36,20 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @covers \CrEOF\Geo\Obj\Configuration::__construct
+     */
+    public function testConstructor()
+    {
+        self::assertAttributeEmpty('instance', 'CrEOF\Geo\Obj\Configuration');
+
+        $configuration = Configuration::getInstance();
+
+        self::assertAttributeInstanceOf('CrEOF\Geo\Obj\Configuration', 'instance', 'CrEOF\Geo\Obj\Configuration');
+        self::assertAttributeNotEmpty('validators', $configuration);
+        self::assertAttributeEquals($configuration, 'instance', 'CrEOF\Geo\Obj\Configuration');
+    }
+
+    /**
      * @covers \CrEOF\Geo\Obj\Configuration::getValidatorStack
      */
     public function testGetDefaultValidators()
