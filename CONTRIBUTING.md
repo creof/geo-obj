@@ -10,3 +10,7 @@
 1. All exceptions thrown MUST implement ```CrEOF\Geo\Obj\Exception\ExceptionInterface```.
 1. All thrown exception messages MUST end with a period "."
 1. Without a compelling reason new exception classes SHOULD have a use scope outside a single class.
+
+## Naming
+1. Acronyms in names SHOULD be all uppercase.
+1. Array keys MUST be all lowercase.
