@@ -51,6 +51,50 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
+     */
+    public function testFormatUndefinedFormat()
+    {
+        DataFactory::getInstance()->format([], 'bad');
+    }
+
+    /**
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnexpectedValueException
+     */
+    public function testUnsupportedValueGenerate()
+    {
+        DataFactory::getInstance()->generate('///////');
+    }
+
+    /**
+     * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
+     */
+    public function testAddDuplicateGenerator()
+    {
+        $generator = $this->getMock('CrEOF\Geo\Obj\Data\Generator\GeneratorInterface');
+
+        DataFactory::getInstance()->addGenerator($generator, 'wkb');
+    }
+
+    /**
+     * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
+     */
+    public function testAddDuplicateFormatter()
+    {
+        $formatter = $this->getMock('CrEOF\Geo\Obj\Data\Formatter\FormatterInterface');
+
+        DataFactory::getInstance()->addFormatter($formatter, 'wkb');
+    }
+
+    /**
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
+     */
+    public function testGetUnknownGenerator()
+    {
+        DataFactory::getInstance()->generate('///////', 'bad');
+    }
+
+    /**
      * @param string      $value
      * @param string      $outFormat
      * @param null|string $inFormatHint
