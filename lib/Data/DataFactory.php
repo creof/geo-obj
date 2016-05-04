@@ -79,7 +79,7 @@ class DataFactory
             return $this->normalizeObjectData($this->getGenerator($formatHint)->generate($value, $typeHint));
         }
 
-        foreach ($this->generators as $type => $generator) {
+        foreach ($this->generators as $generator) {
             try {
                 return $this->normalizeObjectData($generator->generate($value, $typeHint));
             } catch (UnsupportedFormatException $e) {

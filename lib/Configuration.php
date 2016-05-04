@@ -50,7 +50,7 @@ final class Configuration
     {
         $reflectionClass = new ReflectionClass('CrEOF\Geo\Obj\Object');
 
-        foreach ($reflectionClass->getConstants() as $const => $value) {
+        foreach ($reflectionClass->getConstants() as $value) {
             if (null === $value) {
                 continue;
             }
