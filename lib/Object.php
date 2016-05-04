@@ -96,9 +96,9 @@ abstract class Object implements \Countable, \Iterator
             self::$dataFactory = DataFactory::getInstance();
         }
 
-        if (null !== $value) {
-            $this->position = 0;
+        $this->position = 0;
 
+        if (null !== $value) {
             $data = $this->generate($value, $formatHint);
 
             $this->validate($data);
