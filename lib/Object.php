@@ -83,14 +83,14 @@ abstract class Object implements \Countable, \Iterator
      * Object constructor
      *
      * @param             $value
-     * @param null|string $typeHint
+     * @param null|string $formatHint
      *
      * @throws ExceptionInterface
      * @throws UnexpectedValueException
      * @throws UnknownTypeException
      * @throws UnsupportedFormatException
      */
-    public function __construct($value, $typeHint = null)
+    public function __construct($value, $formatHint = null)
     {
         if (null === self::$dataFactory) {
             self::$dataFactory = DataFactory::getInstance();
@@ -99,7 +99,7 @@ abstract class Object implements \Countable, \Iterator
         if (null !== $value) {
             $this->position = 0;
 
-            $data = $this->generate($value, $typeHint);
+            $data = $this->generate($value, $formatHint);
 
             $this->validate($data);
 
