@@ -37,7 +37,7 @@ use CrEOF\Geo\Obj\Geometry\Point;
 class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers ObjectFactory::create
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::create
      */
     public function testCreateWKTHintWKT()
     {
@@ -49,7 +49,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ObjectFactory::create
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::create
      */
     public function testCreateWKTNoHint()
     {

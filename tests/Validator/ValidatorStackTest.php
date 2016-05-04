@@ -34,7 +34,7 @@ use CrEOF\Geo\Obj\Validator\ValidatorStack;
 class ValidatorStackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers                   ValidatorStack::validateValidator
+     * @covers                   \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
      */
@@ -46,7 +46,7 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   ValidatorStack::validateValidator
+     * @covers                   \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
      */

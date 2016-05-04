@@ -39,7 +39,7 @@ class WKBTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   WKB::__construct
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */
@@ -49,7 +49,7 @@ class WKBTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   WKB::__construct
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */
@@ -59,7 +59,7 @@ class WKBTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   WKB::__construct
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */

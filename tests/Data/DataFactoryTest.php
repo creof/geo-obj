@@ -51,7 +51,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            DataFactory::format
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::format
      * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
      */
     public function testFormatUndefinedFormat()
@@ -60,7 +60,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            DataFactory::generate
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::generate
      * @expectedException \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      */
     public function testUnsupportedValueGenerate()
@@ -69,7 +69,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            DataFactory::addGenerator
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::addGenerator
      * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
      */
     public function testAddDuplicateGenerator()
@@ -80,7 +80,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            DataFactory::addFormatter
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::addFormatter
      * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
      */
     public function testAddDuplicateFormatter()
@@ -91,7 +91,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers            DataFactory::getGenerator
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::getGenerator
      * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
      */
     public function testGetUnknownGenerator()

@@ -36,7 +36,7 @@ use CrEOF\Geo\Obj\Validator\TypeValidator;
 class TypeValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers TypeValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\TypeValidator::__construct
      */
     public function testSetGoodType()
     {
@@ -51,7 +51,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   TypeValidator::__construct
+     * @covers                   \CrEOF\Geo\Obj\Validator\TypeValidator::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Unknown type "Configuration"
      */
@@ -61,7 +61,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers TypeValidator::validate
+     * @covers \CrEOF\Geo\Obj\Validator\TypeValidator::validate
      */
     public function testValidateType()
     {

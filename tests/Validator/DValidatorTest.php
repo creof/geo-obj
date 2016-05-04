@@ -34,7 +34,7 @@ use CrEOF\Geo\Obj\Validator\DValidator;
 class DValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers                   DValidator::__construct
+     * @covers                   \CrEOF\Geo\Obj\Validator\DValidator::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Size must be between 2 and 4.
      */
@@ -44,7 +44,7 @@ class DValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers                   DValidator::__construct
+     * @covers                   \CrEOF\Geo\Obj\Validator\DValidator::__construct
      * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Size must be between 2 and 4.
      */

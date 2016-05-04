@@ -36,7 +36,7 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Configuration::getValidatorStack
+     * @covers \CrEOF\Geo\Obj\Configuration::getValidatorStack
      */
     public function testGetDefaultValidators()
     {
@@ -47,7 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Configuration::pushValidator
+     * @covers \CrEOF\Geo\Obj\Configuration::pushValidator
      */
     public function testPushValidator()
     {
