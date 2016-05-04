@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Validator;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Geometry\Point;
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;

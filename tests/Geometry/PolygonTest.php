@@ -24,9 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Geometry\Polygon;
 use CrEOF\Geo\Obj\Object;
 

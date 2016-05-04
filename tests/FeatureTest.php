@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Feature;
 use CrEOF\Geo\Obj\Object;
 

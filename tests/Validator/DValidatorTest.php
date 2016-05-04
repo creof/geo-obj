@@ -23,7 +23,6 @@
 
 namespace CrEOF\Geo\Obj\Tests\Data;
 
-use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Validator\DValidator;
 
 /**

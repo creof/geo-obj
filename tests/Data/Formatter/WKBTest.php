@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Data\Formatter;
 
 use CrEOF\Geo\Obj\Data\Formatter\WKB;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
  * Class WKBTest

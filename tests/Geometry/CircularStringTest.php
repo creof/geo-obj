@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Geometry\CircularString;
 use CrEOF\Geo\Obj\Object;
 
