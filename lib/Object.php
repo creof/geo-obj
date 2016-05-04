@@ -90,7 +90,7 @@ abstract class Object implements \Countable, \Iterator
      * @throws UnknownTypeException
      * @throws UnsupportedFormatException
      */
-    public function __construct($value, $formatHint = null)
+    public function __construct($value = null, $formatHint = null)
     {
         if (null === self::$dataFactory) {
             self::$dataFactory = DataFactory::getInstance();
