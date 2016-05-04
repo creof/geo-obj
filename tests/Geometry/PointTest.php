@@ -107,6 +107,15 @@ class PointTest extends \PHPUnit_Framework_TestCase
     public function goodPointTestData()
     {
         return [
+            'testGoodEmptyPoint' => [
+                'value'      => null,
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => null,
+                    'dimension'   => null,
+                    'srid'        => null
+                ]
+            ],
             'testGoodArrayPoint' => [
                 'value'      => [0,0],
                 'validators' => null,
@@ -211,6 +220,23 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'expected'   => [
                     'coordinates' => [34.23, -87.0],
                     'dimension'   => null
+                ]
+            ],
+            'testGoodWKTPoint' => [
+                'value'      => 'POINT(2 3)',
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [2, 3],
+                    'dimension'   => null
+                ]
+            ],
+            'testGoodWKTPointWithSRID' => [
+                'value'      => 'SRID=4326;POINT(2 3)',
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [2, 3],
+                    'dimension'   => null,
+                    'srid'        => 4326
                 ]
             ],
             'testGoodWKBPointZ' => [
