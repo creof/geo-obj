@@ -2,7 +2,7 @@
     "name": "creof/geo-obj",
     "type": "library",
     "description": "Library for geography and geometry objects",
-    "keywords": ["parser", "lexer", "string", "text", "geometry", "geography", "spatial", "geo", "coordinate"],
+    "keywords": ["geometry", "geography", "spatial", "geo", "coordinate", "point", "multipoint", "linestring", "multilinestring", "polygon", "multipolygon"],
     "authors": [
         {
             "name":  "Derek J. Lambert",
@@ -15,15 +15,20 @@
     ],
     "license": "MIT",
     "require": {
-        "php":            ">=5.3.3"
+        "php": ">=5.4",
+        "creof/geo-parser": "dev-develop",
+        "creof/wkt-parser": "~2.2",
+        "creof/wkb-parser": "~2.2"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8",
         "codeclimate/php-test-reporter": "dev-master"
     },
-    "autoload": {
-        "psr-0": {
-            "CrEOF\\Geo\\Obj": "lib/"
-        }
+    "autoload":          {
+        "psr-4": {"CrEOF\\Geo\\Obj\\": "lib/"}
+    },
+    "autoload-dev":      {
+        "psr-4": {"CrEOF\\Geo\\Obj\\Tests\\": "tests/"}
     }
+
 }

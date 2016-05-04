@@ -9,6 +9,8 @@ Geometry and Geography library.
 ## Usage
 Make things.
 
+Implement CrEOF\Geo\Obj\ObjectFactoryInterface to use custom objects for representing spatial data in creof/doctrine2-spatial.
+
 ```php
 echo "Foo";
 ```
@@ -19,3 +21,29 @@ Things
 ## Return
 
 Objects
+
+## Configuration
+
+## The ObjectFactory
+
+## The DataFactory
+
+## Generators and the GeneratorInterface
+
+## Validators
+
+## Formatters
+
+## Exceptions
+
+### ExceptionInterface
+### InvalidArgumentException
+### RangeException
+### RuntimeException
+### UnexpectedValueException
+
+### UnsupportedFormatException
+Thrown when an unconfigured or unsupported format type is passed to a method.
+
+### UnknownTypeException
+Thrown when an unknown type name is passed to a method.
