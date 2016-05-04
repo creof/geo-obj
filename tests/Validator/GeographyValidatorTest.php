@@ -38,7 +38,7 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
 class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException        RangeException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
      */
     public function testPointGeographyValidatorLongitudeFirstBadLongitude()
@@ -51,7 +51,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
      */
     public function testPointGeographyValidatorLongitudeFirstBadLatitude()
@@ -64,7 +64,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
      */
     public function testPointGeographyValidatorLatitudeFirstBadLatitude()
@@ -77,7 +77,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
      */
     public function testPointGeographyValidatorLatitudeFirstBadLongitude()

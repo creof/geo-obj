@@ -151,7 +151,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "LineString" for Polygon'
                 ]
             ],
@@ -159,7 +159,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Bad ring value in Polygon. Ring value must be array of "array", "integer" found'
                 ]
             ]

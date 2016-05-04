@@ -35,7 +35,7 @@ use CrEOF\Geo\Obj\Validator\ValidatorStack;
 class ValidatorStackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
      */
     public function testPushBadValidatorType()
@@ -46,7 +46,7 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
      */
     public function testPushBadValidatorClass()
@@ -57,7 +57,7 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
      */
     public function testAddBadValidatorType()
@@ -68,7 +68,7 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
      */
     public function testAddBadValidatorClass()

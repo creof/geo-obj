@@ -297,7 +297,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
@@ -305,7 +305,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
@@ -313,7 +313,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => [0],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Point value count must be between 2 and 4.'
                 ]
             ],
@@ -321,7 +321,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'value'      => [0,0,0,0,0],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Point value count must be between 2 and 4.'
                 ]
             ],
@@ -332,7 +332,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new DValidator(2)
                 ],
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Invalid size "3", size must be 2.'
                 ]
             ],
@@ -343,7 +343,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new DValidator(4)
                 ],
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Invalid size "3", size must be 4.'
                 ]
             ]

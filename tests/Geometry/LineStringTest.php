@@ -183,7 +183,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => 'POLYGON((0 0),(1 1))',
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "Polygon" for LineString'
                 ]
             ],
@@ -191,7 +191,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "Polygon" for LineString'
                 ]
             ],
@@ -199,7 +199,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'value'      => [[0,0],[1,1],[0]],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Bad point value in LineString. Point value count must be between 2 and 4.'
                 ]
             ],
@@ -210,7 +210,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                     new DValidator(2)
                 ],
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Bad point value in LineString. Invalid latitude value "137.239059", must be in range -90 to 90.'
                 ]
             ]

@@ -50,7 +50,7 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Unknown type "Configuration"
      */
     public function testSetBadType()
