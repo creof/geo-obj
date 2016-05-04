@@ -35,6 +35,9 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers Configuration::getValidatorStack
+     */
     public function testGetDefaultValidators()
     {
         $validators = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
@@ -43,6 +46,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         static::assertCount(2, $validators);
     }
 
+    /**
+     * @covers Configuration::addValidator
+     */
     public function testAddValidator()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
@@ -55,7 +61,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         static::assertSame($validator, $actual[0]);
     }
 
-    public function testGetAddedValidator()
+    /**
+     * @covers Configuration::pushValidator
+     */
+    public function testPushValidator()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 

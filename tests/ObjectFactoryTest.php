@@ -36,6 +36,9 @@ use CrEOF\Geo\Obj\Geometry\Point;
  */
 class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers ObjectFactory::create
+     */
     public function testCreateWKTHintWKT()
     {
         $expected = new Point([34.23, -87.0]);
@@ -45,6 +48,9 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($expected, $actual);
     }
 
+    /**
+     * @covers ObjectFactory::create
+     */
     public function testCreateWKTNoHint()
     {
         $expected = new Point([34.23, -87.0]);
