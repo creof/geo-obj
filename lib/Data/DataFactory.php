@@ -27,7 +27,9 @@ use CrEOF\Geo\Obj\Data\Formatter;
 use CrEOF\Geo\Obj\Data\Generator;
 use CrEOF\Geo\Obj\Exception\RuntimeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
 use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Traits\Singleton;
 
 /**
@@ -74,12 +76,12 @@ class DataFactory
     public function generate($value, $formatHint = null, $typeHint = null)
     {
         if (null !== $formatHint) {
-            return $this->getGenerator($formatHint)->generate($value, $typeHint);
+            return $this->normalizeObjectData($this->getGenerator($formatHint)->generate($value, $typeHint));
         }
 
         foreach ($this->generators as $type => $generator) {
             try {
-                return $generator->generate($value, $typeHint);
+                return $this->normalizeObjectData($generator->generate($value, $typeHint));
             } catch (UnsupportedFormatException $e) {
                 // Try next generator
             }
@@ -159,6 +161,23 @@ class DataFactory
         }
 
         throw new UnsupportedFormatException('message'); //TODO
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     * @throws UnknownTypeException
+     */
+    private function normalizeObjectData(array $data)
+    {
+        return [
+            'type'       => Object::getProperTypeName($data['type']),
+            'value'      => $data['value'],
+            'srid'       => array_key_exists('srid', $data) ? $data['srid'] : null,
+            'dimension'  => array_key_exists('dimension', $data) ? $data['dimension'] : null,
+            'properties' => array_key_exists('properties', $data) ? $data['properties'] : null
+        ];
     }
 
     private function addDefaultGenerators()
