@@ -56,7 +56,7 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * @var DataFactory
      */
-    private $valueFactory;
+    private $dataFactory;
 
     /**
      * @var string[]
@@ -68,7 +68,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     private function __construct()
     {
-        $this->valueFactory = DataFactory::getInstance();
+        $this->dataFactory = DataFactory::getInstance();
     }
 
     /**
