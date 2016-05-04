@@ -184,7 +184,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "POLYGON" for LineString'
+                    'message'   => 'Unsupported value of type "Polygon" for LineString'
                 ]
             ],
             'testBadLineStringWKBType' => [
@@ -192,7 +192,7 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "POLYGON" for LineString'
+                    'message'   => 'Unsupported value of type "Polygon" for LineString'
                 ]
             ],
             'testBadShortPointInLineString' => [

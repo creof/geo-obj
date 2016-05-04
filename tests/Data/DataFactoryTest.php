@@ -38,10 +38,11 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     public function testDefaultWKBGenerator()
     {
         $expected = [
-            'type'      => 'POINT',
-            'srid'      => null,
-            'value'     => array(34.23, -87.0),
-            'dimension' => null
+            'type'       => 'Point',
+            'value'      => array(34.23, -87.0),
+            'srid'       => null,
+            'dimension'  => null,
+            'properties' => null
         ];
 
         $actual = DataFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');

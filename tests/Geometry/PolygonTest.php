@@ -152,7 +152,7 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Polygon'
+                    'message'   => 'Unsupported value of type "LineString" for Polygon'
                 ]
             ],
             'testBadArrayPolygon' => [

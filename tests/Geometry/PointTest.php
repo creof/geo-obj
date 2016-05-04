@@ -272,7 +272,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                    'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
             'testBadPointWKBType' => [
@@ -280,7 +280,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                    'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
             'testBadShortPoint' => [
