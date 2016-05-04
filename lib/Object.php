@@ -263,6 +263,30 @@ abstract class Object implements \Countable, \Iterator
     }
 
     /**
+     * @param mixed       $value
+     * @param null|string $formatHint
+     *
+     * @return Object
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
+     * @throws UnknownTypeException
+     */
+    public static function create($value, $formatHint = null)
+    {
+        $data        = self::$dataFactory->generate($value, $formatHint);
+        $objectClass = ObjectFactory::getTypeClass($data['type']);
+
+        /** @var Object $object */
+        $object = new $objectClass();
+
+        $object->validate($data);
+
+        $object->data = $data;
+
+        return $object;
+    }
+
+    /**
      * Validate value array with configured validators for type
      *
      * @param array $value
