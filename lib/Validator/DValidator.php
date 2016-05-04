@@ -57,15 +57,16 @@ class DValidator extends AbstractValidator
     }
 
     /**
-     * @param array &$value
+     * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws RangeException
      */
-    public function validate(array &$value)
+    public function validate(array &$data)
     {
-        parent::validate($value);
+        parent::validate($data);
 
-        $size = count($value['value']);
+        $size = count($data['value']);
 
         if ($this->size !== $size) {
             throw new RangeException('Invalid size "' . $size . '", size must be '. $this->size . '.');

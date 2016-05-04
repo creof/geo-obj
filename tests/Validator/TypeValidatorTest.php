@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Tests\Value;
+namespace CrEOF\Geo\Obj\Tests\Data;
 
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;

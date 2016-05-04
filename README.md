@@ -26,13 +26,13 @@ Objects
 
 ## The ObjectFactory
 
-## The ValueFactory
+## The DataFactory
 
-## Generators
+## Generators and the GeneratorInterface
 
 ## Validators
 
-## Converters
+## Formatters
 
 ## Exceptions
 
@@ -41,4 +41,9 @@ Objects
 ### RangeException
 ### RuntimeException
 ### UnexpectedValueException
+
 ### UnsupportedFormatException
+Thrown when an unconfigured or unsupported format type is passed to a method.
+
+### UnknownTypeException
+Thrown when an unknown type name is passed to a method.

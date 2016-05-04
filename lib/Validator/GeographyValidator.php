@@ -51,20 +51,22 @@ class GeographyValidator extends AbstractValidator
     public function __construct($order)
     {
         $this->setExpectedType(Object::T_POINT);
-        $this->order        = $order;
+
+        $this->order = $order;
     }
 
     /**
-     * @param array &$value
+     * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws RangeException
      */
-    public function validate(array &$value)
+    public function validate(array &$data)
     {
-        parent::validate($value);
+        parent::validate($data);
 
-        $this->validateLongitude($value['value'][$this->order]);
-        $this->validateLatitude($value['value'][$this->order ? 0 : 1]);
+        $this->validateLongitude($data['value'][$this->order]);
+        $this->validateLatitude($data['value'][$this->order ? 0 : 1]);
     }
 
     /**

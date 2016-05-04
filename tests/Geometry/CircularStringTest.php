@@ -48,9 +48,9 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider circularStringTestData
+     * @dataProvider goodCircularStringTestData
      */
-    public function testCircularString($value, $validators, $expected)
+    public function testGoodCircularString($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -58,33 +58,27 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $circularString = new CircularString($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $circularString->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $circularString->$function());
-            }
+            self::assertSame($expectedValue, $circularString->$function());
         }
     }
 
     /**
      * @return array[]
      */
-    public function circularStringTestData()
+    public function goodCircularStringTestData()
     {
         return [
             'testGoodWkbCircularString' => [
                 'coordinates' => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
                 'validators'  => null,
-                'expected'    => [[0,0],[1,1],[2,0]]
+                'expected'    => [
+                    'coordinates' => [[0.0, 0.0], [1.0, 1.0], [2.0, 0.0]]
+                ]
             ],
         ];
     }

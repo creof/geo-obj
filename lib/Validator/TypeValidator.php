@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
 use CrEOF\Geo\Obj\ObjectFactory;
 
 /**
@@ -43,6 +44,7 @@ class TypeValidator implements ValidatorInterface
      * @param string $type
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
     public function __construct($type)
     {
@@ -50,16 +52,17 @@ class TypeValidator implements ValidatorInterface
     }
 
     /**
-     * @param array &$value
+     * @param array &$data
      *
      * @throws UnexpectedValueException
+     * @throws UnknownTypeException
      */
-    public function validate(array &$value)
+    public function validate(array &$data)
     {
-        $type = ObjectFactory::getTypeClass($value['type']);
+        $type = ObjectFactory::getTypeClass($data['type']);
 
         if ($type !== $this->type) {
-            throw new UnexpectedValueException('Unsupported value of type "' . $value['type'] . '" for ' . constant($this->type . '::T_TYPE'));
+            throw new UnexpectedValueException('Unsupported value of type "' . $data['type'] . '" for ' . constant($this->type . '::T_TYPE'));
         }
     }
 }

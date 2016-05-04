@@ -42,14 +42,14 @@ interface ObjectFactoryInterface
     public function create($value, $formatHint = null);
 
     /**
-     * Convert object to standard data format value
+     * Format object in standard format
      *
-     * @param mixed  $value
+     * @param mixed  $object
      * @param string $format
      *
      * @return mixed
      */
-    public function convert($value, $format);
+    public function format($object, $format);
 
     /**
      * Get ObjectFactory instance

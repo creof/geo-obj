@@ -24,9 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Geometry\Point;
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
@@ -52,9 +49,9 @@ class PointTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider pointTestData
+     * @dataProvider goodPointTestData
      */
-    public function testPoint($value, $validators, $expected)
+    public function testGoodPoint($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -62,21 +59,38 @@ class PointTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $point = new Point($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $point->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $point->$function());
+            self::assertSame($expectedValue, $point->$function());
+        }
+    }
+
+    /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badPointTestData
+     */
+    public function testBadPoint($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
             }
         }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new Point($value);
     }
 
     public function testPointToWkt()
@@ -84,13 +98,13 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $point    = new Point(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
         $expected = 'POINT(34.23 -87)';
 
-        self::assertEquals($expected, $point->toWkt());
+        self::assertSame($expected, $point->toWkt());
     }
 
     /**
      * @return array[]
      */
-    public function pointTestData()
+    public function goodPointTestData()
     {
         return [
             'testGoodArrayPoint' => [
@@ -107,7 +121,22 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'type'  => 'point'
                 ],
                 'validators' => null,
-                'expected'   => [0,0]
+                'expected'   => [
+                    'coordinates' => [0,0],
+                    'dimension'   => null
+                ]
+            ],
+            'testGoodValueArrayLowercasePointWithNullDimension' => [
+                'value'      => [
+                    'value'     => [0,0],
+                    'type'      => 'point',
+                    'dimension' => null
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [0,0],
+                    'dimension'   => null
+                ]
             ],
             'testGoodValueArrayUppercasePoint' => [
                 'value'      => [
@@ -115,7 +144,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'type'  => 'POINT'
                 ],
                 'validators' => null,
-                'expected'   => [0,0]
+                'expected'   => [
+                    'coordinates' => [0,0],
+                    'dimension'   => null
+                ]
             ],
             'testGoodValueArrayPointZ' => [
                 'value'      => [
@@ -176,25 +208,34 @@ class PointTest extends \PHPUnit_Framework_TestCase
             'testGoodWkbPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
-                'expected'   => [34.23, -87]
+                'expected'   => [
+                    'coordinates' => [34.23, -87.0],
+                    'dimension'   => null
+                ]
             ],
             'testGoodWkbPointZ' => [
                 'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
                 'validators' => null,
                 'expected'   => [
-                    'coordinates' => [1,2,3],
+                    'coordinates' => [1.0, 2.0, 3.0],
                     'dimension'   => 'Z'
                 ]
             ],
             'testGoodStringCoordArrayLongitudeFirst' => [
                 'value'      => '79:56:55W 40:26:46N',
                 'validators' => null,
-                'expected'   => [-79.948611111111, 40.446111111111]
+                'expected'   => [
+                    'coordinates' => [-79.948611111111106, 40.446111111111108],
+                    'dimension'   => null
+                ]
             ],
             'testGoodStringCoordArrayLatitudeFirst' => [
                 'value'      => '40:26:46N 79:56:55W',
                 'validators' => null,
-                'expected'   => [40.446111111111, -79.948611111111]
+                'expected'   => [
+                    'coordinates' => [40.446111111111108, -79.948611111111106],
+                    'dimension'   => null
+                ]
             ],
             'testGoodPointValidatorStacking' => [
                 'value'      => [20, 120],
@@ -202,7 +243,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(2)
                 ],
-                'expected'   => [20, 120]
+                'expected'   => [
+                    'coordinates' => [20, 120],
+                    'dimension'   => null
+                ]
             ],
             'testGoodPointZGeographyValidator' => [
                 'value'      => [20, 120, 10],
@@ -213,26 +257,47 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'coordinates' => [20, 120, 10],
                     'dimension'   => 'Z'
                 ]
-            ],
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badPointTestData()
+    {
+        return [
             'testBadPointWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Point')
+                'expected'   => [
+                    'exception' => 'UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                ]
             ],
             'testBadPointWkbType' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Point')
+                'expected'   => [
+                    'exception' => 'UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                ]
             ],
             'testBadShortPoint' => [
                 'value'      => [0],
                 'validators' => null,
-                'expected'   => new RangeException('Point value count must be between 2 and 4.')
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Point value count must be between 2 and 4.'
+                ]
             ],
             'testBadLongPoint' => [
                 'value'      => [0,0,0,0,0],
                 'validators' => null,
-                'expected'   => new RangeException('Point value count must be between 2 and 4.')
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Point value count must be between 2 and 4.'
+                ]
             ],
             'testBadLongPointDValidator' => [
                 'value'      => [20, 10, 30],
@@ -240,7 +305,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(2)
                 ],
-                'expected'   => new RangeException('Invalid size "3", size must be 2.')
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Invalid size "3", size must be 2.'
+                ]
             ],
             'testBadShortPointDValidator' => [
                 'value'      => [20, 10, 30],
@@ -248,7 +316,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST),
                     new DValidator(4)
                 ],
-                'expected'   => new RangeException('Invalid size "3", size must be 4.')
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Invalid size "3", size must be 4.'
+                ]
             ]
         ];
     }

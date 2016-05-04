@@ -23,13 +23,15 @@
 
 namespace CrEOF\Geo\Obj;
 
+use CrEOF\Geo\Obj\Data\DataFactory;
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
-use CrEOF\Geo\Obj\Value\ValueFactory;
+use CrEOF\Geo\Obj\Exception\UnknownTypeException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 
 /**
- * Abstract geo object
+ * Abstract object
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
@@ -38,23 +40,28 @@ use CrEOF\Geo\Obj\Value\ValueFactory;
  * @method string toWkb()
  * @method string toGeoJson()
  */
-abstract class Object implements ObjectInterface, \Countable
+abstract class Object implements ObjectInterface, \Countable, \Iterator
 {
     const T_TYPE = null;
 
     /**
-     * Array containing object's value and properties
+     * Object Data Array containing object's value and properties
      *
      * @var array
      */
     protected $data;
 
     /**
-     * ValueFactory instance
-     *
-     * @var ValueFactory
+     * @var int
      */
-    private static $valueFactory;
+    private $position;
+
+    /**
+     * DataFactory instance
+     *
+     * @var DataFactory
+     */
+    private static $dataFactory;
 
     /**
      * Object constructor
@@ -62,14 +69,18 @@ abstract class Object implements ObjectInterface, \Countable
      * @param             $value
      * @param null|string $typeHint
      *
-     * @throws UnexpectedValueException
      * @throws ExceptionInterface
+     * @throws UnexpectedValueException
+     * @throws UnknownTypeException
+     * @throws UnsupportedFormatException
      */
     public function __construct($value, $typeHint = null)
     {
-        if (null === self::$valueFactory) {
-            self::$valueFactory = ValueFactory::getInstance();
+        if (null === self::$dataFactory) {
+            self::$dataFactory = DataFactory::getInstance();
         }
+
+        $this->position = 0;
 
         $data = $this->generate($value, $typeHint);
 
@@ -78,20 +89,55 @@ abstract class Object implements ObjectInterface, \Countable
         $this->data = $data;
     }
 
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function current()
+    {
+        return $this->data['value'][$this->position];
+    }
+
+    /**
+     * @return int
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    /**
+     * @return bool
+     */
+    public function valid()
+    {
+        return isset($this->data['value'][$this->position]);
+    }
+
     /**
      * @param string $name
      * @param array  $arguments
      *
      * @return mixed
      *
-     * @throws UnexpectedValueException
      * @throws RangeException
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     public function __call($name, $arguments)
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 0 === count($arguments)) {
-            return self::$valueFactory->convert($this->data, strtolower(substr($name, 2)));
+            return $this->format(strtolower(substr($name, 2)));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
@@ -99,11 +145,22 @@ abstract class Object implements ObjectInterface, \Countable
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
-            return $this->setProperty(substr($name, 3), $arguments[0]);
+            return $this->setProperty(strtolower(substr($name, 3)), $arguments[0]);
         }
 
         // TODO use better exception
         throw new RangeException();
+    }
+
+    /**
+     * @param string $format
+     *
+     * @return mixed
+     * @throws UnsupportedFormatException
+     */
+    public function format($format)
+    {
+        return self::$dataFactory->format($this->data, $format);
     }
 
     /**
@@ -125,7 +182,7 @@ abstract class Object implements ObjectInterface, \Countable
      */
     public function getProperty($name)
     {
-        if (! array_key_exists($name, $this->data['properties'])) {
+        if (! array_key_exists($name, $this->data['properties'])) { //TODO check for null
             // TODO more specific exception
             throw new RangeException();
         }
@@ -170,10 +227,11 @@ abstract class Object implements ObjectInterface, \Countable
      * @param array $value
      *
      * @throws ExceptionInterface
+     * @throws UnknownTypeException
      */
     private function validate(array &$value)
     {
-        Configuration::getInstance()->getValidators(static::T_TYPE)->validate($value);
+        Configuration::getInstance()->getValidatorStack(static::T_TYPE)->validate($value);
     }
 
     /**
@@ -184,12 +242,13 @@ abstract class Object implements ObjectInterface, \Countable
      *
      * @return array
      * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
      */
     private function generate($value, $formatHint = null)
     {
-        $value = self::$valueFactory->generate($value, $formatHint, static::T_TYPE);
+        $value = self::$dataFactory->generate($value, $formatHint, static::T_TYPE);
 
-        //TODO is this necessary? yes, wkb and wkt don't included properties currently
+        //TODO is this necessary? yes? wkb and wkt don't included properties currently
         return [
             'type'       => $value['type'],
             'value'      => $value['value'],

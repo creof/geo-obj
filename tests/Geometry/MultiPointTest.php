@@ -48,9 +48,9 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider multiPointTestData
+     * @dataProvider goodMultiPointTestData
      */
-    public function testMultiPoint($value, $validators, $expected)
+    public function testGoodMultiPoint($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -58,35 +58,28 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $multiPoint = new MultiPoint($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $multiPoint->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $multiPoint->$function());
-            }
+            self::assertSame($expectedValue, $multiPoint->$function());
         }
     }
 
     /**
      * @return array[]
      */
-    public function multiPointTestData()
+    public function goodMultiPointTestData()
     {
         return [
             'testGoodArrayMultiPoint' => [
                 'value'      => [[0,0],[10,0],[10,10],[0,10]],
                 'validators' => null,
-                'expected'   => [[0,0],[10,0],[10,10],[0,10]]
+                'expected'   => [
+                    'coordinates' => [[0,0],[10,0],[10,10],[0,10]]
+                ]
             ],
         ];
     }
-
 }

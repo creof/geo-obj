@@ -41,6 +41,7 @@ interface ObjectInterface
     const T_GEOMETRYCOLLECTION = 'GeometryCollection';
     const T_CIRCULARSTRING     = 'CircularString';
     const T_FEATURE            = 'Feature';
+    const T_FEATURECOLLECTION  = 'FeatureCollection';
 
     /**
      * @return string Object type name, should also be value of a interface constant TODO lowercase?

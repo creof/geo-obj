@@ -45,14 +45,31 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
         static::assertCount(1, $polygon);
     }
 
+    public function testIterator()
+    {
+        $rings = [
+            [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]],
+            [[5, 5], [7, 5], [7, 7], [5, 7], [5, 5]]
+        ];
+
+        $polygon = new Polygon($rings);
+        $index   = 0;
+
+        foreach ($polygon as $ring) {
+            self::assertSame($rings[$index++], $ring);
+        }
+
+        self::assertSame(count($rings), $index);
+    }
+
     /**
      * @param $value
      * @param $validators
      * @param $expected
      *
-     * @dataProvider polygonTestData
+     * @dataProvider goodPolygonTestData
      */
-    public function testPolygon($value, $validators, $expected)
+    public function testGoodPolygon($value, $validators, $expected)
     {
         if (null !== $validators) {
             foreach ($validators as $validator) {
@@ -60,54 +77,92 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($expected instanceof ExceptionInterface) {
-            $this->setExpectedException(get_class($expected), $expected->getMessage());
-        }
-
         $polygon = new Polygon($value);
 
-        if (! array_key_exists('coordinates', $expected)) {
-            self::assertEquals($expected, $polygon->getCoordinates());
-        } else {
-            foreach ($expected as $property => $expectedValue) {
-                $function = 'get' . ucfirst($property);
+        foreach ($expected as $property => $expectedValue) {
+            $function = 'get' . ucfirst($property);
 
-                self::assertEquals($expectedValue, $polygon->$function());
+            self::assertSame($expectedValue, $polygon->$function());
+        }
+    }
+
+    /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badPolygonTestData
+     */
+    public function testBadPolygon($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
             }
         }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new Polygon($value);
     }
 
     /**
      * @return array[]
      */
-    public function polygonTestData()
+    public function goodPolygonTestData()
     {
         return [
             'testGoodArrayPolygon' => [
                 'value'      => [[[0,0],[10,0],[10,10],[0,10],[0,0]]],
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+                'expected'   => [
+                    'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+                ]
             ],
             'testGoodWktPolygon' => [
                 'value'      => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+                'expected'   => [
+                    'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
+                ]
             ],
             'testGoodWkbPolygon' => [
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
-                'expected'   => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
-            ],
+                'expected'   => [
+                    'coordinates' => [[[0.0, 0.0], [10.0 ,0.0], [10.0 ,10.0], [0.0, 10.0], [0.0 ,0.0]]]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badPolygonTestData()
+    {
+        return [
             'testBadPolygonWktType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
-                'expected'   => new UnexpectedValueException('Unsupported value of type "LINESTRING" for Polygon')
+                'expected'   => [
+                    'exception' => 'UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LINESTRING" for Polygon'
+                ]
             ],
             'testBadArrayPolygon' => [
                 'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
                 'validators' => null,
-                'expected'   => new RangeException('Bad ring value in Polygon. Ring value must be array of "array", "integer" found')
-            ],
+                'expected'   => [
+                    'exception' => 'RangeException',
+                    'message'   => 'Bad ring value in Polygon. Ring value must be array of "array", "integer" found'
+                ]
+            ]
         ];
     }
 }
