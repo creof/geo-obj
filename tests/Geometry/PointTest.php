@@ -37,6 +37,7 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  *
  * @covers \CrEOF\Geo\Obj\Geometry\Point
  * @covers \CrEOF\Geo\Obj\Validator\Data\PointValidator
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
@@ -318,6 +319,26 @@ class PointTest extends \PHPUnit_Framework_TestCase
                 'expected'   => [
                     'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Point value count must be between 2 and 4.'
+                ]
+            ],
+            'testBadPointDimensionMismatch' => [
+                'value'      => [
+                    'value'     => [0,0],
+                    'type'      => 'point',
+                    'dimension' => 'Z'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Dimension mismatch'
+                ]
+            ],
+            'testBadPointBadValue' => [
+                'value'      => [[0],[0]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Point value must be array containing "integer" or "float", "array" found'
                 ]
             ],
             'testBadLongPoint' => [

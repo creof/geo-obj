@@ -54,7 +54,7 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
      * @param $validators
      * @param $expected
      *
-     * @dataProvider geometryCollectionTestData
+     * @dataProvider goodGeometryCollectionTestData
      */
     public function testGeometryCollection($value, $validators, $expected)
     {
@@ -74,26 +74,80 @@ class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badGeometryCollectionTestData
+     */
+    public function testBadGeometryCollection($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+            }
+        }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new GeometryCollection($value);
+    }
+
+    /**
      * @return array[]
      */
-    public function geometryCollectionTestData()
+    public function goodGeometryCollectionTestData()
     {
         return [
             'testGoodArrayMultiPolygon' => [
                 'value'      => [
-                    ['type'  => 'POINT', 'value' => [10,10]],
-                    ['type'  => 'POINT', 'value' => [30,30]],
-                    ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
+                    ['type'  => 'POINT', 'value' => [10, 10]],
+                    ['type'  => 'POINT', 'value' => [30, 30]],
+                    ['type'  => 'LINESTRING', 'value' => [[15, 15], [20, 20]]]
                 ],
                 'validators' => null,
                 'expected'   => [
                     'geometries' => [
-                        ['type'  => 'POINT', 'value' => [10,10]],
-                        ['type'  => 'POINT', 'value' => [30,30]],
-                        ['type'  => 'LINESTRING', 'value' => [[15,15], [20,20]]]
+                        ['type'  => 'POINT', 'value' => [10, 10]],
+                        ['type'  => 'POINT', 'value' => [30, 30]],
+                        ['type'  => 'LINESTRING', 'value' => [[15, 15], [20, 20]]]
                     ]
                 ]
             ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badGeometryCollectionTestData()
+    {
+        return [
+            'testBadGeometryCollectionArray' => [
+                'value'      => ['LINESTRING(0 0,1 1)'],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Geometry value must be array of "array", "string" found'
+                ]
+            ],
+            'testBadGeometryCollectionArrayGeometry' => [
+                'value'      => [
+                    ['type'  => 'POINT', 'value' => [10]],
+                    ['type'  => 'POINT', 'value' => [30, 30]],
+                    ['type'  => 'LINESTRING', 'value' => [[15, 15], [20, 20]]]
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad geometry value in GeometryCollection. Point value count must be between 2 and 4.'
+                ]
+            ]
         ];
     }
 }

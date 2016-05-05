@@ -36,6 +36,7 @@ use CrEOF\Geo\Obj\Object;
  * @covers \CrEOF\Geo\Obj\Geometry\CircularString
  * @covers \CrEOF\Geo\Obj\Validator\Data\CircularStringValidator
  * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class CircularStringTest extends \PHPUnit_Framework_TestCase
 {

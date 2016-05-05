@@ -63,6 +63,31 @@ class FeatureCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badFeatureCollectionTestData
+     */
+    public function testBadFeatureCollection($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+            }
+        }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new FeatureCollection($value);
+    }
+
+    /**
      * @return array[]
      */
     public function goodFeatureCollectionTestData()
@@ -94,6 +119,31 @@ class FeatureCollectionTest extends \PHPUnit_Framework_TestCase
                             ]
                         ]
                     ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badFeatureCollectionTestData()
+    {
+        return [
+            'testBadFeatureCollectionArray' => [
+                'value'      => '{"type":"FeatureCollection","features":["feature1"]}',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Feature value must be array of "array", "string" found'
+                ]
+            ],
+            'testBadFeatureCollectionArrayFeature' => [
+                'value'      => '{"type":"FeatureCollection","features":[{"type":"waypoint"}]}',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad feature value in FeatureCollection. Unknown type "waypoint"'
                 ]
             ]
         ];

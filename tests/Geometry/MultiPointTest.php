@@ -36,6 +36,7 @@ use CrEOF\Geo\Obj\Object;
  * @covers \CrEOF\Geo\Obj\Geometry\MultiPoint
  * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPointValidator
  * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class MultiPointTest extends \PHPUnit_Framework_TestCase
 {

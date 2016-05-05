@@ -36,6 +36,7 @@ use CrEOF\Geo\Obj\Object;
  * @covers \CrEOF\Geo\Obj\Geometry\Polygon
  * @covers \CrEOF\Geo\Obj\Validator\Data\PolygonValidator
  * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class PolygonTest extends \PHPUnit_Framework_TestCase
 {
@@ -154,6 +155,14 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 'expected'   => [
                     'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
                     'message'   => 'Unsupported value of type "LineString" for Polygon'
+                ]
+            ],
+            'testBadPolygonBadRing' => [
+                'value'      => [0, 0],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Polygon value must be array of "array", "integer" found'
                 ]
             ],
             'testBadArrayPolygon' => [

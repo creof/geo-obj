@@ -38,6 +38,7 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  * @covers \CrEOF\Geo\Obj\Geometry\LineString
  * @covers \CrEOF\Geo\Obj\Validator\Data\LineStringValidator
  * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class LineStringTest extends \PHPUnit_Framework_TestCase
 {
