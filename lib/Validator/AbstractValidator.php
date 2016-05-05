@@ -58,8 +58,8 @@ abstract class AbstractValidator implements ValidatorInterface
             throw new InvalidArgumentException('Missing "type" in value');
         }
 
-        if (0 !== strcasecmp($this->expectedType, $data['type'])) {
-            throw new UnexpectedValueException('Unsupported type "' . $data['type'] . '" for validator, expected "' . $this->expectedType . '"');
+        if (0 !== strcasecmp($this->getExpectedType(), $data['type'])) {
+            throw new UnexpectedValueException('Unsupported type "' . $data['type'] . '" for validator, expected "' . $this->getExpectedType() . '"');
         }
 
         if (! array_key_exists('dimension', $data)) {
