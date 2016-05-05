@@ -122,6 +122,45 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \CrEOF\Geo\Obj\Object::getDimension
+     * @covers \CrEOF\Geo\Obj\Object::generate
+     * @covers \CrEOF\Geo\Obj\Object::validate
+     * @TODO add similar test to other object types
+     */
+    public function testGetDimension()
+    {
+        $point = new Point('POINT(1 2 3)');
+
+        self::assertEquals('Z', $point->getDimension());
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::format
+     * @TODO add similar test to other object types
+     */
+    public function testFormat()
+    {
+        $data  = 'POINT(1 2 3)';
+        $point = new Point($data);
+
+        self::assertEquals($data, $point->format('wkt'));
+        self::assertEquals($data, $point->format('WKT'));
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__call
+     * @TODO add similar test to other object types
+     */
+    public function testMagicTo()
+    {
+        $data  = 'POINT(1 2 3)';
+        $point = new Point($data);
+
+        self::assertEquals($data, $point->toWkt());
+        self::assertEquals($data, $point->toWKT());
+    }
+
+    /**
      * @param $value
      * @param $validators
      * @param $expected

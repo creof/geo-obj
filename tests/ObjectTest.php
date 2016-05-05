@@ -95,4 +95,16 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
         $point->getProperty('bad');
     }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\Object::__call
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
+     * @expectedExceptionMessage
+     */
+    public function testBadMagicCall()
+    {
+        $point = new Point([0, 0]);
+
+        $point->isStargate();
+    }
 }
