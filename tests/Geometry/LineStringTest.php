@@ -34,6 +34,8 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\LineString
  */
 class LineStringTest extends \PHPUnit_Framework_TestCase
 {

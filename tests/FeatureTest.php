@@ -32,6 +32,8 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Feature
  */
 class FeatureTest extends \PHPUnit_Framework_TestCase
 {
