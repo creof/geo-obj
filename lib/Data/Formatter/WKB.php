@@ -104,7 +104,7 @@ class WKB implements FormatterInterface
      */
     public function __construct($byteOrder = self::WKB_XDR, $flags = self::WKB_FLAG_NONE, $mismatchAction = self::WKB_MISMATCH_DROP)
     {
-        if ($byteOrder !== self::WKB_XDR && $byteOrder !== self::WKB_NDR) {
+        if (self::WKB_XDR !== $byteOrder && self::WKB_NDR !== $byteOrder) {
             throw new UnexpectedValueException();
         }
 
@@ -112,7 +112,7 @@ class WKB implements FormatterInterface
             throw new UnexpectedValueException();
         }
 
-        if ($mismatchAction !== self::WKB_MISMATCH_DROP && $mismatchAction !== self::WKB_MISMATCH_FAIL) {
+        if (self::WKB_MISMATCH_DROP !== $mismatchAction && self::WKB_MISMATCH_FAIL !== $mismatchAction) {
             throw new UnexpectedValueException();
         }
 
