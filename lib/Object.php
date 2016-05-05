@@ -155,7 +155,7 @@ abstract class Object implements \Countable, \Iterator
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 0 === count($arguments)) {
-            return $this->format(strtolower(substr($name, 2)));
+            return $this->format(substr($name, 2));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
@@ -178,7 +178,7 @@ abstract class Object implements \Countable, \Iterator
      */
     public function format($format)
     {
-        return self::$dataFactory->format($this->data, $format);
+        return self::$dataFactory->format($this->data, strtolower($format));
     }
 
     /**
