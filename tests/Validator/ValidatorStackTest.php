@@ -56,4 +56,47 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
 
         $validatorStack->push(new ValidatorStack());
     }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::push
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
+     */
+    public function testPushGoodValidator()
+    {
+        $exception = null;
+
+        try {
+            $validatorStack = new ValidatorStack();
+
+            $validator = $this->getMock('CrEOF\Geo\Obj\Validator\ValidatorInterface');
+
+            $validatorStack->push($validator);
+        } catch (\Exception $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::validate
+     */
+    public function testValidate()
+    {
+        $exception = null;
+
+        try {
+            $validatorStack = new ValidatorStack();
+
+            $validator = $this->getMock('CrEOF\Geo\Obj\Validator\ValidatorInterface');
+
+            $validatorStack->push($validator);
+
+            $data = [];
+
+            $validatorStack->validate($data);
+        } catch (\Exception $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
+    }
 }
