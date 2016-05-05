@@ -36,6 +36,7 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\Geometry\Point
+ * @covers \CrEOF\Geo\Obj\Validator\Data\PointValidator
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {

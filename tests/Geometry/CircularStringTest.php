@@ -34,6 +34,8 @@ use CrEOF\Geo\Obj\Object;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\Geometry\CircularString
+ * @covers \CrEOF\Geo\Obj\Validator\Data\CircularStringValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
  */
 class CircularStringTest extends \PHPUnit_Framework_TestCase
 {

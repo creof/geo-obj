@@ -34,6 +34,8 @@ use CrEOF\Geo\Obj\Object;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\Geometry\MultiPoint
+ * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPointValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
  */
 class MultiPointTest extends \PHPUnit_Framework_TestCase
 {

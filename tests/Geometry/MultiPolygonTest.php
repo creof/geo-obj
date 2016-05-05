@@ -34,6 +34,8 @@ use CrEOF\Geo\Obj\Object;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\Geometry\MultiPolygon
+ * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPolygonValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
  */
 class MultiPolygonTest extends \PHPUnit_Framework_TestCase
 {

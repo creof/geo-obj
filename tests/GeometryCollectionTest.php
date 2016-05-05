@@ -34,6 +34,7 @@ use CrEOF\Geo\Obj\Object;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\GeometryCollection
+ * @covers \CrEOF\Geo\Obj\Validator\Data\GeometryCollectionValidator
  */
 class GeometryCollectionTest extends \PHPUnit_Framework_TestCase
 {

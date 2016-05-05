@@ -34,6 +34,8 @@ use CrEOF\Geo\Obj\Object;
  * @license http://dlambert.mit-license.org MIT
  *
  * @covers \CrEOF\Geo\Obj\Geometry\MultiLineString
+ * @covers \CrEOF\Geo\Obj\Validator\Data\MultiLineStringValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
  */
 class MultiLineStringTest extends \PHPUnit_Framework_TestCase
 {
