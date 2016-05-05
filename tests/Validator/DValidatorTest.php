@@ -52,4 +52,60 @@ class DValidatorTest extends \PHPUnit_Framework_TestCase
     {
         new DValidator(-1);
     }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\DValidator::__construct
+     */
+    public function testGoodSize()
+    {
+        $validator2 = new DValidator(2);
+        $validator3 = new DValidator(3);
+        $validator4 = new DValidator(4);
+
+        self::assertInstanceOf('CrEOF\Geo\Obj\Validator\DValidator', $validator2);
+        self::assertInstanceOf('CrEOF\Geo\Obj\Validator\DValidator', $validator3);
+        self::assertInstanceOf('CrEOF\Geo\Obj\Validator\DValidator', $validator4);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\DValidator::validate
+     */
+    public function testValidateGoodData()
+    {
+        $exception = null;
+
+        try {
+            $validator = new DValidator(2);
+
+            $data = [
+                'type'      => 'point',
+                'value'     => [0, 0],
+                'dimension' => null
+            ];
+
+            $validator->validate($data);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
+    }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\Validator\DValidator::validate
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
+     * @expectedExceptionMessage Invalid size "3", size must be 2.
+     */
+    public function testValidateBadData()
+    {
+        $validator = new DValidator(2);
+
+        $data = [
+            'type'      => 'point',
+            'value'     => [0, 0, 0],
+            'dimension' => 'Z'
+        ];
+
+        $validator->validate($data);
+    }
 }
