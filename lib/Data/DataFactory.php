@@ -176,7 +176,7 @@ class DataFactory
             'value'      => $data['value'],
             'srid'       => array_key_exists('srid', $data) ? $data['srid'] : null,
             'dimension'  => array_key_exists('dimension', $data) ? $data['dimension'] : null,
-            'properties' => array_key_exists('properties', $data) ? $data['properties'] : null
+            'properties' => array_key_exists('properties', $data) ? $data['properties'] : []
         ];
     }
 

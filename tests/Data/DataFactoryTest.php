@@ -42,7 +42,7 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
             'value'      => array(34.23, -87.0),
             'srid'       => null,
             'dimension'  => null,
-            'properties' => null
+            'properties' => []
         ];
 
         $actual = DataFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
