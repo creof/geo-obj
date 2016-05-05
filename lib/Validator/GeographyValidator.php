@@ -24,7 +24,9 @@
 namespace CrEOF\Geo\Obj\Validator;
 
 use CrEOF\Geo\Obj\Exception\ExceptionInterface;
+use CrEOF\Geo\Obj\Exception\InvalidArgumentException;
 use CrEOF\Geo\Obj\Exception\RangeException;
+use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Object;
 
 /**
@@ -47,9 +49,15 @@ class GeographyValidator extends AbstractValidator
      * GeographyValidator constructor
      *
      * @param int $order
+     *
+     * @throws UnexpectedValueException
      */
     public function __construct($order)
     {
+        if (self::CRITERIA_LONGITUDE_FIRST !== $order && self::CRITERIA_LATITUDE_FIRST !== $order) {
+            throw new UnexpectedValueException();
+        }
+
         $this->setExpectedType(Object::T_POINT);
 
         $this->order = $order;
@@ -59,7 +67,9 @@ class GeographyValidator extends AbstractValidator
      * @param array &$data
      *
      * @throws ExceptionInterface
+     * @throws InvalidArgumentException
      * @throws RangeException
+     * @throws UnexpectedValueException
      */
     public function validate(array &$data)
     {
