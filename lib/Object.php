@@ -159,11 +159,11 @@ abstract class Object implements \Countable, \Iterator
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
-            return $this->getProperty(strtolower(substr($name, 3)));
+            return $this->getProperty(substr($name, 3));
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
-            return $this->setProperty(strtolower(substr($name, 3)), $arguments[0]);
+            return $this->setProperty(substr($name, 3), $arguments[0]);
         }
 
         // TODO use better exception
@@ -200,12 +200,14 @@ abstract class Object implements \Countable, \Iterator
      */
     public function getProperty($name)
     {
-        if (null === $this->data['properties'] || ! array_key_exists($name, $this->data['properties'])) { //TODO check for null
+        $key = strtolower($name);
+
+        if (null === $this->data['properties'] || ! array_key_exists($key, $this->data['properties'])) { //TODO check for null
             // TODO more specific exception
             throw new RangeException();
         }
 
-        return $this->data['properties'][$name];
+        return $this->data['properties'][$key];
     }
 
     /**
@@ -218,7 +220,7 @@ abstract class Object implements \Countable, \Iterator
      */
     public function setProperty($name, $value)
     {
-        $this->data['properties'][$name] = $value;
+        $this->data['properties'][strtolower($name)] = $value;
 
         return $this;
     }

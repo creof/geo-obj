@@ -103,9 +103,22 @@ class PointTest extends \PHPUnit_Framework_TestCase
     {
         $point = new Point();
 
-        $point->setProperty('id', 3498);
+        $point->setProperty('Identifier', 3498);
 
-        self::assertSame(3498, $point->getProperty('id'));
+        self::assertSame(3498, $point->getProperty('IDENTIFIER'));
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__call
+     * @TODO add similar test to other object types
+     */
+    public function testMagicSetGetProperty()
+    {
+        $point = new Point();
+
+        $point->setID(3498);
+
+        self::assertSame(3498, $point->getid());
     }
 
     /**
