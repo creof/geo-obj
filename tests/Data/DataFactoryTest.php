@@ -30,6 +30,8 @@ use CrEOF\Geo\Obj\Data\DataFactory;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Data\DataFactory
  */
 class DataFactoryTest extends \PHPUnit_Framework_TestCase
 {
