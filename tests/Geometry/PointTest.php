@@ -44,6 +44,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \CrEOF\Geo\Obj\Object::__construct
      * @covers \CrEOF\Geo\Obj\Object::count
+     * @TODO add similar test to other object types
      */
     public function testCountPoint()
     {
@@ -58,6 +59,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
      * @covers \CrEOF\Geo\Obj\Object::next
      * @covers \CrEOF\Geo\Obj\Object::valid
      * @covers \CrEOF\Geo\Obj\Object::key
+     * @TODO add similar test to other object types
      */
     public function testIteratePoint()
     {
@@ -72,6 +74,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \CrEOF\Geo\Obj\Object::__construct
      * @covers \CrEOF\Geo\Obj\Object::count
+     * @TODO add similar test to other object types
      */
     public function testEmptyPoint()
     {
@@ -82,6 +85,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \CrEOF\Geo\Obj\Object::getType
+     * @TODO add similar test to other object types
      */
     public function testGetType()
     {
@@ -93,6 +97,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \CrEOF\Geo\Obj\Object::getProperty
      * @covers \CrEOF\Geo\Obj\Object::setProperty
+     * @TODO add similar test to other object types
      */
     public function testSetGetProperty()
     {
