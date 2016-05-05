@@ -61,6 +61,20 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers                   \CrEOF\Geo\Obj\Validator\TypeValidator::validate
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
+     * @expectedExceptionMessage Unsupported value of type "LineString" for Point
+     */
+    public function testValidateBadType()
+    {
+        $validator = new TypeValidator('point');
+
+        $data = ['type' => 'linestring'];
+
+        $validator->validate($data);
+    }
+
+    /**
      * @covers \CrEOF\Geo\Obj\Validator\TypeValidator::validate
      */
     public function testValidateType()
