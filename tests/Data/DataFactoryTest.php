@@ -100,6 +100,26 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \CrEOF\Geo\Obj\Data\DataFactory::addGenerator
+     */
+    public function testAddGenerator()
+    {
+        $generator = $this->getMock('CrEOF\Geo\Obj\Data\Generator\GeneratorInterface');
+
+        DataFactory::getInstance()->addGenerator($generator, 'new');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Data\DataFactory::addFormatter
+     */
+    public function testAddFormatter()
+    {
+        $formatter = $this->getMock('CrEOF\Geo\Obj\Data\Formatter\FormatterInterface');
+
+        DataFactory::getInstance()->addFormatter($formatter, 'new');
+    }
+
+    /**
      * @param string      $value
      * @param string      $outFormat
      * @param null|string $inFormatHint
