@@ -116,4 +116,16 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
     {
         ObjectFactory::getTypeClass('bad');
     }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::format
+     */
+    public function testObjectFormat()
+    {
+        $object = new Point([34.23, -87.0]);
+
+        $actual = ObjectFactory::getInstance()->format($object, 'wkt');
+
+        self::assertEquals('POINT(34.23 -87)', $actual);
+    }
 }
