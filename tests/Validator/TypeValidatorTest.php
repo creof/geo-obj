@@ -90,9 +90,10 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
             ];
 
             $validator->validate($value);
-        } catch (UnexpectedValueException $e) {
+        } catch (\Exception $e) {
+            $exception = $e;
         }
 
-        self::assertNull($exception, 'Unexpected UnexpectedValueException');
+        self::assertNull($exception, 'Unexpected Exception');
     }
 }

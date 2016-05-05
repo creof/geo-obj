@@ -112,6 +112,7 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
 
             new Point([0, 0]);
         } catch (\Exception $e) {
+            $exception = $e;
         }
 
         self::assertNull($exception, 'Unexpected Exception');
