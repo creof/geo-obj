@@ -61,6 +61,8 @@ class DValidator extends AbstractValidator
      *
      * @throws ExceptionInterface
      * @throws RangeException
+     *
+     * @TODO compare with expectedDimension also?
      */
     public function validate(array &$data)
     {
