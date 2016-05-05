@@ -41,11 +41,66 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__construct
+     * @covers \CrEOF\Geo\Obj\Object::count
+     */
     public function testCountPoint()
     {
         $point = new Point([0,0]);
 
         static::assertCount(2, $point);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::rewind
+     * @covers \CrEOF\Geo\Obj\Object::current
+     * @covers \CrEOF\Geo\Obj\Object::next
+     * @covers \CrEOF\Geo\Obj\Object::valid
+     * @covers \CrEOF\Geo\Obj\Object::key
+     */
+    public function testIteratePoint()
+    {
+        $value = [3,9];
+        $point = new Point($value);
+
+        foreach ($point as $key => $coord) {
+            self::assertEquals($value[$key], $coord);
+        }
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__construct
+     * @covers \CrEOF\Geo\Obj\Object::count
+     */
+    public function testEmptyPoint()
+    {
+        $point = new Point();
+
+        self::assertCount(0, $point);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getType
+     */
+    public function testGetType()
+    {
+        $point = new Point();
+
+        self::assertEquals('Point', $point->getType());
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getProperty
+     * @covers \CrEOF\Geo\Obj\Object::setProperty
+     */
+    public function testSetGetProperty()
+    {
+        $point = new Point();
+
+        $point->setProperty('id', 3498);
+
+        self::assertSame(3498, $point->getProperty('id'));
     }
 
     /**

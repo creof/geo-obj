@@ -25,6 +25,8 @@ namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Geometry\Point;
+use CrEOF\Geo\Obj\Geometry\LineString;
+use CrEOF\Geo\Obj\Geometry\Polygon;
 
 /**
  * Class ObjectTest
@@ -56,5 +58,41 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $actual = Object::create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
 
         self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getProperTypeName
+     */
+    public function testGetProperTypeName()
+    {
+        $actual = Object::getProperTypeName('POINT');
+
+        self::assertEquals('Point', $actual);
+
+        $actual = Object::getProperTypeName('POINT');
+
+        self::assertEquals('Point', $actual);
+    }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\Object::getProperTypeName
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnknownTypeException
+     * @expectedExceptionMessage Unknown type "bad"
+     */
+    public function testGetProperTypeNameBadType()
+    {
+        Object::getProperTypeName('bad');
+    }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\Object::getProperty
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
+     * @expectedExceptionMessage
+     */
+    public function testGetBadProperty()
+    {
+        $point = new Point([0, 0]);
+
+        $point->getProperty('bad');
     }
 }
