@@ -55,7 +55,7 @@ abstract class AbstractValidator implements ValidatorInterface
     public function validate(array &$data)
     {
         if (! array_key_exists('type', $data)) {
-            throw new InvalidArgumentException('Missing "type" in value');
+            throw new InvalidArgumentException('Missing "type" in data');
         }
 
         if (0 !== strcasecmp($this->getExpectedType(), $data['type'])) {
@@ -63,7 +63,7 @@ abstract class AbstractValidator implements ValidatorInterface
         }
 
         if (! array_key_exists('dimension', $data)) {
-            throw new InvalidArgumentException('Missing "dimension" in value');
+            throw new InvalidArgumentException('Missing "dimension" in data');
         }
 
         $this->expectedDimension = $data['dimension'];
