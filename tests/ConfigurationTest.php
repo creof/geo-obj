@@ -37,6 +37,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \CrEOF\Geo\Obj\Configuration::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\CircularStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureCollectionValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\GeometryCollectionValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\LineStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiLineStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPointValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPolygonValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\PointValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\PolygonValidator::__construct
      */
     public function testConstructor()
     {
