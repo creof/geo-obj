@@ -28,25 +28,95 @@ use CrEOF\Geo\Obj\Data\DataFactory;
 /**
  * Class DataFactoryTest
  *
- * @backupStaticAttributes
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Data\DataFactory
  */
 class DataFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testDefaultWkbGenerator()
+    public function testDefaultWKBGenerator()
     {
         $expected = [
-            'type'      => 'POINT',
-            'srid'      => null,
-            'value'     => array(34.23, -87.0),
-            'dimension' => null
+            'type'       => 'Point',
+            'value'      => array(34.23, -87.0),
+            'srid'       => null,
+            'dimension'  => null,
+            'properties' => []
         ];
 
         $actual = DataFactory::getInstance()->generate(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'), 'wkb');
 
         self::assertSame($expected, $actual);
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::format
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
+     */
+    public function testFormatUndefinedFormat()
+    {
+        DataFactory::getInstance()->format([], 'bad');
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::generate
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnexpectedValueException
+     */
+    public function testUnsupportedValueGenerate()
+    {
+        DataFactory::getInstance()->generate('///////');
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::addGenerator
+     * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
+     */
+    public function testAddDuplicateGenerator()
+    {
+        $generator = $this->getMock('CrEOF\Geo\Obj\Data\Generator\GeneratorInterface');
+
+        DataFactory::getInstance()->addGenerator($generator, 'wkb');
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::addFormatter
+     * @expectedException \CrEOF\Geo\Obj\Exception\RuntimeException
+     */
+    public function testAddDuplicateFormatter()
+    {
+        $formatter = $this->getMock('CrEOF\Geo\Obj\Data\Formatter\FormatterInterface');
+
+        DataFactory::getInstance()->addFormatter($formatter, 'wkb');
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Data\DataFactory::getGenerator
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnsupportedFormatException
+     */
+    public function testGetUnknownGenerator()
+    {
+        DataFactory::getInstance()->generate('///////', 'bad');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Data\DataFactory::addGenerator
+     */
+    public function testAddGenerator()
+    {
+        $generator = $this->getMock('CrEOF\Geo\Obj\Data\Generator\GeneratorInterface');
+
+        DataFactory::getInstance()->addGenerator($generator, 'new');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Data\DataFactory::addFormatter
+     */
+    public function testAddFormatter()
+    {
+        $formatter = $this->getMock('CrEOF\Geo\Obj\Data\Formatter\FormatterInterface');
+
+        DataFactory::getInstance()->addFormatter($formatter, 'new');
     }
 
     /**
@@ -70,13 +140,13 @@ class DataFactoryTest extends \PHPUnit_Framework_TestCase
     public function goodConvertData()
     {
         return [
-            'testWktPointToWkb'      => [
+            'testWKTPointToWKB'      => [
                 'value'        => 'POINT(0 0)',
                 'outFormat'    => 'wkb',
                 'inFormatHint' => null,
                 'expected'     => pack('H*', '000000000100000000000000000000000000000000')
             ],
-            'testWkbPointToWkt'      => [
+            'testWKBPointToWKT'      => [
                 'value'        => pack('H*', '000000000100000000000000000000000000000000'),
                 'outFormat'    => 'wkt',
                 'inFormatHint' => null,

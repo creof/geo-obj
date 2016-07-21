@@ -23,7 +23,6 @@
 
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Geometry\MultiPolygon;
 use CrEOF\Geo\Obj\Object;
@@ -33,6 +32,10 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\MultiPolygon
+ * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPolygonValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
  */
 class MultiPolygonTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,6 +71,31 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badMultiPolygonTestData
+     */
+    public function testBadMultiPolygon($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+            }
+        }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new MultiPolygon($value);
+    }
+
+    /**
      * @return array[]
      */
     public function goodMultiPolygonTestData()
@@ -80,6 +108,47 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
                     'coordinates' => [[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5, 5]]]]
                 ]
             ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badMultiPolygonTestData()
+    {
+        return [
+            'testBadMultiPolygonWKTType' => [
+                'value'      => 'LINESTRING(0 0,1 1)',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LineString" for MultiPolygon'
+                ]
+            ],
+            'testBadMultiPolygonBadLineString' => [
+                'value'      => [0, 0],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'MultiPolygon value must be array of "array", "integer" found'
+                ]
+            ],
+            'testBadArrayMultiPolygonPolygon' => [
+                'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad polygon value in MultiPolygon. Polygon value must be array of "array", "integer" found'
+                ]
+            ],
+            'testBadArrayMultiPolygonPoint' => [
+                'value'      => [[[0,0]],[[10,0]],[[10,10]],[[0,10]],[[0,0]]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad polygon value in MultiPolygon. Bad ring value in Polygon. Ring value must be array of "array", "integer" found'
+                ]
+            ]
         ];
     }
 }

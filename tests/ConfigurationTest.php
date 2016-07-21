@@ -30,13 +30,38 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
 /**
  * Class ConfigurationTest
  *
- * @backupStaticAttributes
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers \CrEOF\Geo\Obj\Configuration::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\CircularStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureCollectionValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\GeometryCollectionValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\LineStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiLineStringValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPointValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\MultiPolygonValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\PointValidator::__construct
+     * @covers \CrEOF\Geo\Obj\Validator\Data\PolygonValidator::__construct
+     */
+    public function testConstructor()
+    {
+        self::assertAttributeEmpty('instance', 'CrEOF\Geo\Obj\Configuration');
+
+        $configuration = Configuration::getInstance();
+
+        self::assertAttributeInstanceOf('CrEOF\Geo\Obj\Configuration', 'instance', 'CrEOF\Geo\Obj\Configuration');
+        self::assertAttributeNotEmpty('validators', $configuration);
+        self::assertAttributeEquals($configuration, 'instance', 'CrEOF\Geo\Obj\Configuration');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Configuration::getValidatorStack
+     */
     public function testGetDefaultValidators()
     {
         $validators = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
@@ -45,7 +70,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         static::assertCount(2, $validators);
     }
 
-    public function testGetAddedValidator()
+    /**
+     * @covers \CrEOF\Geo\Obj\Configuration::pushValidator
+     */
+    public function testPushValidator()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
@@ -54,6 +82,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $actual = Configuration::getInstance()->getValidatorStack(Object::T_POINT);
 
         static::assertCount(3, $actual);
-        static::assertSame($validator, $actual->pop());
+        static::assertSame($validator, $actual[2]);
     }
 }

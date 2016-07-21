@@ -23,20 +23,36 @@
 
 namespace CrEOF\Geo\Obj\Tests;
 
+use CrEOF\Geo\Obj\Data\DataFactory;
 use CrEOF\Geo\Obj\ObjectFactory;
 use CrEOF\Geo\Obj\Geometry\Point;
 
 /**
  * Class ObjectFactoryTest
  *
- * @backupStaticAttributes
- *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
 class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateWktHintWkt()
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::__construct
+     */
+    public function testConstructor()
+    {
+        self::assertAttributeEmpty('instance', 'CrEOF\Geo\Obj\ObjectFactory');
+
+        $objectFactory = ObjectFactory::getInstance();
+
+        self::assertAttributeInstanceOf('CrEOF\Geo\Obj\ObjectFactory', 'instance', 'CrEOF\Geo\Obj\ObjectFactory');
+        self::assertAttributeEquals($objectFactory, 'instance', 'CrEOF\Geo\Obj\ObjectFactory');
+        self::assertAttributeEquals(DataFactory::getInstance(), 'dataFactory', $objectFactory);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::create
+     */
+    public function testCreateWKTHintWKT()
     {
         $expected = new Point([34.23, -87.0]);
 
@@ -45,12 +61,71 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($expected, $actual);
     }
 
-    public function testCreateWktNoHint()
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::create
+     */
+    public function testCreateWKTNoHint()
     {
         $expected = new Point([34.23, -87.0]);
 
         $actual = ObjectFactory::getInstance()->create(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
 
         self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::getTypeClass
+     */
+    public function testGetTypeClassFullClass()
+    {
+        $actual = ObjectFactory::getTypeClass('CrEOF\Geo\Obj\Geometry\Point');
+
+        self::assertEquals($actual, 'CrEOF\Geo\Obj\Geometry\Point');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::getTypeClass
+     */
+    public function testGetTypeClassTypeName()
+    {
+        $actual = ObjectFactory::getTypeClass('point');
+
+        self::assertEquals($actual, 'CrEOF\Geo\Obj\Geometry\Point');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::getTypeClass
+     */
+    public function testGetTypeClassCache()
+    {
+        $actual = ObjectFactory::getTypeClass('point');
+
+        self::assertEquals($actual, 'CrEOF\Geo\Obj\Geometry\Point');
+
+        $actual = ObjectFactory::getTypeClass('point');
+
+        self::assertEquals($actual, 'CrEOF\Geo\Obj\Geometry\Point');
+    }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\ObjectFactory::getTypeClass
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnknownTypeException
+     * @expectedExceptionMessage Unknown type "bad"
+     */
+    public function testGetTypeBadType()
+    {
+        ObjectFactory::getTypeClass('bad');
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\ObjectFactory::format
+     */
+    public function testObjectFormat()
+    {
+        $object = new Point([34.23, -87.0]);
+
+        $actual = ObjectFactory::getInstance()->format($object, 'wkt');
+
+        self::assertEquals('POINT(34.23 -87)', $actual);
     }
 }

@@ -23,7 +23,6 @@
 
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Configuration;
 use CrEOF\Geo\Obj\Geometry\MultiLineString;
 use CrEOF\Geo\Obj\Object;
@@ -33,6 +32,11 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\MultiLineString
+ * @covers \CrEOF\Geo\Obj\Validator\Data\MultiLineStringValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class MultiLineStringTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,6 +72,31 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badMultiLineStringTestData
+     */
+    public function testBadMultiLineString($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+            }
+        }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new MultiLineString($value);
+    }
+
+    /**
      * @return array[]
      */
     public function goodMultiLineStringTestData()
@@ -79,7 +108,40 @@ class MultiLineStringTest extends \PHPUnit_Framework_TestCase
                 'expected'   => [
                     'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]],[[2,3],[4,5],[6,7]]]
                 ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badMultiLineStringTestData()
+    {
+        return [
+            'testBadMultiLineStringWKTType' => [
+                'value'      => 'LINESTRING(0 0,1 1)',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LineString" for MultiLineString'
+                ]
             ],
+            'testBadMultiLineStringBadLineString' => [
+                'value'      => [0, 0],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'MultiLineString value must be array of "array", "integer" found'
+                ]
+            ],
+            'testBadArrayMultiLineString' => [
+                'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad linestring value in MultiLineString. LineString value must be array of "array", "integer" found'
+                ]
+            ]
         ];
     }
 }

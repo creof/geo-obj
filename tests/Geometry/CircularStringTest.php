@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Geometry\CircularString;
 use CrEOF\Geo\Obj\Object;
 
@@ -33,6 +32,11 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\CircularString
+ * @covers \CrEOF\Geo\Obj\Validator\Data\CircularStringValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class CircularStringTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,7 +77,7 @@ class CircularStringTest extends \PHPUnit_Framework_TestCase
     public function goodCircularStringTestData()
     {
         return [
-            'testGoodWkbCircularString' => [
+            'testGoodWKBCircularString' => [
                 'coordinates' => pack('H*', '01080000000300000000000000000000000000000000000000000000000000f03f000000000000f03f00000000000000400000000000000000'),
                 'validators'  => null,
                 'expected'    => [

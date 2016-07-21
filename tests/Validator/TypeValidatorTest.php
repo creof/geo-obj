@@ -36,6 +36,7 @@ use CrEOF\Geo\Obj\Validator\TypeValidator;
 class TypeValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @covers \CrEOF\Geo\Obj\Validator\TypeValidator::__construct
      */
     public function testSetGoodType()
     {
@@ -50,7 +51,8 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Validator\TypeValidator::__construct
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Unknown type "Configuration"
      */
     public function testSetBadType()
@@ -59,6 +61,21 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers                   \CrEOF\Geo\Obj\Validator\TypeValidator::validate
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
+     * @expectedExceptionMessage Unsupported value of type "LineString" for Point
+     */
+    public function testValidateBadType()
+    {
+        $validator = new TypeValidator('point');
+
+        $data = ['type' => 'linestring'];
+
+        $validator->validate($data);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\TypeValidator::validate
      */
     public function testValidateType()
     {
@@ -73,9 +90,10 @@ class TypeValidatorTest extends \PHPUnit_Framework_TestCase
             ];
 
             $validator->validate($value);
-        } catch (UnexpectedValueException $e) {
+        } catch (\Exception $e) {
+            $exception = $e;
         }
 
-        self::assertNull($exception, 'Unexpected UnexpectedValueException');
+        self::assertNull($exception, 'Unexpected Exception');
     }
 }

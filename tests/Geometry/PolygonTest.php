@@ -24,9 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Geometry;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Geometry\Polygon;
 use CrEOF\Geo\Obj\Object;
 
@@ -35,6 +32,11 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\Polygon
+ * @covers \CrEOF\Geo\Obj\Validator\Data\PolygonValidator
+ * @covers \CrEOF\Geo\Obj\Validator\Data\Traits\ValidatePointTrait
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class PolygonTest extends \PHPUnit_Framework_TestCase
 {
@@ -124,14 +126,14 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                     'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
                 ]
             ],
-            'testGoodWktPolygon' => [
+            'testGoodWKTPolygon' => [
                 'value'      => 'POLYGON((0 0,10 0,10 10,0 10,0 0))',
                 'validators' => null,
                 'expected'   => [
                     'coordinates' => [[[0,0],[10,0],[10,10],[0,10],[0,0]]]
                 ]
             ],
-            'testGoodWkbPolygon' => [
+            'testGoodWKBPolygon' => [
                 'value'      => pack('H*', '010300000001000000050000000000000000000000000000000000000000000000000024400000000000000000000000000000244000000000000024400000000000000000000000000000244000000000000000000000000000000000'),
                 'validators' => null,
                 'expected'   => [
@@ -147,19 +149,27 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     public function badPolygonTestData()
     {
         return [
-            'testBadPolygonWktType' => [
+            'testBadPolygonWKTType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Polygon'
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LineString" for Polygon'
+                ]
+            ],
+            'testBadPolygonBadRing' => [
+                'value'      => [0, 0],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Polygon value must be array of "array", "integer" found'
                 ]
             ],
             'testBadArrayPolygon' => [
                 'value'      => [[0,0],[10,0],[10,10],[0,10],[0,0]],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Bad ring value in Polygon. Ring value must be array of "array", "integer" found'
                 ]
             ]

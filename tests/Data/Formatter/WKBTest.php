@@ -23,47 +23,49 @@
 
 namespace CrEOF\Geo\Obj\Tests\Data\Formatter;
 
-use CrEOF\Geo\Obj\Data\Formatter\Wkb;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Data\Formatter\WKB;
 
 /**
- * Class WkbTest
+ * Class WKBTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class WkbTest extends \PHPUnit_Framework_TestCase
+class WKBTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaultConstructor()
     {
-        new Wkb();
+        new WKB();
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */
     public function testBadByteOrder()
     {
-        new Wkb(5);
+        new WKB(5);
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */
     public function testBadFlags()
     {
-        new Wkb(Wkb::WKB_XDR, 56);
+        new WKB(WKB::WKB_XDR, 56);
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Data\Formatter\WKB::__construct
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage
      */
     public function testBadUnsupportedActions()
     {
-        new Wkb(Wkb::WKB_XDR, Wkb::WKB_FLAG_NONE, 45);
+        new WKB(WKB::WKB_XDR, WKB::WKB_FLAG_NONE, 45);
     }
 
     /**
@@ -75,8 +77,8 @@ class WkbTest extends \PHPUnit_Framework_TestCase
      */
     public function testGoodData($value, array $arguments, $expected)
     {
-        $reflect   = new \ReflectionClass('CrEOF\Geo\Obj\Data\Formatter\Wkb');
-        /** @var Wkb $formatter */
+        $reflect   = new \ReflectionClass('CrEOF\Geo\Obj\Data\Formatter\WKB');
+        /** @var WKB $formatter */
         $formatter = $reflect->newInstanceArgs($arguments);
 
         $actual = $formatter->format($value);
@@ -107,7 +109,7 @@ class WkbTest extends \PHPUnit_Framework_TestCase
                     'srid'      => null,
                     'dimension' => 'Z'
                 ],
-                'arguments' => [Wkb::WKB_XDR, Wkb::WKB_FLAG_Z],
+                'arguments' => [WKB::WKB_XDR, WKB::WKB_FLAG_Z],
                 'expected'  => '0080000001000000000000000000000000000000000000000000000000'
             ],
             'testLineStringDefaultConstructor' => [
@@ -159,7 +161,7 @@ class WkbTest extends \PHPUnit_Framework_TestCase
                     ],
                     'dimension' => null
                 ],
-                'arguments' => [Wkb::WKB_NDR],
+                'arguments' => [WKB::WKB_NDR],
                 'expected'  => '01050000000200000001020000000400000000000000000000000000000000000000000000000000244000000000000000000000000000002440000000000000244000000000000000000000000000002440010200000004000000000000000000144000000000000014400000000000001C4000000000000014400000000000001C400000000000001C4000000000000014400000000000001C40'
             ],
             'testMultiPolygonDefaultConstructor' => [

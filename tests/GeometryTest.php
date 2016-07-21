@@ -21,30 +21,39 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj;
+namespace CrEOF\Geo\Obj\Tests;
+
+use CrEOF\Geo\Obj\Geometry\Point;
 
 /**
- * Interface ObjectInterface
+ * Class GeometryTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-interface ObjectInterface
+class GeometryTest extends \PHPUnit_Framework_TestCase
 {
-    //TODO: add remaining types
-    const T_POINT              = 'Point';
-    const T_LINESTRING         = 'LineString';
-    const T_POLYGON            = 'Polygon';
-    const T_MULTIPOINT         = 'MultiPoint';
-    const T_MULTILINESTRING    = 'MultiLineString';
-    const T_MULTIPOLYGON       = 'MultiPolygon';
-    const T_GEOMETRYCOLLECTION = 'GeometryCollection';
-    const T_CIRCULARSTRING     = 'CircularString';
-    const T_FEATURE            = 'Feature';
-    const T_FEATURECOLLECTION  = 'FeatureCollection';
+    /**
+     * @covers \CrEOF\Geo\Obj\Geometry::getCoordinates
+     */
+    public function testGetCoordinates()
+    {
+        $point = new Point([1, 1]);
+
+        $actual = $point->getCoordinates();
+
+        self::assertEquals([1, 1], $actual);
+    }
 
     /**
-     * @return string Object type name, should also be value of a interface constant TODO lowercase?
+     * @covers \CrEOF\Geo\Obj\Geometry::getSRID
      */
-    public function getType();
+    public function testGetSRID()
+    {
+        $point = new Point('SRID=4326;POINT(0 0)');
+
+        $actual = $point->getSRID();
+
+        self::assertEquals('4326', $actual);
+    }
 }

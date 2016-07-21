@@ -21,54 +21,20 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Data\Formatter;
+namespace CrEOF\Geo\Obj\Tests\Validator;
+
+use CrEOF\Geo\Obj\Validator\AbstractValidator;
 
 /**
- * Class Wkt
+ * Class TestValidator
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkt implements FormatterInterface
+class TestValidator extends AbstractValidator
 {
-    /**
-     * @param array $data
-     *
-     * @return mixed
-     */
-    public function format(array $data)
+    public function __construct()
     {
-        // TODO: MultiGeometry case
-        $result = strtoupper($data['type']) . '(' . $this->getValueString($data['value']) . ')';
-
-        return $result;
-    }
-
-    /**
-     * @param array $value
-     * @param int   $depth
-     *
-     * @return string
-     */
-    private function getValueString(array $value, $depth = 0)
-    {
-        if (! is_array($value[0])) {
-            return implode(' ', $value);
-        }
-
-        $results = [];
-        $depth++;
-
-        foreach ($value as $item) {
-            $results[] = $this->getValueString($item, $depth);
-        }
-
-        $result = implode(',', $results);
-
-        if (2 > $depth) {
-            return $result;
-        }
-
-        return '(' . $result . ')';
+        $this->setExpectedType('type');
     }
 }

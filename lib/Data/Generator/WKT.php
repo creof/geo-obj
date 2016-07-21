@@ -21,64 +21,47 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator;
+namespace CrEOF\Geo\Obj\Data\Generator;
 
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
+use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
+use CrEOF\Geo\WKT\Parser;
 
 /**
- * Class ValidatorStack
+ * Class WKT
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
- *
- * @method ValidatorInterface bottom()
- * @method ValidatorInterface current()
- * @method ValidatorInterface pop()
- * @method ValidatorInterface shift()
- * @method ValidatorInterface top()
  */
-
-class ValidatorStack extends \SplDoublyLinkedList
+class WKT implements GeneratorInterface
 {
     /**
-     * @param array &$data
-     *
-     * @throws ExceptionInterface
+     * @var Parser
      */
-    public function validate(array &$data)
-    {
-        $this->rewind();
+    private static $parser;
 
-        while ($this->valid()) {
-            $this->current()->validate($data);
-            $this->next();
+    /**
+     * WKT constructor
+     */
+    public function __construct()
+    {
+        if (null === self::$parser) {
+            self::$parser = new Parser();
         }
     }
 
     /**
-     * @param ValidatorInterface $validator
+     * @param mixed       $value
+     * @param null|string $typeHint
      *
-     * @throws UnexpectedValueException
+     * @return array
+     * @throws UnsupportedFormatException
      */
-    public function push($validator)
+    public function generate($value, $typeHint = null)
     {
-        $this->validateValidator($validator);
-
-        parent::push($validator);
-    }
-
-    /**
-     * @param mixed $validator
-     *
-     * @throws UnexpectedValueException
-     */
-    private function validateValidator($validator)
-    {
-        if (! ($validator instanceof ValidatorInterface)) {
-            $parameterType = (is_object($validator) ? 'class "' . get_class($validator) : 'of type "' . gettype($validator)) . '"';
-
-            throw new UnexpectedValueException('Invalid validator ' . $parameterType . '. Validators must implement ValidatorInterface.');
+        if (! is_string($value) || ! ctype_alpha($value[0])) {
+            throw new UnsupportedFormatException();
         }
+
+        return self::$parser->parse($value);
     }
 }

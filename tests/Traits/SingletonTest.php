@@ -21,57 +21,42 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator;
-
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Object;
+namespace CrEOF\Geo\Obj\Tests\Traits;
 
 /**
- * Class DValidator
+ * Class SingletonTest
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Feature
  */
-class DValidator extends AbstractValidator
+class SingletonTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var int
+     * @covers \CrEOF\Geo\Obj\Traits\Singleton
      */
-    private $size = 2;
-
-    /**
-     * @param int $size
-     *
-     * @throws RangeException
-     */
-    public function __construct($size)
+    public function testSingleton()
     {
-        $this->setExpectedType(Object::T_POINT);
+        self::assertAttributeEmpty('instance', 'CrEOF\Geo\Obj\Tests\Traits\TestFactory');
 
-        if ($size < 2 || $size > 4) {
-            throw new RangeException('Size must be between 2 and 4.');
-        }
+        $testFactory = TestFactory::getInstance();
 
-        $this->size = $size;
+        self::assertAttributeInstanceOf('CrEOF\Geo\Obj\Tests\Traits\TestFactory', 'instance', 'CrEOF\Geo\Obj\Tests\Traits\TestFactory');
+        self::assertAttributeEquals($testFactory, 'instance', 'CrEOF\Geo\Obj\Tests\Traits\TestFactory');
+
+        $testFactory = TestFactory::getInstance();
+
+        self::assertAttributeInstanceOf('CrEOF\Geo\Obj\Tests\Traits\TestFactory', 'instance', 'CrEOF\Geo\Obj\Tests\Traits\TestFactory');
+        self::assertAttributeEquals($testFactory, 'instance', 'CrEOF\Geo\Obj\Tests\Traits\TestFactory');
     }
 
-    /**
-     * @param array &$data
-     *
-     * @throws ExceptionInterface
-     * @throws RangeException
-     *
-     * @TODO compare with expectedDimension also?
-     */
-    public function validate(array &$data)
+    public function testPrivateClone()
     {
-        parent::validate($data);
+        $refl = new \ReflectionClass('CrEOF\Geo\Obj\Tests\Traits\TestFactory');
 
-        $size = count($data['value']);
+        $method = $refl->getMethod('__clone');
 
-        if ($this->size !== $size) {
-            throw new RangeException('Invalid size "' . $size . '", size must be '. $this->size . '.');
-        }
+        self::assertTrue($method->isPrivate());
     }
 }

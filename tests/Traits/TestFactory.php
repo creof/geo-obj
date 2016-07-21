@@ -21,57 +21,17 @@
  * SOFTWARE.
  */
 
-namespace CrEOF\Geo\Obj\Validator;
+namespace CrEOF\Geo\Obj\Tests\Traits;
 
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
-use CrEOF\Geo\Obj\Exception\RangeException;
-use CrEOF\Geo\Obj\Object;
+use CrEOF\Geo\Obj\Traits\Singleton;
 
 /**
- * Class DValidator
+ * Class TestFactory
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class DValidator extends AbstractValidator
+class TestFactory
 {
-    /**
-     * @var int
-     */
-    private $size = 2;
-
-    /**
-     * @param int $size
-     *
-     * @throws RangeException
-     */
-    public function __construct($size)
-    {
-        $this->setExpectedType(Object::T_POINT);
-
-        if ($size < 2 || $size > 4) {
-            throw new RangeException('Size must be between 2 and 4.');
-        }
-
-        $this->size = $size;
-    }
-
-    /**
-     * @param array &$data
-     *
-     * @throws ExceptionInterface
-     * @throws RangeException
-     *
-     * @TODO compare with expectedDimension also?
-     */
-    public function validate(array &$data)
-    {
-        parent::validate($data);
-
-        $size = count($data['value']);
-
-        if ($this->size !== $size) {
-            throw new RangeException('Invalid size "' . $size . '", size must be '. $this->size . '.');
-        }
-    }
+    use Singleton;
 }

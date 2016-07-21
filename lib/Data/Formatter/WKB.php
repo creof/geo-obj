@@ -26,12 +26,12 @@ namespace CrEOF\Geo\Obj\Data\Formatter;
 use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 
 /**
- * Class Wkb
+ * Class WKB
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements FormatterInterface
+class WKB implements FormatterInterface
 {
     const WKB_XDR                     = 0;
     const WKB_NDR                     = 1;
@@ -94,7 +94,7 @@ class Wkb implements FormatterInterface
     private static $machineByteOrder;
 
     /**
-     * Wkb constructor
+     * WKB constructor
      *
      * @param int $byteOrder
      * @param int $flags
@@ -104,7 +104,7 @@ class Wkb implements FormatterInterface
      */
     public function __construct($byteOrder = self::WKB_XDR, $flags = self::WKB_FLAG_NONE, $mismatchAction = self::WKB_MISMATCH_DROP)
     {
-        if ($byteOrder !== self::WKB_XDR && $byteOrder !== self::WKB_NDR) {
+        if (self::WKB_XDR !== $byteOrder && self::WKB_NDR !== $byteOrder) {
             throw new UnexpectedValueException();
         }
 
@@ -112,7 +112,7 @@ class Wkb implements FormatterInterface
             throw new UnexpectedValueException();
         }
 
-        if ($mismatchAction !== self::WKB_MISMATCH_DROP && $mismatchAction !== self::WKB_MISMATCH_FAIL) {
+        if (self::WKB_MISMATCH_DROP !== $mismatchAction && self::WKB_MISMATCH_FAIL !== $mismatchAction) {
             throw new UnexpectedValueException();
         }
 

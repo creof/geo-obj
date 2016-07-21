@@ -48,9 +48,13 @@ final class Configuration
 
     private function __construct()
     {
-        $reflectionClass = new ReflectionClass('CrEOF\Geo\Obj\ObjectInterface');
+        $reflectionClass = new ReflectionClass('CrEOF\Geo\Obj\Object');
 
-        foreach ($reflectionClass->getConstants() as $const => $value) {
+        foreach ($reflectionClass->getConstants() as $value) {
+            if (null === $value) {
+                continue;
+            }
+
             $validatorStack      = new ValidatorStack();
             $valueValidatorClass = 'CrEOF\Geo\Obj\Validator\Data\\' . $value . 'Validator';
 
@@ -71,19 +75,6 @@ final class Configuration
     public function pushValidator($type, ValidatorInterface $validator)
     {
         $this->validators[ObjectFactory::getTypeClass($type)]->push($validator);
-    }
-
-    /**
-     * @param string             $type
-     * @param int                $index
-     * @param ValidatorInterface $validator
-     *
-     * @throws UnexpectedValueException
-     * @throws UnknownTypeException
-     */
-    public function addValidator($type, $index, ValidatorInterface $validator)
-    {
-        $this->validators[ObjectFactory::getTypeClass($type)]->add($index, $validator);
     }
 
     /**

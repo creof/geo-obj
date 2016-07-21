@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests\Validator;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\RangeException;
 use CrEOF\Geo\Obj\Geometry\Point;
 use CrEOF\Geo\Obj\Object;
 use CrEOF\Geo\Obj\Validator\GeographyValidator;
@@ -38,10 +37,12 @@ use CrEOF\Geo\Obj\Validator\GeographyValidator;
 class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException        RangeException
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validate
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLongitude
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
      */
-    public function testPointGeographyValidatorLongitudeFirstBadLongitude()
+    public function testPointBadLongitudeLongitudeFirst()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
@@ -51,10 +52,27 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validate
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLongitude
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
+     * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
+     */
+    public function testPointBadLongitudeLatitudeFirst()
+    {
+        $validator = new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+
+        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+
+        new Point([20, 300]);
+    }
+
+    /**
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validate
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLatitude
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
      */
-    public function testPointGeographyValidatorLongitudeFirstBadLatitude()
+    public function testPointBadLatitudeLongitudeFirst()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
@@ -64,10 +82,12 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validate
+     * @covers                   \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLatitude
+     * @expectedException        \CrEOF\Geo\Obj\Exception\RangeException
      * @expectedExceptionMessage Invalid latitude value "300", must be in range -90 to 90.
      */
-    public function testPointGeographyValidatorLatitudeFirstBadLatitude()
+    public function testPointBadLatitudeLatitudeFirst()
     {
         $validator = new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST);
 
@@ -77,15 +97,43 @@ class GeographyValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        RangeException
-     * @expectedExceptionMessage Invalid longitude value "300", must be in range -180 to 180.
+     * @covers \CrEOF\Geo\Obj\Validator\GeographyValidator::validate
+     * @covers \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLongitude
+     * @covers \CrEOF\Geo\Obj\Validator\GeographyValidator::validateLatitude
      */
-    public function testPointGeographyValidatorLatitudeFirstBadLongitude()
+    public function testValidateGoodPoint()
     {
-        $validator = new GeographyValidator(GeographyValidator::CRITERIA_LATITUDE_FIRST);
+        $exception = null;
 
-        Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+        try {
+            $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
 
-        new Point([20, 300]);
+            Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+
+            new Point([0, 0]);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
+    }
+
+    /**
+     * @covers            \CrEOF\Geo\Obj\Validator\GeographyValidator::__construct
+     * @expectedException \CrEOF\Geo\Obj\Exception\UnexpectedValueException
+     */
+    public function testConstructorBadOrder()
+    {
+        new GeographyValidator(3);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Validator\GeographyValidator::__construct
+     */
+    public function testConstructor()
+    {
+        $validator = new GeographyValidator(GeographyValidator::CRITERIA_LONGITUDE_FIRST);
+
+        self::assertInstanceOf('CrEOF\Geo\Obj\Validator\GeographyValidator', $validator);
     }
 }

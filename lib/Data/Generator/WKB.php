@@ -28,12 +28,12 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
 use CrEOF\Geo\WKB\Parser;
 
 /**
- * Class Wkb
+ * Class WKB
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class Wkb implements GeneratorInterface
+class WKB implements GeneratorInterface
 {
     /**
      * @var Parser
@@ -41,7 +41,7 @@ class Wkb implements GeneratorInterface
     private static $parser;
 
     /**
-     * Wkb constructor
+     * WKB constructor
      */
     public function __construct()
     {

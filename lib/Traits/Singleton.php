@@ -43,6 +43,9 @@ trait Singleton
     {
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     final private function __clone()
     {
     }

@@ -36,12 +36,23 @@ use CrEOF\Geo\Obj\Exception\UnsupportedFormatException;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  *
- * @method string toWkt()
- * @method string toWkb()
+ * @method string toWKT()
+ * @method string toWKB()
  * @method string toGeoJson()
  */
-abstract class Object implements ObjectInterface, \Countable, \Iterator
+abstract class Object implements \Countable, \Iterator
 {
+    const T_POINT              = 'Point';
+    const T_LINESTRING         = 'LineString';
+    const T_POLYGON            = 'Polygon';
+    const T_MULTIPOINT         = 'MultiPoint';
+    const T_MULTILINESTRING    = 'MultiLineString';
+    const T_MULTIPOLYGON       = 'MultiPolygon';
+    const T_GEOMETRYCOLLECTION = 'GeometryCollection';
+    const T_CIRCULARSTRING     = 'CircularString';
+    const T_FEATURE            = 'Feature';
+    const T_FEATURECOLLECTION  = 'FeatureCollection';
+
     const T_TYPE = null;
 
     /**
@@ -64,17 +75,22 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
     private static $dataFactory;
 
     /**
+     * @var string[]
+     */
+    private static $typeNameCache;
+
+    /**
      * Object constructor
      *
      * @param             $value
-     * @param null|string $typeHint
+     * @param null|string $formatHint
      *
      * @throws ExceptionInterface
      * @throws UnexpectedValueException
      * @throws UnknownTypeException
      * @throws UnsupportedFormatException
      */
-    public function __construct($value, $typeHint = null)
+    public function __construct($value = null, $formatHint = null)
     {
         if (null === self::$dataFactory) {
             self::$dataFactory = DataFactory::getInstance();
@@ -82,11 +98,13 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
 
         $this->position = 0;
 
-        $data = $this->generate($value, $typeHint);
+        if (null !== $value) {
+            $data = $this->generate($value, $formatHint);
 
-        $this->validate($data);
+            $this->validate($data);
 
-        $this->data = $data;
+            $this->data = $data;
+        }
     }
 
     public function rewind()
@@ -137,15 +155,15 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
     {
         // toWkt, toWkb, toGeoJson, etc.
         if (0 === strpos($name, 'to') && 0 === count($arguments)) {
-            return $this->format(strtolower(substr($name, 2)));
+            return $this->format(substr($name, 2));
         }
 
         if (0 === strpos($name, 'get') && 0 === count($arguments)) {
-            return $this->getProperty(strtolower(substr($name, 3)));
+            return $this->getProperty(substr($name, 3));
         }
 
         if (0 === strpos($name, 'set') && 1 === count($arguments)) {
-            return $this->setProperty(strtolower(substr($name, 3)), $arguments[0]);
+            return $this->setProperty(substr($name, 3), $arguments[0]);
         }
 
         // TODO use better exception
@@ -160,7 +178,7 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
      */
     public function format($format)
     {
-        return self::$dataFactory->format($this->data, $format);
+        return self::$dataFactory->format($this->data, strtolower($format));
     }
 
     /**
@@ -182,12 +200,14 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
      */
     public function getProperty($name)
     {
-        if (! array_key_exists($name, $this->data['properties'])) { //TODO check for null
+        $key = strtolower($name);
+
+        if (null === $this->data['properties'] || ! array_key_exists($key, $this->data['properties'])) { //TODO check for null
             // TODO more specific exception
             throw new RangeException();
         }
 
-        return $this->data['properties'][$name];
+        return $this->data['properties'][$key];
     }
 
     /**
@@ -200,7 +220,7 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
      */
     public function setProperty($name, $value)
     {
-        $this->data['properties'][$name] = $value;
+        $this->data['properties'][strtolower($name)] = $value;
 
         return $this;
     }
@@ -219,6 +239,53 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
     public function getType()
     {
         return static::T_TYPE;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     * @throws UnknownTypeException
+     */
+    public static function getProperTypeName($type)
+    {
+        if (isset(self::$typeNameCache[$type])) {
+            return self::$typeNameCache[$type];
+        }
+
+        try {
+            self::$typeNameCache[$type] = constant('self::T_' . strtoupper($type));
+
+            return self::$typeNameCache[$type];
+        } catch (\Exception $e) {
+
+        }
+
+        throw new UnknownTypeException('Unknown type "' . $type . '"');
+    }
+
+    /**
+     * @param mixed       $value
+     * @param null|string $formatHint
+     *
+     * @return Object
+     * @throws UnexpectedValueException
+     * @throws UnsupportedFormatException
+     * @throws UnknownTypeException
+     */
+    public static function create($value, $formatHint = null)
+    {
+        $data        = self::$dataFactory->generate($value, $formatHint);
+        $objectClass = ObjectFactory::getTypeClass($data['type']);
+
+        /** @var Object $object */
+        $object = new $objectClass();
+
+        $object->validate($data);
+
+        $object->data = $data;
+
+        return $object;
     }
 
     /**
@@ -246,15 +313,6 @@ abstract class Object implements ObjectInterface, \Countable, \Iterator
      */
     private function generate($value, $formatHint = null)
     {
-        $value = self::$dataFactory->generate($value, $formatHint, static::T_TYPE);
-
-        //TODO is this necessary? yes? wkb and wkt don't included properties currently
-        return [
-            'type'       => $value['type'],
-            'value'      => $value['value'],
-            'srid'       => array_key_exists('srid', $value) ? $value['srid'] : null,
-            'dimension'  => array_key_exists('dimension', $value) ? $value['dimension'] : null,
-            'properties' => array_key_exists('properties', $value) ? $value['properties'] : null
-        ];
+        return self::$dataFactory->generate($value, $formatHint, static::T_TYPE);
     }
 }

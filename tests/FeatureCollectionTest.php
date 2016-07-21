@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\FeatureCollection;
 use CrEOF\Geo\Obj\Object;
 
@@ -33,6 +32,9 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\FeatureCollection
+ * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureCollectionValidator
  */
 class FeatureCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,6 +60,31 @@ class FeatureCollectionTest extends \PHPUnit_Framework_TestCase
 
             self::assertSame($expectedValue, $featureCollection->$function());
         }
+    }
+
+    /**
+     * @param $value
+     * @param $validators
+     * @param $expected
+     *
+     * @dataProvider badFeatureCollectionTestData
+     */
+    public function testBadFeatureCollection($value, $validators, $expected)
+    {
+        if (null !== $validators) {
+            foreach ($validators as $validator) {
+                Configuration::getInstance()->pushValidator(Object::T_POINT, $validator);
+            }
+        }
+
+        if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->expectException($expected['exception']);
+            $this->expectExceptionMessage($expected['message']);
+        } else {
+            $this->setExpectedException($expected['exception'], $expected['message']);
+        }
+
+        new FeatureCollection($value);
     }
 
     /**
@@ -92,6 +119,31 @@ class FeatureCollectionTest extends \PHPUnit_Framework_TestCase
                             ]
                         ]
                     ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function badFeatureCollectionTestData()
+    {
+        return [
+            'testBadFeatureCollectionArray' => [
+                'value'      => '{"type":"FeatureCollection","features":["feature1"]}',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Feature value must be array of "array", "string" found'
+                ]
+            ],
+            'testBadFeatureCollectionArrayFeature' => [
+                'value'      => '{"type":"FeatureCollection","features":[{"type":"waypoint"}]}',
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Bad feature value in FeatureCollection. Unknown type "waypoint"'
                 ]
             ]
         ];

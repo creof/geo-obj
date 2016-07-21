@@ -23,7 +23,6 @@
 
 namespace CrEOF\Geo\Obj\Tests\Data;
 
-use CrEOF\Geo\Obj\Exception\UnexpectedValueException;
 use CrEOF\Geo\Obj\Validator\ValidatorStack;
 
 /**
@@ -35,7 +34,8 @@ use CrEOF\Geo\Obj\Validator\ValidatorStack;
 class ValidatorStackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
      */
     public function testPushBadValidatorType()
@@ -46,7 +46,8 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @covers                   \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
+     * @expectedException        \CrEOF\Geo\Obj\Exception\UnexpectedValueException
      * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
      */
     public function testPushBadValidatorClass()
@@ -57,24 +58,45 @@ class ValidatorStackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        UnexpectedValueException
-     * @expectedExceptionMessage Invalid validator of type "string". Validators must implement ValidatorInterface.
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::push
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::validateValidator
      */
-    public function testAddBadValidatorType()
+    public function testPushGoodValidator()
     {
-        $validatorStack = new ValidatorStack();
+        $exception = null;
 
-        $validatorStack->add(0, 'validator');
+        try {
+            $validatorStack = new ValidatorStack();
+
+            $validator = $this->getMock('CrEOF\Geo\Obj\Validator\ValidatorInterface');
+
+            $validatorStack->push($validator);
+        } catch (\Exception $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
     }
 
     /**
-     * @expectedException        UnexpectedValueException
-     * @expectedExceptionMessage Invalid validator class "CrEOF\Geo\Obj\Validator\ValidatorStack". Validators must implement ValidatorInterface.
+     * @covers \CrEOF\Geo\Obj\Validator\ValidatorStack::validate
      */
-    public function testAddBadValidatorClass()
+    public function testValidate()
     {
-        $validatorStack = new ValidatorStack();
+        $exception = null;
 
-        $validatorStack->add(0, new ValidatorStack());
+        try {
+            $validatorStack = new ValidatorStack();
+
+            $validator = $this->getMock('CrEOF\Geo\Obj\Validator\ValidatorInterface');
+
+            $validatorStack->push($validator);
+
+            $data = [];
+
+            $validatorStack->validate($data);
+        } catch (\Exception $e) {
+        }
+
+        self::assertNull($exception, 'Unexpected Exception');
     }
 }

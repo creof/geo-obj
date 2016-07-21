@@ -34,14 +34,130 @@ use CrEOF\Geo\Obj\Validator\DValidator;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Geometry\Point
+ * @covers \CrEOF\Geo\Obj\Validator\Data\PointValidator
+ * @covers \CrEOF\Geo\Obj\Validator\AbstractValidator::getExpectedDimension
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__construct
+     * @covers \CrEOF\Geo\Obj\Object::count
+     * @TODO add similar test to other object types
+     */
     public function testCountPoint()
     {
         $point = new Point([0,0]);
 
         static::assertCount(2, $point);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::rewind
+     * @covers \CrEOF\Geo\Obj\Object::current
+     * @covers \CrEOF\Geo\Obj\Object::next
+     * @covers \CrEOF\Geo\Obj\Object::valid
+     * @covers \CrEOF\Geo\Obj\Object::key
+     * @TODO add similar test to other object types
+     */
+    public function testIteratePoint()
+    {
+        $value = [3,9];
+        $point = new Point($value);
+
+        foreach ($point as $key => $coord) {
+            self::assertEquals($value[$key], $coord);
+        }
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__construct
+     * @covers \CrEOF\Geo\Obj\Object::count
+     * @TODO add similar test to other object types
+     */
+    public function testEmptyPoint()
+    {
+        $point = new Point();
+
+        self::assertCount(0, $point);
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getType
+     * @TODO add similar test to other object types
+     */
+    public function testGetType()
+    {
+        $point = new Point();
+
+        self::assertEquals('Point', $point->getType());
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getProperty
+     * @covers \CrEOF\Geo\Obj\Object::setProperty
+     * @TODO add similar test to other object types
+     */
+    public function testSetGetProperty()
+    {
+        $point = new Point();
+
+        $point->setProperty('Identifier', 3498);
+
+        self::assertSame(3498, $point->getProperty('IDENTIFIER'));
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__call
+     * @TODO add similar test to other object types
+     */
+    public function testMagicSetGetProperty()
+    {
+        $point = new Point();
+
+        $point->setID(3498);
+
+        self::assertSame(3498, $point->getid());
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::getDimension
+     * @covers \CrEOF\Geo\Obj\Object::generate
+     * @covers \CrEOF\Geo\Obj\Object::validate
+     * @TODO add similar test to other object types
+     */
+    public function testGetDimension()
+    {
+        $point = new Point('POINT(1 2 3)');
+
+        self::assertEquals('Z', $point->getDimension());
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::format
+     * @TODO add similar test to other object types
+     */
+    public function testFormat()
+    {
+        $data  = 'POINT(1 2 3)';
+        $point = new Point($data);
+
+        self::assertEquals($data, $point->format('wkt'));
+        self::assertEquals($data, $point->format('WKT'));
+    }
+
+    /**
+     * @covers \CrEOF\Geo\Obj\Object::__call
+     * @TODO add similar test to other object types
+     */
+    public function testMagicTo()
+    {
+        $data  = 'POINT(1 2 3)';
+        $point = new Point($data);
+
+        self::assertEquals($data, $point->toWkt());
+        self::assertEquals($data, $point->toWKT());
     }
 
     /**
@@ -93,12 +209,12 @@ class PointTest extends \PHPUnit_Framework_TestCase
         new Point($value);
     }
 
-    public function testPointToWkt()
+    public function testPointToWKT()
     {
         $point    = new Point(pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'));
         $expected = 'POINT(34.23 -87)';
 
-        self::assertSame($expected, $point->toWkt());
+        self::assertSame($expected, $point->toWKT());
     }
 
     /**
@@ -107,6 +223,15 @@ class PointTest extends \PHPUnit_Framework_TestCase
     public function goodPointTestData()
     {
         return [
+            'testGoodEmptyPoint' => [
+                'value'      => null,
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => null,
+                    'dimension'   => null,
+                    'srid'        => null
+                ]
+            ],
             'testGoodArrayPoint' => [
                 'value'      => [0,0],
                 'validators' => null,
@@ -205,7 +330,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => 'M'
                 ]
             ],
-            'testGoodWkbPoint' => [
+            'testGoodWKBPoint' => [
                 'value'      => pack('H*', '01010000003D0AD7A3701D41400000000000C055C0'),
                 'validators' => null,
                 'expected'   => [
@@ -213,7 +338,24 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     'dimension'   => null
                 ]
             ],
-            'testGoodWkbPointZ' => [
+            'testGoodWKTPoint' => [
+                'value'      => 'POINT(2 3)',
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [2, 3],
+                    'dimension'   => null
+                ]
+            ],
+            'testGoodWKTPointWithSRID' => [
+                'value'      => 'SRID=4326;POINT(2 3)',
+                'validators' => null,
+                'expected'   => [
+                    'coordinates' => [2, 3],
+                    'dimension'   => null,
+                    'srid'        => 4326
+                ]
+            ],
+            'testGoodWKBPointZ' => [
                 'value'      => pack('H*', '0101000080000000000000F03F00000000000000400000000000000840'),
                 'validators' => null,
                 'expected'   => [
@@ -267,35 +409,55 @@ class PointTest extends \PHPUnit_Framework_TestCase
     public function badPointTestData()
     {
         return [
-            'testBadPointWktType' => [
+            'testBadPointWKTType' => [
                 'value'      => 'LINESTRING(0 0,1 1)',
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
-            'testBadPointWkbType' => [
+            'testBadPointWKBType' => [
                 'value'      => pack('H*', '0102000000020000003D0AD7A3701D41400000000000C055C06666666666A6464000000000000057C0'),
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'UnexpectedValueException',
-                    'message'   => 'Unsupported value of type "LINESTRING" for Point'
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Unsupported value of type "LineString" for Point'
                 ]
             ],
             'testBadShortPoint' => [
                 'value'      => [0],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Point value count must be between 2 and 4.'
+                ]
+            ],
+            'testBadPointDimensionMismatch' => [
+                'value'      => [
+                    'value'     => [0,0],
+                    'type'      => 'point',
+                    'dimension' => 'Z'
+                ],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
+                    'message'   => 'Dimension mismatch'
+                ]
+            ],
+            'testBadPointBadValue' => [
+                'value'      => [[0],[0]],
+                'validators' => null,
+                'expected'   => [
+                    'exception' => 'CrEOF\Geo\Obj\Exception\UnexpectedValueException',
+                    'message'   => 'Point value must be array containing "integer" or "float", "array" found'
                 ]
             ],
             'testBadLongPoint' => [
                 'value'      => [0,0,0,0,0],
                 'validators' => null,
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Point value count must be between 2 and 4.'
                 ]
             ],
@@ -306,7 +468,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new DValidator(2)
                 ],
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Invalid size "3", size must be 2.'
                 ]
             ],
@@ -317,7 +479,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
                     new DValidator(4)
                 ],
                 'expected'   => [
-                    'exception' => 'RangeException',
+                    'exception' => 'CrEOF\Geo\Obj\Exception\RangeException',
                     'message'   => 'Invalid size "3", size must be 4.'
                 ]
             ]

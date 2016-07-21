@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Obj\Tests;
 
 use CrEOF\Geo\Obj\Configuration;
-use CrEOF\Geo\Obj\Exception\ExceptionInterface;
 use CrEOF\Geo\Obj\Feature;
 use CrEOF\Geo\Obj\Object;
 
@@ -33,6 +32,9 @@ use CrEOF\Geo\Obj\Object;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @covers \CrEOF\Geo\Obj\Feature
+ * @covers \CrEOF\Geo\Obj\Validator\Data\FeatureValidator
  */
 class FeatureTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +73,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
                 'validators' => null,
                 'expected'   => [
                     'geometry' => [
-                        'type'  => 'point',
+                        'type'  => 'Point',
                         'value' => [0,0]
                     ],
                     'name'  => 'null spot'

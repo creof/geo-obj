@@ -56,7 +56,7 @@ class ObjectFactory implements ObjectFactoryInterface
     /**
      * @var DataFactory
      */
-    private $valueFactory;
+    private $dataFactory;
 
     /**
      * @var string[]
@@ -68,7 +68,7 @@ class ObjectFactory implements ObjectFactoryInterface
      */
     private function __construct()
     {
-        $this->valueFactory = DataFactory::getInstance();
+        $this->dataFactory = DataFactory::getInstance();
     }
 
     /**
@@ -81,18 +81,10 @@ class ObjectFactory implements ObjectFactoryInterface
      * @throws UnexpectedValueException
      * @throws UnknownTypeException
      * @throws UnsupportedFormatException
-     * @throws RuntimeException
      */
     public function create($value, $formatHint = null)
     {
-        $data        = $this->valueFactory->generate($value, $formatHint);
-        $objectClass = self::getTypeClass($data['type']);
-
-        try {
-            return new $objectClass($data['value'], 'simplearray');
-        } catch (UnsupportedFormatException $e) {
-            throw new RuntimeException('ObjectFactory requires "simplearray" generator'); //TODO better message
-        }
+        return Object::create($value, $formatHint);
     }
 
     /**
